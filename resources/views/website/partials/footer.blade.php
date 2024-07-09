@@ -34,7 +34,7 @@
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="company_profile.php" target="_blank">@lang('footer.company_profile')</a>
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/company-profile') }}" target="_blank">@lang('footer.company_profile')</a>
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
