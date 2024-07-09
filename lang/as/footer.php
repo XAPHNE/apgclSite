@@ -1,0 +1,27 @@
+<?php
+
+return[
+    'registered_office' => 'পঞ্জীভুক্ত কার্য্যালয়',
+    'office_address' => 'অসম শক্তি উৎপাদন নিগম লিমিটেড, বিজুলী ভৱন, পল্টনবজাৰ, গুৱাহাটী - ৭৮১০০১',
+    'office_phone' => '০৩৬১-২৭৩৯৫৪৬',
+    'office_email' => 'info@apgcl.org',
+    'important_links' => 'গুৰুত্বপূর্ণ লিংক',
+    'home' => 'মূখ্যপৃষ্ঠা',
+    'company_profile' => 'কোম্পানীৰ পৰিলেখ',
+    'daily_generation' => 'দৈনিক  উৎপাদন',
+    'csr' => 'কর্পৰেট সামাজিক দায়বদ্ধতা',
+    'calender_&_holiday' => 'কেলেণ্ডাৰ আৰু ছুটিৰ দিন',
+    'quick_links' => 'দ্রুত লিংক',
+    'tender_portal_assam' => 'অসমৰ ই-টেণ্ডাৰ পর্টেল',
+    'pensioners_section' => "পেঞ্চনাৰৰ শাখা",
+    'ease_of_doing_business' => 'ইজ অব ডুয়িং বিজিনেছ',
+    'policies' => 'নীতি',
+    'hyperlink_policies' => 'হাইপাৰলিংক নীতি',
+    'copyright_policies' => 'কপিৰাইট নীতি',
+    'privacy_policies' => 'গোপনীয়তা নীতি',
+    'disclaimer' => 'অদায়বদ্ধতা',
+    'updated_on' => 'আপডেটৰ তাৰিখ',
+    'copyright' => 'কপিৰাইট',
+    'all_rights_reserved' => 'সকলো অধিকাৰ সংৰক্ষিত। ',
+    'apgcl' => 'অসম শক্তি উৎপাদন নিগম লিমিটেড।',
+];

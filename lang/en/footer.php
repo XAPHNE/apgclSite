@@ -1,0 +1,27 @@
+<?php
+
+return[
+    'registered_office' => 'Registered Office',
+    'office_address' => 'Assam Power Generation COrporation Ltd., Bijulee Bhawan, Paltan Bazar, Guwahati - 781001',
+    'office_phone' => '0361-2739546',
+    'office_email' => 'info@apgcl.org',
+    'important_links' => 'Important Links',
+    'home' => 'Home',
+    'company_profile' => 'Company Profile',
+    'daily_generation' => 'Daily Generation',
+    'csr' => 'Corporate Social Responsibility',
+    'calender_&_holiday' => 'Calender & Holiday',
+    'quick_links' => 'Quick Links',
+    'tender_portal_assam' => 'Tender Portal Assam',
+    'pensioners_section' => "Pensioner's Section",
+    'ease_of_doing_business' => 'Ease Of Doing Business',
+    'policies' => 'Policies',
+    'hyperlink_policies' => 'Hyperlink Policies',
+    'copyright_policies' => 'Copyright Policies',
+    'privacy_policies' => 'Privacy Policies',
+    'disclaimer' => 'Disclaimer',
+    'updated_on' => 'Updated On',
+    'copyright' => 'Copyright',
+    'all_rights_reserved' => 'All rights reserved. ',
+    'apgcl' => 'Assam Power Generation Corporation Ltd..',
+];
