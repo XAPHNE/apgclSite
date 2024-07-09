@@ -127,15 +127,15 @@
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.about_us') <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/company-profile') }}" class="nav-link">@lang('navigationMenu.company_profile')</a></li>
-                                        <li class="nav-item"><a href="board.php" class="nav-link active">@lang('navigationMenu.board_of_directors')</a></li>
-                                        <li class="nav-item"><a href="offices.php" class="nav-link">@lang('navigationMenu.offices')</a></li>
-                                        <li class="nav-item"><a href="galleryIndex.php" class="nav-link">@lang('navigationMenu.gallery')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/board-of-directors') }}" class="nav-link active">@lang('navigationMenu.board_of_directors')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/offices') }}" class="nav-link">@lang('navigationMenu.offices')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/gallery') }}" class="nav-link">@lang('navigationMenu.gallery')</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.documents')  <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="acts.php" class="nav-link">@lang('navigationMenu.acts/policies/service_rules')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/acts-policies-service-rules') }}" class="nav-link">@lang('navigationMenu.acts/policies/service_rules')</a></li>
                                         <li class="nav-item"><a href="certificates.php" class="nav-link">@lang('navigationMenu.certificates')</a></li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.tariff')  <i class="fas fa-caret-right"></i></a>
