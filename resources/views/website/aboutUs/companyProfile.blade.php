@@ -6,9 +6,9 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb text-white">
-                    <li class="breadcrumb-item"><a href="#" class="text-white"><i class="fas fa-home" style="color:#fff;" aria-hidden="true"></i> Home /</a></li>
-                    <li class="breadcrumb-item"><a href="#" class="text-white">About Us /</a></li>
-                    <li class="breadcrumb-item active text-white" aria-current="page">COMPANY PROFILE</li>
+                    <li class="breadcrumb-item"><a href="{{ url('/' . app()->getLocale()) }}" class="text-white"><i class="fas fa-home" style="color:#fff;" aria-hidden="true"></i> @lang('footer.home') /</a></li>
+                    <li class="breadcrumb-item"><a href="#" class="text-white">@lang('companyProfile.about_us_title') /</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">@lang('footer.company_profile')</li>
                 </ol>
             </nav>
             <div class="col-m-12">
