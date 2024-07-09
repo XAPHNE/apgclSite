@@ -31,6 +31,38 @@ Route::get('/{lang?}/about-us/company-profile', function ($lang = null) {
     return view('website.aboutUs.companyProfile');
 });
 
+Route::get('/{lang?}/about-us/board-of-directors', function ($lang = null) {
+    if (!$lang) {
+        $lang = config('app.fallback_locale');
+    }
+    App::setLocale($lang);
+    return view('website.aboutUs.boardOfDirectors');
+});
+
+Route::get('/{lang?}/about-us/offices', function ($lang = null) {
+    if (!$lang) {
+        $lang = config('app.fallback_locale');
+    }
+    App::setLocale($lang);
+    return view('website.aboutUs.offices');
+});
+
+Route::get('/{lang?}/about-us/gallery', function ($lang = null) {
+    if (!$lang) {
+        $lang = config('app.fallback_locale');
+    }
+    App::setLocale($lang);
+    return view('website.aboutUs.gallery');
+});
+
+Route::get('/{lang?}/documents/acts-policies-service-rules', function ($lang = null) {
+    if (!$lang) {
+        $lang = config('app.fallback_locale');
+    }
+    App::setLocale($lang);
+    return view('website.documents.actsPoliciesServiceRules');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
