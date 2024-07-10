@@ -63,6 +63,14 @@ Route::get('/{lang?}/documents/acts-policies-service-rules', function ($lang = n
     return view('website.documents.actsPoliciesServiceRules');
 });
 
+Route::get('/{lang?}/documents/certificates', function ($lang = null) {
+    if (!$lang) {
+        $lang = config('app.fallback_locale');
+    }
+    App::setLocale($lang);
+    return view('website.documents.certificate');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
