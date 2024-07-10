@@ -136,7 +136,7 @@
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.documents')  <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/acts-policies-service-rules') }}" class="nav-link">@lang('navigationMenu.acts/policies/service_rules')</a></li>
-                                        <li class="nav-item"><a href="certificates.php" class="nav-link">@lang('navigationMenu.certificates')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/certificates') }}" class="nav-link">@lang('navigationMenu.certificates')</a></li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.tariff')  <i class="fas fa-caret-right"></i></a>
                                             <ul class="dropdown-menu">
