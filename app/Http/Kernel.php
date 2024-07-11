@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'locale' => \App\Http\Middleware\LocaleMiddleware::class,
         'twofactor' => \App\Http\Middleware\TwoFactorMiddleware::class,
     ];
 }
