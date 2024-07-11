@@ -1,4 +1,4 @@
-<x-guest-layout>
+<x-adminlte-layout>
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Enter the code sent to your email</p>
@@ -37,4 +37,4 @@
             </form>
         </div>
     </div>
-</x-guest-layout>
+</x-adminlte-layout>
