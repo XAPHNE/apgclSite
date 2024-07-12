@@ -29,7 +29,7 @@ return new class extends Migration
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@apgcl.org',
-            'password' => Hash::make('secret'),
+            'password' => bcrypt('secret'),
             'created_at' => now(),
             'updated_at' => now(),
         ]);
