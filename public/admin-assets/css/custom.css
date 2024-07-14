@@ -1,0 +1,7 @@
+.text-center {
+    display: block;
+    text-align: center;
+    width: 70%; /* adjust the value to your liking */
+    margin: 0 auto; /* centers the element */
+  }
+  

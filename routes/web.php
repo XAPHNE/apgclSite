@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
@@ -43,6 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
