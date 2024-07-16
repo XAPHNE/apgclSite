@@ -4,7 +4,9 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
+    Route::resource('certificate', CertificateController::class);
+    Route::resource('tariff-order', TariffOrderController::class);
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
