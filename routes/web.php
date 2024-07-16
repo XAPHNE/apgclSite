@@ -6,7 +6,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RightToInformationController;
 use App\Http\Controllers\TariffOrderController;
+use App\Http\Controllers\TariffPetitionController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TwoFactorController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
     Route::resource('certificate', CertificateController::class);
     Route::resource('tariff-order', TariffOrderController::class);
+    Route::resource('tariff-petition', TariffPetitionController::class);
+    Route::resource('right-to-information', RightToInformationController::class);
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
