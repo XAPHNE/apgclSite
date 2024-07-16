@@ -404,11 +404,11 @@ return [
                 ],
                 [
                     'text' => 'Tariff Prtition',
-                    'url' => '#',
+                    'url' => 'tariff-petition',
                 ],
                 [
                     'text' => 'Right To Information',
-                    'url' => '#',
+                    'url' => 'right-to-information',
                 ],
                 [
                     'text' => 'Annual Statement',
