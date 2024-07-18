@@ -235,7 +235,7 @@
                         name: 'downloadLink',
                         render: function(data) {
                             return '<div style="word-wrap: break-word;">' +
-                                '<i class="fas fa-file-pdf" style="color:red;"></i></i><a href="' +
+                                '<i class="fas fa-file-pdf" style="color:red;"></i><a href="' +
                                 data + '" target="_blank"> Download/View </a></div>'
                         }
                     },
