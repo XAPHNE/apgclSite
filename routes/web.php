@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RightToInformationController;
 use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
@@ -57,6 +58,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('right-to-information', RightToInformationController::class);
     Route::resource('annual-statement', AnnualStatementController::class);
     Route::resource('annual-return', AnnualReturnController::class);
+    Route::resource('reports', ReportController::class);
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
