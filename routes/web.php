@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RightToInformationController;
+use App\Http\Controllers\StandardFormController;
 use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
 use App\Http\Controllers\TenderController;
@@ -61,6 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('annual-return', AnnualReturnController::class);
     Route::resource('reports', ReportController::class);
     Route::resource('publications', PublicationController::class);
+    Route::resource('standard-forms', StandardFormController::class);
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
