@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnualStatementController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -53,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('tariff-order', TariffOrderController::class);
     Route::resource('tariff-petition', TariffPetitionController::class);
     Route::resource('right-to-information', RightToInformationController::class);
+    Route::resource('annual-statement', AnnualStatementController::class);
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
