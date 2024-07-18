@@ -396,7 +396,7 @@ return [
                 ],
                 [
                     'text' => 'Certificates',
-                    'url' => 'certificates',
+                    'url' => 'certificate',
                 ],
                 [
                     'text' => 'Tariff Order',
@@ -412,23 +412,23 @@ return [
                 ],
                 [
                     'text' => 'Annual Statement',
-                    'url' => '#',
+                    'url' => 'annual-statement',
                 ],
                 [
                     'text' => 'Annual Return',
-                    'url' => '#',
+                    'url' => 'annual-return',
                 ],
                 [
                     'text' => 'Reports',
-                    'url' => '#',
+                    'url' => 'reports',
                 ],
                 [
                     'text' => 'Publications',
-                    'url' => '#',
+                    'url' => 'publications',
                 ],
                 [
                     'text' => 'Standard Forms',
-                    'url' => '#',
+                    'url' => 'standard-forms',
                 ],
             ],
         ],
