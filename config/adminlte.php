@@ -391,8 +391,16 @@ return [
             'icon_color' => 'green',
             'submenu' => [
                 [
-                    'text' => 'Acts/Policies/Service Rules',
-                    'url' => '#',
+                    'text' => 'Acts',
+                    'url' => 'acts',
+                ],
+                [
+                    'text' => 'Policies',
+                    'url' => 'policies',
+                ],
+                [
+                    'text' => 'Service Rules',
+                    'url' => 'service-rules',
                 ],
                 [
                     'text' => 'Certificates',
