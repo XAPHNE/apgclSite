@@ -118,6 +118,33 @@
         </div>
     </div>
     <!-- User Modal End -->
+
+    <!-- Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete User</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="delete_user_form">
+                        @csrf
+                        @method('DELETE')
+                        <h3>Are you sure you want to delete this user?</h3>
+                        <input type="hidden" id="delete_userID" name="userID">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                            <button type="submit" class="btn btn-danger">CONFIRM</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal End -->
 @stop
 
 @section('css')
@@ -212,12 +239,6 @@
                 });
             });
 
-            $(document).on('click', '.delete-button', function() {
-                var id = $(this).data('id');
-                $('#delete_userID').val(id);
-                $('#deleteModal').modal('show');
-            });
-
             $('#edit_user_form').submit(function(e) {
                 e.preventDefault();
                 var formData = new FormData(this);
@@ -249,6 +270,14 @@
                 });
             });
 
+            // Open the modal for deleting a user
+            $(document).on('click', '.delete-button', function() {
+                var id = $(this).data('id');
+                $('#delete_userID').val(id);
+                $('#deleteModal').modal('show');
+            });
+
+            // Handle form submission for deleting a user
             $('#delete_user_form').submit(function(e) {
                 e.preventDefault();
                 var formData = $(this).serialize();
@@ -277,6 +306,7 @@
                     }
                 });
             });
+
 
             function datatableReload() {
                 $('#datatable').DataTable().ajax.reload();
