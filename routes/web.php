@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ActsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnualReturnController;
 use App\Http\Controllers\AnnualStatementController;
@@ -57,7 +56,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
-    Route::resource('acts', ActsController::class);
     Route::resource('certificate', CertificateController::class);
     Route::resource('tariff-order', TariffOrderController::class);
     Route::resource('tariff-petition', TariffPetitionController::class);

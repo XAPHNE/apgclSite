@@ -10,17 +10,14 @@ use Yajra\DataTables\DataTables;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
             $data = User::with('department');
             return DataTables::of($data)
                 ->addColumn('action', function($data) {
-                    return '<button class="btn btn-success edit-button" data-id="'.$data->id.'">Edit</button>' .
-                           '<button class="btn btn-danger delete-button" data-id="'.$data->id.'">Delete</button>';
+                    return '<button class="btn btn-warning edit-button" data-id="'.$data->id.'"><i class="fas fa-edit"></i></button>' .
+                           '<button class="btn btn-danger delete-button" data-id="'.$data->id.'"><i class="fas fa-trash-alt"></i></button>';
                 })
                 ->addColumn('roles', function($user) {
                     $roles = [];
@@ -48,18 +45,6 @@ class AdminController extends Controller
         return view('admin.user-management', compact('departments'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $departments = Department::all();
-        return view('admin.user-management.create', compact('departments'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -98,30 +83,9 @@ class AdminController extends Controller
             'admin' => $request->admin ? 1 : 0,
         ]);
 
-        return Redirect::route('user-management.index')->with('success', 'User registered successfully');
+        return response()->json(['success' => 'User registered successfully']);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $user = User::findOrFail($id);
-        $departments = Department::all();
-        return view('admin.user-management.edit', compact('user', 'departments'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $request->validate([
@@ -161,15 +125,18 @@ class AdminController extends Controller
             'admin' => $request->admin ? 1 : 0,
         ]);
 
-        return Redirect::route('user-management.index')->with('success', 'User updated successfully');
+        return response()->json(['success' => 'User updated successfully']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         User::destroy($id);
-        return Redirect::route('user-management.index')->with('success', 'User deleted successfully');
+        return response()->json(['success' => 'User deleted successfully']);
+    }
+
+    public function show(string $id)
+    {
+        $user = User::with('department')->findOrFail($id);
+        return response()->json($user);
     }
 }

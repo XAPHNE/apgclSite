@@ -20,17 +20,17 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->foreignId('department_id')->nullable()->constrained('departments')->nullOnDelete();
-            $table->boolean('tender')->default(0)->change();
-            $table->boolean('newsEvent')->default(0)->change();
-            $table->boolean('about')->default(0)->change();
-            $table->boolean('career')->default(0)->change();
-            $table->boolean('document')->default(0)->change();
-            $table->boolean('disaster')->default(0)->change();
-            $table->boolean('contact')->default(0)->change();
-            $table->boolean('corporate')->default(0)->change();
-            $table->boolean('calendar')->default(0)->change();
-            $table->boolean('dailyGeneration')->default(0)->change();
-            $table->boolean('admin')->default(0)->change();
+            $table->boolean('tender');
+            $table->boolean('newsEvent');
+            $table->boolean('about');
+            $table->boolean('career');
+            $table->boolean('document');
+            $table->boolean('disaster');
+            $table->boolean('contact');
+            $table->boolean('corporate');
+            $table->boolean('calendar');
+            $table->boolean('dailyGeneration');
+            $table->boolean('admin');
             $table->rememberToken();
             $table->string('two_factor_code')->nullable();
             $table->dateTime('two_factor_expires_at')->nullable();
@@ -42,6 +42,7 @@ return new class extends Migration
             'name' => 'Admin',
             'email' => 'admin@apgcl.org',
             'password' => bcrypt('secret'),
+            'department_id' => 1,
             'tender' => 0,
             'newsEvent' => 0,
             'about' => 0,
