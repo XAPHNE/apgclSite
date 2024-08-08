@@ -13,6 +13,6 @@ class Department extends Model
 
     public function users()
     {
-        return $this->hasMany(User::class); // Assumes your User model is correctly namespaced
+        return $this->hasMany(User::class);
     }
 }

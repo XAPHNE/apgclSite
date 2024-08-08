@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function department()
     {
-        return $this->belongsTo(Department::class); // Assumes your Department model is correctly namespaced
+        return $this->belongsTo(Department::class, 'department_id');
     }
 
     public function generateTwoFactorCode(): void
