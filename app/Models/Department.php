@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Department extends Model
 {
     use HasFactory;
+
     public $fillable = ['department'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class); // Assumes your User model is correctly namespaced
+    }
 }

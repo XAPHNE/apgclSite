@@ -21,6 +21,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'department_id',
+        'tender',
+        'newsEvent',
+        'about',
+        'career',
+        'document',
+        'disaster',
+        'contact',
+        'corporate',
+        'calendar',
+        'dailyGeneration',
+        'admin',
         'two_factor_code',
         'two_factor_expires_at',
     ];
@@ -44,6 +56,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class); // Assumes your Department model is correctly namespaced
+    }
 
     public function generateTwoFactorCode(): void
     {
