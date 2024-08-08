@@ -91,7 +91,6 @@ class AdminController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'password' => 'nullable|string|min:8|confirmed',
             'department_id' => 'required|integer',
             'tender' => 'nullable|boolean',
             'newsEvent' => 'nullable|boolean',
@@ -105,12 +104,13 @@ class AdminController extends Controller
             'dailyGeneration' => 'nullable|boolean',
             'admin' => 'nullable|boolean',
         ]);
-
+    
         $user = User::findOrFail($id);
+    
+        // Update fields except password
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password ? bcrypt($request->password) : $user->password,
             'department_id' => $request->department_id,
             'tender' => $request->tender ? 1 : 0,
             'newsEvent' => $request->newsEvent ? 1 : 0,
@@ -124,8 +124,18 @@ class AdminController extends Controller
             'dailyGeneration' => $request->dailyGeneration ? 1 : 0,
             'admin' => $request->admin ? 1 : 0,
         ]);
-
-        return response()->json(['success' => 'User updated successfully']);
+    
+        // Check if password is provided
+        if ($request->filled('password')) {
+            $request->validate([
+                'password' => 'nullable|string|min:8|confirmed',
+            ]);
+            $user->update([
+                'password' => bcrypt($request->password),
+            ]);
+        }
+    
+        return Redirect::route('user-management.index')->with('success', 'User updated successfully');
     }
 
     public function destroy(string $id)

@@ -205,9 +205,10 @@
                 serverSide: true,
                 ajax: "{{ route('user-management.index') }}",
                 columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
-                    { data: 'department', name: 'department' },
+                    { data: 'department', name: 'department', searchable: false },
                     { data: 'roles', name: 'roles' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
@@ -223,6 +224,10 @@
                     $('#userModalLabel').text('Update User');
                     $('#submit_button').text('Update');
 
+                    // Remove 'required' attribute for password fields
+                    $('#password').removeAttr('required');
+                    $('#password-confirm').removeAttr('required');
+
                     // Set checkboxes based on user roles
                     $('input[name="tender"]').prop('checked', data.tender);
                     $('input[name="newsEvent"]').prop('checked', data.newsEvent);
@@ -235,7 +240,7 @@
                     $('input[name="calendar"]').prop('checked', data.calendar);
                     $('input[name="dailyGeneration"]').prop('checked', data.dailyGeneration);
                     $('input[name="admin"]').prop('checked', data.admin);
-                    
+
                     $('#userModal').modal('show');
                 });
             });
@@ -319,6 +324,15 @@
                 $('#userModalLabel').text('Add User');
                 $('#submit_button').text('Register');
                 $('input[type="checkbox"]').prop('checked', false);
+                $('#password').attr('required', 'required');
+                $('#password-confirm').attr('required', 'required'); // Add 'required' attribute back when modal is hidden
+            });
+
+            $('#userModal').on('show.bs.modal', function () {
+                if (!$('#userID').val()) {
+                    $('#password').attr('required', 'required');
+                    $('#password-confirm').attr('required', 'required');  // Add 'required' attribute when opening for new user
+                }
             });
         });
     </script>
