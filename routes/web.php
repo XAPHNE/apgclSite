@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ActsController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnualReturnController;
 use App\Http\Controllers\AnnualStatementController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -7,6 +9,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ReportController;
@@ -54,6 +57,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
+    Route::resource('acts', ActsController::class);
     Route::resource('certificate', CertificateController::class);
     Route::resource('tariff-order', TariffOrderController::class);
     Route::resource('tariff-petition', TariffPetitionController::class);
@@ -63,6 +67,17 @@ Route::middleware('auth')->group(function () {
     Route::resource('reports', ReportController::class);
     Route::resource('publications', PublicationController::class);
     Route::resource('standard-forms', StandardFormController::class);
+    Route::resource('departments', DepartmentController::class);
+    Route::resource('user-management', AdminController::class);
+
+
+    // Route::get('/addUser', [AdminController::class, 'index'])->name('add-user');
+    // Route::post('/register-user', [AdminController::class, 'registerUser'])->name('register-user');
+    // Route::post('/update-role', [AdminController::class, 'check']);
+    // Route::get('/editUser/{id}', [AdminController::class, 'editUser']);
+    // Route::post('/update-user', [AdminController::class, 'updateUser']);
+    // Route::post('/deleteUser', [AdminController::class, 'deleteUser']);
+    
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
