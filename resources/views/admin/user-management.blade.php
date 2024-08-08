@@ -178,6 +178,7 @@
                     data: formData,
                     success: function(response) {
                         $('#userModal').modal('hide');
+                        $('.modal-backdrop').remove();
                         $('#user_form').trigger('reset');
                         datatableReload();
                         Swal.fire({
