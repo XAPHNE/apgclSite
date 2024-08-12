@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DisasterManagementController;
+use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ReportController;
@@ -67,6 +69,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('standard-forms', StandardFormController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('user-management', AdminController::class);
+    Route::resource('financial-years', FinancialYearController::class);
+    Route::resource('admin/disaster-management', DisasterManagementController::class);
+
 
 
     // Route::get('/addUser', [AdminController::class, 'index'])->name('add-user');
