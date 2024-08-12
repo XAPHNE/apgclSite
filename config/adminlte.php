@@ -454,7 +454,7 @@ return [
         ],
         [
             'text' => 'Disaster Management',
-            'url' => '#',
+            'url' => 'admin/disaster-management',
             'icon' => 'fas fa-fw fa-exclamation-triangle',
             'icon_color' => 'green',
         ],
@@ -478,7 +478,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'Admins',
-                    'url' => 'addUser',
+                    'url' => 'user-management',
                 ],
                 [
                     'text' => 'Deleted',
@@ -486,7 +486,7 @@ return [
                 ],
                 [
                     'text' => 'Financial Year',
-                    'url' => '#',
+                    'url' => 'financial-years',
                 ],
                 [
                     'text' => 'Department',
