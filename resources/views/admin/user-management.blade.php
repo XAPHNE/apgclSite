@@ -205,10 +205,9 @@
                 serverSide: true,
                 ajax: "{{ route('user-management.index') }}",
                 columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex' },
                     { data: 'name', name: 'name' },
                     { data: 'email', name: 'email' },
-                    { data: 'department', name: 'department', searchable: false },
+                    { data: 'department', name: 'department_id', searchable: false },
                     { data: 'roles', name: 'roles' },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ]
