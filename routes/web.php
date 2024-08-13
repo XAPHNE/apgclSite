@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\CSRController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
@@ -51,7 +52,11 @@ Route::middleware('guest')->group(function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'twofactor'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'twofactor'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -71,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('user-management', AdminController::class);
     Route::resource('financial-years', FinancialYearController::class);
     Route::resource('admin/disaster-management', DisasterManagementController::class);
+    Route::resource('admin/corporate-social-responsibility', CSRController::class);
 
 
 
