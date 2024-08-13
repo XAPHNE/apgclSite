@@ -466,7 +466,7 @@ return [
         ],
         [
             'text' => 'CSR',
-            'url' => '#',
+            'url' => 'admin/corporate-social-responsibility',
             'icon' => 'fas fa-fw fa-hands-helping',
             'icon_color' => 'green',
         ],
