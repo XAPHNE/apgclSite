@@ -7,8 +7,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CSRController;
+use App\Http\Controllers\DailyGenerationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
@@ -77,6 +80,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('financial-years', FinancialYearController::class);
     Route::resource('admin/disaster-management', DisasterManagementController::class);
     Route::resource('admin/corporate-social-responsibility', CSRController::class);
+    Route::resource('admin/calendar', CalendarController::class);
+    Route::resource('admin/daily-generation', DailyGenerationController::class);
+    Route::resource('admin/contacts', ContactController::class);
 
 
 
