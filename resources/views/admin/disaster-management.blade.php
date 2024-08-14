@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-lg-8 grid-margin stretch-card">
+        <div class="col grid-margin stretch-card">
             <div class="card">
                 <div class="card-header">
                     <h2 class="d-inline">Disaster Management Records</h2>
