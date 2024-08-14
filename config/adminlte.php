@@ -442,13 +442,13 @@ return [
         ],
         [
             'text' => 'Daily Generation',
-            'url' => '#',
+            'url' => 'admin/daily-generation',
             'icon' => 'fas fa-fw fa-lightbulb',
             'icon_color' => 'green',
         ],
         [
             'text' => 'Calendar',
-            'url' => '#',
+            'url' => 'admin/calendar',
             'icon' => 'fas fa-fw fa-calendar',
             'icon_color' => 'green',
         ],
@@ -460,7 +460,7 @@ return [
         ],
         [
             'text' => 'Contacts',
-            'url' => '#',
+            'url' => 'admin/contacts',
             'icon' => 'fas fa-fw fa-address-book',
             'icon_color' => 'green',
         ],
