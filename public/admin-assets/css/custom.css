@@ -5,3 +5,8 @@
     margin: 0 auto; /* centers the element */
   }
   
+  /* Center-align text in table headers and cells */
+  .datatable th, .datatable td {
+    text-align: center;
+    vertical-align: middle; /* Optional: Center-align text vertically as well */
+  }
