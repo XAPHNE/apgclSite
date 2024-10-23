@@ -11,13 +11,13 @@
                                       @lang('footer.office_address')
                                     </a>
                                 </li>
-                                 <li>
+                                 {{-- <li>
                                     <i class="fas fa-phone-alt"></i>
                                     <a href="tel:0361-2739546" target="_blank">@lang('footer.office_phone')</a>
-                                 </li>
+                                 </li> --}}
                                  <li>
                                     <i class="fas fa-envelope"></i>
-                                    <a href="info@apgcl.org" target="_blank">@lang('footer.office_email')</a>
+                                    <a href="mailto:info@apgcl.org" target="_blank">@lang('footer.office_email')</a>
                                  </li>
                             </ul>
                         </div>   
@@ -61,6 +61,10 @@
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
+                                    <a href="https://gem.gov.in/" target="_blank">Government e Marketplace</a>
+                                </li>
+                                <li>
+                                    <i class="fas fa-angle-double-right" aria-hidden="true"></i>
                                     <a href="https://www.aegcl.co.in/aseb-pensioner/" target="_blank">@lang('footer.pensioners_section')</a>
                                 </li>
                                 <li>
@@ -95,16 +99,16 @@
                     </div>
                      <div class="col-md-3">
                         <div class="footer-links footer-contact">
-                             <a class="st-foot-f" href="https://goo.gl/maps/5qhvD731sdh1kXoH8" target="_blank">
+                             <a class="st-foot-f" href="https://www.facebook.com/share/XrVwNTcgCwCNjB73/?mibextid=qi2Omg" target="_blank">
                                  <i class="fab fa-facebook-f"></i>
                              </a>
 
-                              <a  class="st-foot-f" href="https://goo.gl/maps/5qhvD731sdh1kXoH8" target="_blank">
+                              <a  class="st-foot-f" href="https://x.com/info_apgcl?t=kDBZtfd8JJQTMweLgd_Q6w&s=08" target="_blank">
                                   <i class="fab fa-twitter"></i>
                               </a>
 
                               <p class="uptext">
-                                 @lang('footer.updated_on'): 17/6/2024
+                                 @lang('footer.updated_on'): <span id="sd_date">{{ date('d/m/Y') }}</span>
                               </p>
 
                               <img src="{{ asset('website-assets/images/home/ssl_certificate.png') }}" alt="">
@@ -152,6 +156,9 @@
 <script src="{{ asset('website-assets/js/datatables.min.js') }}"></script>
 <!-- gallery -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<!-- ticker -->
+{{-- <script type="text/javascript" src="{{ asset('website-assets/plugins/ticker/js/jquery.js') }}"></script> --}}
+<script type="text/javascript" src="{{ asset('website-assets/plugins/ticker/js/acmeticker.js') }}"></script>
 <!-- Initialize DataTable -->
 <script>
     $(document).ready(function() {
