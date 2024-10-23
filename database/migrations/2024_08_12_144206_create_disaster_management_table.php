@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('description');
             $table->string('fileName');
             $table->string('fileLink');
+            $table->boolean('visibility')->default(false);
+            $table->boolean('news_n_events')->default(false);
+            $table->boolean('new_badge')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

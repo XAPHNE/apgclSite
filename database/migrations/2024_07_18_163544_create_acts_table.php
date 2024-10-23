@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('acts', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('downloafLink');
+            $table->string('downloadLink');
+            $table->boolean('visibility')->default(false);
+            $table->boolean('news_n_events')->default(false);
+            $table->boolean('new_badge')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });

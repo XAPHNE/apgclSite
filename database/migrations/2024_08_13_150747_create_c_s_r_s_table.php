@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('description');
             $table->string('downloadLink');
+            $table->boolean('visibility')->default(false);
+            $table->boolean('news_n_events')->default(false);
+            $table->boolean('new_badge')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

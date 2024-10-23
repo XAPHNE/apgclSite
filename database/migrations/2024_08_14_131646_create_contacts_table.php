@@ -19,6 +19,11 @@ return new class extends Migration
             $table->integer('priority');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->string('description')->nullable();
+            $table->string('downloadLink')->nullable();
+            $table->boolean('visibility')->default(false);
+            $table->boolean('news_n_events')->default(false);
+            $table->boolean('new_badge')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
