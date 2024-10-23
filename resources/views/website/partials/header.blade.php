@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="{{ asset('website-assets/css/custom.css') }}">
     <link rel="stylesheet" href="{{ asset('website-assets/css/dark-mode.css') }}">
 
+    <!-- ticker -->
+    <link rel="stylesheet" href="{{ asset('website-assets/plugins/ticker/css/style.css') }}">
+
     {{-- datatable --}}
     <link rel="stylesheet" href="{{ asset('website-assets/css/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('website-assets/css/datatables.min.css') }}">
