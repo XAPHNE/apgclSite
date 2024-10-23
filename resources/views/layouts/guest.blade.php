@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         @include('website.partials.header')
+        @stack('styles')
 
     </head>
 
@@ -15,5 +16,6 @@
         @yield('content')
 
         @include('website.partials.footer')
+        @stack('scripts')
     </body>
 </html>
