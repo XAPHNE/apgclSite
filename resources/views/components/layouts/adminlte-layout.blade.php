@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="{{ asset('admin-assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
         <!-- Theme style -->
         <link rel="stylesheet" href="{{ asset('admin-assets/css/adminlte.min.css') }}">
+        <!-- Bootstrap Toogle Button CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 
         <!-- Scripts -->
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
@@ -27,6 +29,8 @@
         <script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('admin-assets/js/adminlte.min.js') }}"></script>
+        <!-- Bootstrap Toogle Button JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     </head>
     <body class="hold-transition login-page">
         <div class="login-box">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\StandardForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -15,33 +16,8 @@ class StandardFormController extends Controller
      */
     public function index(Request $request)
     {
-        $data = StandardForm::get();
-
-        if ($request->ajax()) {
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($data) {
-
-                    $btn = '<button data-id="' . $data->id . '" class="edit btn btn-primary btn-sm editBtn">
-                           <span class="icon-bg"><i class="fas fa-edit"></i></span>
-                           </button>';
-
-                    if (Auth::check() && Auth::user()->admin == '1') {
-
-                        $btn .= ' <button data-id="' . $data->id . '" class="btn btn-danger btn-sm  deleteBtn">
-                           <span class="icon-bg"><i class="fas fa-trash-alt"></i></span>
-                           </button>';
-
-                    }
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('admin.documents.standard-form', compact('data'));
+        $standardForms = StandardForm::latest()->get();
+        return view('admin.documents.standard-form', compact('standardForms'));
     }
 
     /**
@@ -60,34 +36,29 @@ class StandardFormController extends Controller
         $validator = Validator::make($request->all(),[
 
             'description' => 'required',
-            'uploadFile' => 'required'
+            'downloadLink' => 'required'
 
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
-
-
-        //store data in database
-        $standard = new StandardForm;
-        $standard->description = $request->input('description');
-        if ($request->hasfile('uploadFile')) {
-            $file = $request->file('uploadFile');
-            $fileName = time() . '_' . $request->uploadFile->getClientOriginalName();
-            $fileAddress = public_path('/admin-assets/Document/Standard');
-            $file->move($fileAddress, $fileName);
-            $standard->downloadLink = '/admin-assets/Document/Standard' . '/' . $fileName;
+        if($request->hasFile('downloadLink')) {
+            $standardFormFileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Document/Standard/' . $standardFormFileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Document/Standard/'), $standardFormFileName);
         }
-        $query = $standard ->save();
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
+        $standardForm = StandardForm::create([
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->visibility ?? false,
+            'news_n_events' => $request->newsNEvents ?? false,
+            'new_badge' => $request->newBadge ?? false,
+        ]);
+
+        if ($standardForm) {
+            return redirect()->back()->with('success', 'Standard form added successfully');
+        } else {
+            return redirect()->back()->with('error', 'Failed to add standard form');
         }
-      
-       }
     }
 
     /**
@@ -103,11 +74,7 @@ class StandardFormController extends Controller
      */
     public function edit(string $id)
     {
-        $standard = StandardForm::find($id);
-        return response()->json([
-            'status' => 200,
-            'standard' => $standard,
-        ]);
+        //
     }
 
     /**
@@ -115,38 +82,39 @@ class StandardFormController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $validator = Validator::make($request->all(),[
-
-            'editDescription' => 'required',
-            // 'edituploadFile' => 'required'
-
+        $request->validate([
+            'description' => 'required|string',
+            'downloadLink' => 'required|file',
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
+        $standardForm = StandardForm::findOrFail($id);
 
+        // Handle file update
+        if ($request->hasFile('downloadLink')) {
+            // Delete the old file if it exists
+            if (File::exists(public_path($standardForm->downloadLink))) {
+                File::delete(public_path($standardForm->downloadLink));
+            }
 
-        //store data in database
-        $standard = StandardForm::find($request->standardID);
-        $standard->description = $request->input('editDescription');
-        if ($request->hasfile('edituploadFile')) {
-            $file = $request->file('edituploadFile');
-            $fileName = time() . '_' . $request->edituploadFile->getClientOriginalName();
-            $fileAddress = public_path('/admin-assets/Document/Standard');
-            $file->move($fileAddress, $fileName);
-            $standard->downloadLink = '/admin-assets/Document/Standard' . '/' . $fileName;
-            unlink(public_path($request->input('fileLink')));
+            // Upload the new file
+            $standardFormFileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Document/Standard/' . $standardFormFileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Document/Standard/'), $standardFormFileName);
+        } else {
+            // If no new file is uploaded, retain the existing file path
+            $filePath = $standardForm->downloadLink;
         }
-        $query = $standard ->update();
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
-        }
-      
-       }
+        // Update the invoice
+        $standardForm->update([
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->visibility ?? false,
+            'news_n_events' => $request->newsNEvents ?? false,
+            'new_badge' => $request->newBadge ?? false,
+        ]);
+
+        return redirect()->back()->with('success', 'Invoice updated successfully');
     }
 
     /**
