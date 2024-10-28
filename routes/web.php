@@ -74,7 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('annual-return', AnnualReturnController::class);
     Route::resource('reports', ReportController::class);
     Route::resource('publications', PublicationController::class);
-    Route::resource('documents/standard-forms', StandardFormController::class);
+    Route::resource('admin/documents/standard-forms', StandardFormController::class);
     Route::resource('departments', DepartmentController::class);
     Route::resource('user-management', AdminController::class);
     Route::resource('financial-years', FinancialYearController::class);
