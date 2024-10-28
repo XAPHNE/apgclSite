@@ -33,33 +33,31 @@ class StandardFormController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-
-            'description' => 'required',
-            'downloadLink' => 'required'
-
+        $request->validate([
+            'description' => 'required|string',
+            'downloadLink' => 'required|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        if($request->hasFile('downloadLink')) {
-            $standardFormFileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Document/Standard/' . $standardFormFileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Document/Standard/'), $standardFormFileName);
+        if ($request->hasFile('downloadLink')) {
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Standard Forms/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Standard Forms/'), $fileName);
         }
 
-        $standardForm = StandardForm::create([
+        StandardForm::create([
             'description' => $request->description,
             'downloadLink' => $filePath,
-            'visibility' => $request->visibility ?? false,
-            'news_n_events' => $request->newsNEvents ?? false,
-            'new_badge' => $request->newBadge ?? false,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        if ($standardForm) {
-            return redirect()->back()->with('success', 'Standard form added successfully');
-        } else {
-            return redirect()->back()->with('error', 'Failed to add standard form');
-        }
+        return redirect()->back()->with('success', 'Standard form added successfully');
     }
+
 
     /**
      * Display the specified resource.
@@ -82,49 +80,53 @@ class StandardFormController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'description' => 'required|string',
-            'downloadLink' => 'required|file',
-        ]);
-
         $standardForm = StandardForm::findOrFail($id);
 
-        // Handle file update
+        $request->validate([
+            'description' => 'required|string',
+            'downloadLink' => 'nullable|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
+        ]);
+
         if ($request->hasFile('downloadLink')) {
-            // Delete the old file if it exists
             if (File::exists(public_path($standardForm->downloadLink))) {
                 File::delete(public_path($standardForm->downloadLink));
             }
 
-            // Upload the new file
-            $standardFormFileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Document/Standard/' . $standardFormFileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Document/Standard/'), $standardFormFileName);
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Standard Forms/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Standard Forms/'), $fileName);
         } else {
-            // If no new file is uploaded, retain the existing file path
             $filePath = $standardForm->downloadLink;
         }
 
-        // Update the invoice
         $standardForm->update([
             'description' => $request->description,
             'downloadLink' => $filePath,
-            'visibility' => $request->visibility ?? false,
-            'news_n_events' => $request->newsNEvents ?? false,
-            'new_badge' => $request->newBadge ?? false,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Invoice updated successfully');
+        return redirect()->back()->with('success', 'Standard Form updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $standard = StandardForm::find($id);
-        $file = StandardForm::where('id', $id)->pluck('downloadLink')->first();
-        unlink(public_path($file));
-        $standard->delete();
+        $standardForm = StandardForm::findOrFail($id);
+
+        if (File::exists(public_path($standardForm->downloadLink))) {
+            File::delete(public_path($standardForm->downloadLink));
+        }
+
+        $standardForm->delete();
+
+        return redirect()->back()->with('success', 'Standard form deleted successfully');
     }
 }
