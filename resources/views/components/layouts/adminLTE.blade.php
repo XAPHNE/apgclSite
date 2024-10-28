@@ -42,7 +42,7 @@
 <div class="wrapper">
     <!-- Preloader -->
     <div class="preloader flex-column justify-content-center align-items-center">
-        <img class="animation__shake" src="{{ asset('dist/img/Logo1222.png') }}" alt="APGCLLogo" height="60" width="60">
+        <img class="animation__shake" src="{{ asset('admin-assets/dist/img/Logo1222.png') }}" alt="APGCLLogo" height="70" width="60">
     </div>
 
     <!-- Navbar -->
