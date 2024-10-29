@@ -61,7 +61,7 @@
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="https://gem.gov.in/" target="_blank">Government e Marketplace</a>
+                                    <a href="https://gem.gov.in/" target="_blank">@lang('footer.government_e_marketplace')</a>
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
