@@ -162,6 +162,15 @@
 <!-- Initialize DataTable -->
 <script>
     $(document).ready(function() {
+        $('#table').DataTable({
+            columnDefs: [
+                {
+                    targets: 'nosort',
+                    orderable: false,
+                    searchable: false,
+                }
+            ],
+        });
         $('#actstable').DataTable();
         $('#policytable').DataTable();
         $('#standard-formstable').DataTable();
