@@ -13,6 +13,7 @@ return[
     'calender_&_holiday' => 'কেলেণ্ডাৰ আৰু ছুটিৰ দিন',
     'quick_links' => 'দ্রুত লিংক',
     'tender_portal_assam' => 'অসমৰ ই-টেণ্ডাৰ পর্টেল',
+    'government_e_marketplace' => 'চৰকাৰী ই বজাৰ',
     'pensioners_section' => "পেঞ্চনাৰৰ শাখা",
     'ease_of_doing_business' => 'ইজ অব ডুয়িং বিজিনেছ',
     'policies' => 'নীতি',
