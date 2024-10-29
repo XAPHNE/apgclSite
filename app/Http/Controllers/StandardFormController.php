@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\StandardForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -11,6 +12,12 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StandardFormController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $standardForms = StandardForm::latest()->get();
+        return view('website.documents.standardForms', compact('standardForms'));
+    }
     /**
      * Display a listing of the resource.
      */
