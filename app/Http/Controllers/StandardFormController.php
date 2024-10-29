@@ -41,6 +41,7 @@ class StandardFormController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required|string',
             'description' => 'required|string',
             'downloadLink' => 'required|file',
             'visibility' => 'nullable|boolean',
@@ -55,6 +56,7 @@ class StandardFormController extends Controller
         }
 
         StandardForm::create([
+            'name' => $request->name,
             'description' => $request->description,
             'downloadLink' => $filePath,
             'visibility' => $request->boolean('visibility'),
@@ -90,6 +92,7 @@ class StandardFormController extends Controller
         $standardForm = StandardForm::findOrFail($id);
 
         $request->validate([
+            'name' => 'required|string',
             'description' => 'required|string',
             'downloadLink' => 'nullable|file',
             'visibility' => 'nullable|boolean',
@@ -110,6 +113,7 @@ class StandardFormController extends Controller
         }
 
         $standardForm->update([
+            'name' => $request->name,
             'description' => $request->description,
             'downloadLink' => $filePath,
             'visibility' => $request->boolean('visibility'),
