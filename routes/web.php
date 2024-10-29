@@ -139,6 +139,8 @@ Route::middleware('locale')->group(function () {
         App::setLocale($lang);
         return view('website.documents.certificate');
     });
+
+    Route::get('/{lang}/documents/standard-forms', [StandardFormController::class, 'websiteIndex']);
 });
 
 // Include the auth routes
