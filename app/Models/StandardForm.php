@@ -10,5 +10,5 @@ class StandardForm extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['description','downloadLink', 'visibility', 'news_n_events', 'new_badge'];
+    protected $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge'];
 }
