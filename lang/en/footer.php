@@ -13,6 +13,7 @@ return[
     'calender_&_holiday' => 'Calender & Holiday',
     'quick_links' => 'Quick Links',
     'tender_portal_assam' => 'Tender Portal Assam',
+    'government_e_marketplace' => 'Government e Marketplace',
     'pensioners_section' => "Pensioner's Section",
     'ease_of_doing_business' => 'Ease Of Doing Business',
     'policies' => 'Policies',
