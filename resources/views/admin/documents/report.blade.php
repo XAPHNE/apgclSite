@@ -73,10 +73,10 @@
                                         data-downloadlink="{{ $report->downloadLink }}"
                                         data-visibility="{{ $report->visibility }}"
                                         data-news_n_events="{{ $report->news_n_events }}"
-                                        data-new_badge="{{ $report->new_badge }}"><i class="fas fa-edit"></i>
+                                        data-new_badge="{{ $report->new_badge }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
-                                            data-id="{{ $report->id }}"><i class="fas fa-trash-alt"></i>
+                                            data-id="{{ $report->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -211,6 +211,7 @@
                 {
                     targets: 'nosort',
                     orderable: false,
+                    searchable: false,
                 }
             ],
             scrollX: true,
