@@ -149,7 +149,7 @@
                                         <li class="nav-item"><a href="annual_return.php" class="nav-link">@lang('navigationMenu.annual_return')</a></li>
                                         <li class="nav-item"><a href="reports.php" class="nav-link">@lang('navigationMenu.reports')</a></li>
                                         <li class="nav-item"><a href="publication.php" class="nav-link">@lang('navigationMenu.publication')</a></li>
-                                        <li class="nav-item"><a href="standard-forms.php" class="nav-link">@lang('navigationMenu.standard_forms')</a></li>
+                                        <li class="nav-item"><a href="standard-forms" class="nav-link">@lang('navigationMenu.standard_forms')</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
