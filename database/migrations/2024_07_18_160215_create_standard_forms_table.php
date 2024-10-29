@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('standard_forms', function (Blueprint $table) {
             $table->id();
+            $table->String('name');
             $table->String('description');
             $table->String('downloadLink');
             $table->boolean('visibility');
