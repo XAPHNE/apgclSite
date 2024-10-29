@@ -28,6 +28,7 @@
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center">#</th>
+                            <th class="text-center">Name</th>
                             <th class="text-center">Description</th>
                             {{-- <th class="text-center nosort">View</th> --}}
                             <th class="text-center nosort">Visibility</th>
@@ -40,6 +41,7 @@
                         @foreach ($standardForms as $form)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
+                                <td class="text-center">{{ $form->name }}</td>
                                 <td class="text-center">{{ $form->description }}</td>
                                 {{-- <td class="text-center"><a href="{{ url($form->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a></td> --}}
                                 <td class="text-center">
@@ -67,6 +69,7 @@
                                     <a class="btn btn-info" href="{{ url($form->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
                                     <button class="btn btn-warning edit-button"
                                         data-id="{{ $form->id }}"
+                                        data-name="{{ $form->name }}"
                                         data-description="{{ $form->description }}"
                                         data-downloadlink="{{ $form->downloadLink }}"
                                         data-visibility="{{ $form->visibility }}"
@@ -91,7 +94,7 @@
 
 <!-- Add/Edit Form Modal -->
 <div class="modal fade" id="addNewFormModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
                 <h5 class="modal-title" id="modalTitle">Add New Form</h5>
@@ -102,35 +105,53 @@
             <form id="formForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label for="formDescription">Description:</label>
-                        <textarea class="form-control" id="formDescription" name="description"></textarea>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="formName" class="required">Name:</label>
+                                <textarea type="text" class="form-control" id="formName" name="name" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="formDescription" class="required">Description (Text for News & Events):</label>
+                                <textarea class="form-control" id="formDescription" name="description" required></textarea>
+                            </div>
+                        </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="formDownloadLink">Upload File:</label>
-                        <input type="file" class="form-control-file" id="formDownloadLink" name="downloadLink">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="formDownloadLink">Upload File:</label>
+                                <input type="file" class="form-control-file" id="formDownloadLink" name="downloadLink">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- Visibility Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="visibility" value="0">
+                                <label for="formIsVisible">Is Visible:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="formIsVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
                     </div>
-                    
-                    <!-- Visibility Checkbox with Hidden Input -->
-                    <div class="form-group">
-                        <input type="hidden" name="visibility" value="0">
-                        <label for="formIsVisible">Is Visible:</label>
-                        <input type="checkbox" class="form-control visibility-toggle" id="formIsVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
-                    </div>
-                    
-                    <!-- News & Events Checkbox with Hidden Input -->
-                    <div class="form-group">
-                        <input type="hidden" name="news_n_events" value="0">
-                        <label for="formFeatureOnNewsAndEvents">Feature on News & Events:</label>
-                        <input type="checkbox" class="form-control visibility-toggle" id="formFeatureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
-                    </div>
-                    
-                    <!-- New Badge Checkbox with Hidden Input -->
-                    <div class="form-group">
-                        <input type="hidden" name="new_badge" value="0">
-                        <label for="formIsNewBadgeVisible">Is New:</label>
-                        <input type="checkbox" class="form-control visibility-toggle" id="formIsNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                    <div class="row">
+                        <div class="col">
+                            <!-- News & Events Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="news_n_events" value="0">
+                                <label for="formFeatureOnNewsAndEvents">Feature on News & Events:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="formFeatureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- New Badge Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="new_badge" value="0">
+                                <label for="formIsNewBadgeVisible">Is New:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="formIsNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
                     </div>
                 </div>
             
@@ -175,6 +196,12 @@
     .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
     .toggle.ios .toggle-handle { border-radius: 20px; }
 </style>
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -187,6 +214,7 @@
                     orderable: false,
                 }
             ],
+            scrollX: true,
         });
         // Handle Add Button
         $('#addFormButton').on('click', function () {
@@ -195,6 +223,7 @@
             $('#formForm').attr('method', 'POST');
             $('#saveButton').text('Save');
             $('#formForm input[name="_method"]').remove();
+            $('#formName').val('');
             $('#formDescription').val('');
             $('#formDownloadLink').val('');
             $('#formIsVisible').bootstrapToggle('off');
@@ -206,6 +235,7 @@
         // Handle Edit Button
         $('.edit-button').on('click', function () {
             var formId = $(this).data('id');
+            var name = $(this).data('name');
             var description = $(this).data('description');
             var visibility = $(this).data('visibility') ? true : false;
             var news_n_events = $(this).data('news_n_events') ? true : false;
@@ -216,6 +246,7 @@
             $('#formForm').find('input[name="_method"]').remove();
             $('#formForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
+            $('#formName').val(name);
             $('#formDescription').val(description);
             $('#formDownloadLink').val('');
 
