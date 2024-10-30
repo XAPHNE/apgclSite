@@ -141,14 +141,14 @@
                                             <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.tariff')  <i class="fas fa-caret-right"></i></a>
                                             <ul class="dropdown-menu">
                                                 <li class="nav-item"><a href="tarrif_orders.php" class="nav-link">@lang('navigationMenu.tariff_order')</a></li>
-                                                <li class="nav-item"><a href="tarrif_petition.php" class="nav-link">@lang('navigationMenu.tariff_petition')</a></li>
+                                                <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/tariff-petition') }}" class="nav-link">@lang('navigationMenu.tariff_petition')</a></li>
                                             </ul>
                                         </li>
-                                        <li class="nav-item"><a href="rti.php" class="nav-link">@lang('navigationMenu.right_to_information')</a></li>
-                                        <li class="nav-item"><a href="finance.php" class="nav-link">@lang('navigationMenu.annual_statement')</a></li>
-                                        <li class="nav-item"><a href="annual_return.php" class="nav-link">@lang('navigationMenu.annual_return')</a></li>
-                                        <li class="nav-item"><a href="reports.php" class="nav-link">@lang('navigationMenu.reports')</a></li>
-                                        <li class="nav-item"><a href="publication.php" class="nav-link">@lang('navigationMenu.publication')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/right-to-information') }}" class="nav-link">@lang('navigationMenu.right_to_information')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/annual-statements') }}" class="nav-link">@lang('navigationMenu.annual_statement')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/annual-returns') }}" class="nav-link">@lang('navigationMenu.annual_return')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/reports') }}" class="nav-link">@lang('navigationMenu.reports')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/publications') }}" class="nav-link">@lang('navigationMenu.publication')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/standard-forms') }}" class="nav-link">@lang('navigationMenu.standard_forms')</a></li>
                                     </ul>
                                 </li>
