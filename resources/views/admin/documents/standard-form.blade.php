@@ -20,11 +20,11 @@
             <div class="card-header">
                 <h3 class="d-inline">Standard Forms List</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewFormModal" id="addFormButton"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
             <div class="card-body">
-                <table id="formsTable" class="table display nowrap table-bordered table-hover" style="width: 100%">
+                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center">#</th>
@@ -38,46 +38,45 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($standardForms as $form)
+                        @foreach ($standardForms as $standardForm)
                             <tr>
-                                <td class="text-center">{{ $loop->iteration }}</td>
-                                <td class="text-center">{{ $form->name }}</td>
-                                <td class="text-center">{{ $form->description }}</td>
-                                {{-- <td class="text-center"><a href="{{ url($form->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a></td> --}}
-                                <td class="text-center">
-                                    @if ($form->visibility)
+                                <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                <td class="text-center align-middle">{{ $standardForm->name }}</td>
+                                <td class="text-center align-middle">{{ $standardForm->description }}</td>
+                                <td class="text-center align-middle">
+                                    @if ($standardForm->visibility)
                                         <i class="fas fa-check-circle text-success"></i>
                                     @else
                                         <i class="fas fa-times-circle text-danger"></i>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    @if ($form->news_n_events)
+                                <td class="text-center align-middle">
+                                    @if ($standardForm->news_n_events)
                                         <i class="fas fa-check-circle text-success"></i>
                                     @else
                                         <i class="fas fa-times-circle text-danger"></i>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    @if ($form->new_badge)
+                                <td class="text-center align-middle">
+                                    @if ($standardForm->new_badge)
                                         <i class="fas fa-check-circle text-success"></i>
                                     @else
                                         <i class="fas fa-times-circle text-danger"></i>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    <a class="btn btn-info" href="{{ url($form->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
-                                    <button class="btn btn-warning edit-button"
-                                        data-id="{{ $form->id }}"
-                                        data-name="{{ $form->name }}"
-                                        data-description="{{ $form->description }}"
-                                        data-downloadlink="{{ $form->downloadLink }}"
-                                        data-visibility="{{ $form->visibility }}"
-                                        data-news_n_events="{{ $form->news_n_events }}"
-                                        data-new_badge="{{ $form->new_badge }}"><i class="fas fa-edit"></i>
+                                <td class="text-center align-middle" style="white-space: nowrap;">
+                                    <a class="btn btn-info" href="{{ url($standardForm->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
+                                    <button class="btn btn-warning update-button"
+                                        data-id="{{ $standardForm->id }}"
+                                        data-name="{{ $standardForm->name }}"
+                                        data-description="{{ $standardForm->description }}"
+                                        data-downloadlink="{{ $standardForm->downloadLink }}"
+                                        data-visibility="{{ $standardForm->visibility }}"
+                                        data-news_n_events="{{ $standardForm->news_n_events }}"
+                                        data-new_badge="{{ $standardForm->new_badge }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
-                                            data-id="{{ $form->id }}"><i class="fas fa-trash-alt"></i>
+                                            data-id="{{ $standardForm->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -92,46 +91,44 @@
     </div>
 </div>
 
-<!-- Add/Edit Form Modal -->
-<div class="modal fade" id="addNewFormModal">
+<!-- Add/Update Modal -->
+<div class="modal fade" id="addUpdateModal">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <h5 class="modal-title" id="modalTitle">Add New Form</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <h5 class="modal-title" id="modalTitle">Add New Standard Form</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="formForm" method="POST" enctype="multipart/form-data">
+            <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="formName" class="required">Name:</label>
-                                <textarea type="text" class="form-control" id="formName" name="name" required></textarea>
+                                <label for="name" class="required">Name:</label>
+                                <textarea type="text" class="form-control" id="name" name="name" required></textarea>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="formDescription" class="required">Description (Text for News & Events):</label>
-                                <textarea class="form-control" id="formDescription" name="description" required></textarea>
+                                <label for="description" class="required">Description (Text for News & Events):</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="formDownloadLink">Upload File:</label>
-                                <input type="file" class="form-control-file" id="formDownloadLink" name="downloadLink">
+                                <label class="form-label" for="downloadLink">Upload File:</label>
+                                <input type="file" class="form-control" id="downloadLink" name="downloadLink">
                             </div>
                         </div>
                         <div class="col">
                             <!-- Visibility Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="visibility" value="0">
-                                <label for="formIsVisible">Is Visible:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="formIsVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="isVisible">Is Visible:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
@@ -140,23 +137,23 @@
                             <!-- News & Events Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="news_n_events" value="0">
-                                <label for="formFeatureOnNewsAndEvents">Feature on News & Events:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="formFeatureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="featureOnNewsAndEvents">Feature on News & Events:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="featureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                         <div class="col">
                             <!-- New Badge Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="new_badge" value="0">
-                                <label for="formIsNewBadgeVisible">Is New:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="formIsNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="isNewBadgeVisible">Is New:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
                 </div>
             
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success" id="saveButton">Save</button>
                 </div>
             </form>
@@ -165,21 +162,19 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Form Modal -->
-<div class="modal fade" id="deleteConfirmationFormModal">
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete this form?</p>
+                <p>Are you sure you want to delete this standard form?</p>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
                 <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
@@ -207,68 +202,83 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        var formsTable = new DataTable('#formsTable', {
+        var table = new DataTable('#table', {
             columnDefs: [
                 {
                     targets: 'nosort',
                     orderable: false,
+                    searchable: false,
                 }
             ],
             scrollX: true,
         });
         // Handle Add Button
-        $('#addFormButton').on('click', function () {
-            $('#modalTitle').text('Add New Form');
-            $('#formForm').attr('action', '{{ route('standard-forms.store') }}');
-            $('#formForm').attr('method', 'POST');
+        $('#addButton').on('click', function () {
+            $('#modalTitle').text('Add New Standard Form');
+            $('#addUpdateForm').attr('action', '{{ route('standard-forms.store') }}');
+            $('#addUpdateForm').attr('method', 'POST');
+            $('#downloadLink').attr('required', true);
+            $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
+            $('#saveButton').removeClass('btn-warning').addClass('btn-success');
+            
+
+            // Add asterisk to indicate required field
+            $('label[for="downloadLink"]').html('Upload File: <span style="color: red;">*</span>');
+
             $('#saveButton').text('Save');
-            $('#formForm input[name="_method"]').remove();
-            $('#formName').val('');
-            $('#formDescription').val('');
-            $('#formDownloadLink').val('');
-            $('#formIsVisible').bootstrapToggle('off');
-            $('#formFeatureOnNewsAndEvents').bootstrapToggle('off');
-            $('#formIsNewBadgeVisible').bootstrapToggle('off');
-            $('#addNewFormModal').modal('show');
+            $('#addUpdateForm input[name="_method"]').remove();
+            $('#name').val('');
+            $('#description').val('');
+            $('#downloadLink').val('');
+            $('#isVisible').bootstrapToggle('off');
+            $('#featureOnNewsAndEvents').bootstrapToggle('off');
+            $('#isNewBadgeVisible').bootstrapToggle('off');
+            $('#addUpdateModal').modal('show');
         });
     
-        // Handle Edit Button
-        $('.edit-button').on('click', function () {
-            var formId = $(this).data('id');
+        // Handle Update Button
+        $('.update-button').on('click', function () {
+            var id = $(this).data('id');
             var name = $(this).data('name');
             var description = $(this).data('description');
             var visibility = $(this).data('visibility') ? true : false;
             var news_n_events = $(this).data('news_n_events') ? true : false;
             var new_badge = $(this).data('new_badge') ? true : false;
 
-            $('#modalTitle').text('Update Form');
-            $('#formForm').attr('action', '/admin/documents/standard-forms/' + formId);
-            $('#formForm').find('input[name="_method"]').remove();
-            $('#formForm').append('<input type="hidden" name="_method" value="PATCH">');
+            $('#modalTitle').text('Update Standard Form');
+            $('#addUpdateForm').attr('action', '/admin/documents/standard-forms/' + id);
+            $('#addUpdateForm').find('input[name="_method"]').remove();
+            $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
-            $('#formName').val(name);
-            $('#formDescription').val(description);
-            $('#formDownloadLink').val('');
+            $('#name').val(name);
+            $('#description').val(description);
+            $('#downloadLink').val('');
+            $('#downloadLink').removeAttr('required');
+            $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+            // Remove asterisk as field is not required
+            $('label[for="downloadLink"]').html('Upload File:');
 
             // Set toggle states for each checkbox
-            $('#formIsVisible').prop('checked', visibility).change();
-            $('#formFeatureOnNewsAndEvents').prop('checked', news_n_events).change();
-            $('#formIsNewBadgeVisible').prop('checked', new_badge).change();
+            $('#isVisible').prop('checked', visibility).change();
+            $('#featureOnNewsAndEvents').prop('checked', news_n_events).change();
+            $('#isNewBadgeVisible').prop('checked', new_badge).change();
 
-            $('#addNewFormModal').modal('show');
+            $('#addUpdateModal').modal('show');
         });
     
         // Handle Delete Button
         $('.delete-button').on('click', function () {
-            var formId = $(this).data('id');
-            var deleteUrl = '/admin/documents/standard-forms/' + formId;
+            var id = $(this).data('id');
+            var deleteUrl = '/admin/documents/standard-forms/' + id;
             $('#deleteForm').attr('action', deleteUrl);
-            $('#deleteConfirmationFormModal').modal('show');
+            $('#deleteConfirmationModal').modal('show');
         });
     
         // Reset toggle state when the modal is closed
-        $('#addNewFormModal').on('hidden.bs.modal', function () {
-            $('#formForm')[0].reset();
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
             $('.visibility-toggle').each(function() {
                 $(this).bootstrapToggle('off');
             });
@@ -291,6 +301,22 @@
                 icon: 'error',
                 title: 'Error!',
                 text: '{{ session('error') }}',
+            });
+        @endif
+
+        // Check if there are validation errors and display them in SweetAlert
+        @if ($errors->any())
+            let errorMessages = `<ul style="text-align: left;">`;
+            @foreach ($errors->all() as $error)
+                errorMessages += `<li>{{ $error }}</li>`;
+            @endforeach
+            errorMessages += `</ul>`;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonText: 'OK'
             });
         @endif
     </script>
