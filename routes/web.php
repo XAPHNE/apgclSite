@@ -24,6 +24,7 @@ use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\TwoFactorController;
+use App\Http\Controllers\WebsiteHomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 
@@ -69,12 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('certificate', CertificateController::class);
     Route::resource('tariff-order', TariffOrderController::class);
     Route::resource('tariff-petition', TariffPetitionController::class);
-    Route::resource('right-to-information', RightToInformationController::class);
-    Route::resource('annual-statement', AnnualStatementController::class);
-    Route::resource('annual-return', AnnualReturnController::class);
-    Route::resource('reports', ReportController::class);
-    Route::resource('publications', PublicationController::class);
-    Route::resource('admin/documents/standard-forms', StandardFormController::class);
+    
+    
     Route::resource('departments', DepartmentController::class);
     Route::resource('user-management', AdminController::class);
     Route::resource('financial-years', FinancialYearController::class);
@@ -83,6 +80,18 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/calendar', CalendarController::class);
     Route::resource('admin/daily-generation', DailyGenerationController::class);
     Route::resource('admin/contacts', ContactController::class);
+
+    Route::prefix('admin')->group(function () {
+        Route::prefix('documents')->group(function () {
+            Route::resource('tariff-petition', TariffPetitionController::class);
+            Route::resource('right-to-information', RightToInformationController::class);
+            Route::resource('annual-statements', AnnualStatementController::class);
+            Route::resource('annual-returns', AnnualReturnController::class);
+            Route::resource('reports', ReportController::class);
+            Route::resource('publications', PublicationController::class);
+            Route::resource('standard-forms', StandardFormController::class);
+        });
+    });
 
 
 
@@ -102,13 +111,7 @@ Route::middleware(['auth', 'twofactor'])->group(function () {
 
 // Routes that require localization
 Route::middleware('locale')->group(function () {
-    Route::get('/{lang?}', function ($lang = null) {
-        if (!$lang) {
-            $lang = config('app.fallback_locale'); // Ensure fallback to default locale
-        }
-        App::setLocale($lang);
-        return view('welcome');
-    });
+    Route::get('/{lang?}', [WebsiteHomeController::class, 'index'])->name('welcome');
 
     Route::get('/{lang}/about-us/company-profile', function ($lang) {
         App::setLocale($lang);
@@ -140,7 +143,17 @@ Route::middleware('locale')->group(function () {
         return view('website.documents.certificate');
     });
 
-    Route::get('/{lang}/documents/standard-forms', [StandardFormController::class, 'websiteIndex']);
+    Route::prefix('{lang}')->group(function () {
+        Route::prefix('documents')->group(function () {
+            Route::get('tariff-petition', [TariffPetitionController::class, 'websiteIndex']);
+            Route::get('right-to-information', [RightToInformationController::class, 'websiteIndex']);
+            Route::get('annual-statements', [AnnualStatementController::class, 'websiteIndex']);
+            Route::get('annual-returns', [AnnualReturnController::class, 'websiteIndex']);
+            Route::get('reports', [ReportController::class, 'websiteIndex']);
+            Route::get('publications', [PublicationController::class, 'websiteIndex']);
+            Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
+        });
+    });
 });
 
 // Include the auth routes
