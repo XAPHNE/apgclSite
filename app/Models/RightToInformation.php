@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class RightToInformation extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    public $fillable = ['description','downloadLink'];
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge'];
 }
