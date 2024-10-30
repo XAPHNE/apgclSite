@@ -24,17 +24,27 @@
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/daterangepicker/daterangepicker.css') }}">
-    <!-- summernote -->
+    <!-- Summernote -->
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/summernote/summernote-bs4.min.css') }}">
-
-    <!-- DataTable CSS -->
-    <link rel="stylesheet" href="//cdn.datatables.net/2.1.5/css/dataTables.dataTables.min.css">
-
-    <!-- Bootstrap Toogle Button CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     
+    <!-- DataTable CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+
+    <!-- Bootstrap Toggle Button CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+
     <!-- DataTables Buttons extension -->
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        body, html {
+            overflow-x: hidden;
+        }
+    </style>
 
     @stack('styles')
 </head>
@@ -51,9 +61,9 @@
     <!-- Main Sidebar Container -->
     @include('components.layouts.partials.sidebar')
 
-    <!-- Content Wrapper. Contains page content -->
+    <!-- Content Wrapper -->
     <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+        <!-- Content Header -->
         <section class="content-header">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -61,9 +71,8 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('dashboard') }}">Dashboard</a></li>
                         @yield('breadcrumb')
-                        {{-- <li class="breadcrumb-item active">@yield('page_title', 'Dashboard')</li> --}}
                     </ol>
                 </div>
             </div>
@@ -89,11 +98,13 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <!-- jQuery UI 1.14.0 -->
 <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.min.js"></script>
-<script>$.widget.bridge('uibutton', $.ui.button)</script>
+<script>$.widget.bridge('uibutton', $.ui.button);</script>
 <!-- FontAwesome -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js" integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('admin-assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- Bootstrap 5 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Plugins and Custom Scripts -->
 <!-- ChartJS -->
 <script src="{{ asset('admin-assets/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
@@ -114,21 +125,17 @@
 <script src="{{ asset('admin-assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('admin-assets/dist/js/adminlte.js') }}"></script>
-{{-- <script src="{{ asset('admin-assets/dist/js/demo.js') }}"></script> --}}
-{{-- <script src="{{ asset('admin-assets/dist/js/pages/dashboard.js') }}"></script> --}}
 
-<!-- DataTables JS -->
-<script src="//cdn.datatables.net/2.1.5/js/dataTables.min.js"></script>
-<!-- DataTables Buttons JS -->
+<!-- DataTables and Extensions -->
+<script src="https://cdn.datatables.net/2.1.5/js/dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.js"></script>
-<script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.dataTables.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
 
-<!-- Bootstrap Toogle Button JS -->
+<!-- Bootstrap Toggle Button JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <!-- Sweet Alert JS -->
 <script src="{{ asset('admin-assets/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
