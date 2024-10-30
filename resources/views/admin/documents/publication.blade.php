@@ -20,11 +20,11 @@
             <div class="card-header">
                 <h3 class="d-inline">Publications List</h3>
                 <div class="card-tools">
-                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#addNewPublicationModal" id="addPublicationButton"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
             <div class="card-body">
-                <table id="publicationsTable" class="table display compact table-bordered table-hover" style="width: 100%">
+                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center">#</th>
@@ -43,7 +43,6 @@
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle">{{ $publication->name }}</td>
                                 <td class="text-center align-middle">{{ $publication->description }}</td>
-                                {{-- <td class="text-center"><a href="{{ url($publication->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a></td> --}}
                                 <td class="text-center align-middle">
                                     @if ($publication->visibility)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -67,17 +66,17 @@
                                 </td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <a class="btn btn-info" href="{{ url($publication->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
-                                    <button class="btn btn-warning edit-button"
+                                    <button class="btn btn-warning update-button"
                                         data-id="{{ $publication->id }}"
                                         data-name="{{ $publication->name }}"
                                         data-description="{{ $publication->description }}"
                                         data-downloadlink="{{ $publication->downloadLink }}"
                                         data-visibility="{{ $publication->visibility }}"
                                         data-news_n_events="{{ $publication->news_n_events }}"
-                                        data-new_badge="{{ $publication->new_badge }}"><i class="fas fa-edit"></i>
+                                        data-new_badge="{{ $publication->new_badge }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
-                                            data-id="{{ $publication->id }}"><i class="fas fa-trash-alt"></i>
+                                            data-id="{{ $publication->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -92,46 +91,44 @@
     </div>
 </div>
 
-<!-- Add/Edit Publication Modal -->
-<div class="modal fade" id="addNewPublicationModal">
+<!-- Add/Update Modal -->
+<div class="modal fade" id="addUpdateModal">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
                 <h5 class="modal-title" id="modalTitle">Add New Publication</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="publicationForm" method="POST" enctype="multipart/form-data">
+            <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="publicationName" class="required">Name:</label>
-                                <textarea type="text" class="form-control" id="publicationName" name="name" required></textarea>
+                                <label for="name" class="required">Name:</label>
+                                <textarea type="text" class="form-control" id="name" name="name" required></textarea>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <label for="publicationDescription" class="required">Description (Text for News & Events):</label>
-                                <textarea class="form-control" id="publicationDescription" name="description" required></textarea>
+                                <label for="description" class="required">Description (Text for News & Events):</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="publicationDownloadLink">Upload File:</label>
-                                <input type="file" class="form-control-file" id="publicationDownloadLink" name="downloadLink">
+                                <label class="form-label" for="downloadLink">Upload File:</label>
+                                <input type="file" class="form-control" id="downloadLink" name="downloadLink">
                             </div>
                         </div>
                         <div class="col">
                             <!-- Visibility Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="visibility" value="0">
-                                <label for="publicationIsVisible">Is Visible:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="publicationIsVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="isVisible">Is Visible:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
@@ -140,23 +137,23 @@
                             <!-- News & Events Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="news_n_events" value="0">
-                                <label for="publicationFeatureOnNewsAndEvents">Feature on News & Events:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="publicationFeatureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="featureOnNewsAndEvents">Feature on News & Events:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="featureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                         <div class="col">
                             <!-- New Badge Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="new_badge" value="0">
-                                <label for="publicationIsNewBadgeVisible">Is New:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="publicationIsNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                <label for="isNewBadgeVisible">Is New:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
                 </div>
             
                 <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success" id="saveButton">Save</button>
                 </div>
             </form>
@@ -165,21 +162,19 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Publication Modal -->
-<div class="modal fade" id="deleteConfirmationPublicationModal">
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <h5 class="modal-title">Confirm Deletion</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete this publication?</p>
             </div>
             <div class="modal-footer justify-content-between">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
                 <form id="deleteForm" method="POST">
                     @csrf
                     @method('DELETE')
@@ -207,34 +202,42 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
-        var publicationsTable = new DataTable('#publicationsTable', {
+        var table = new DataTable('#table', {
             columnDefs: [
                 {
                     targets: 'nosort',
                     orderable: false,
+                    searchable: false,
                 }
             ],
             scrollX: true,
         });
         // Handle Add Button
-        $('#addPublicationButton').on('click', function () {
+        $('#addButton').on('click', function () {
             $('#modalTitle').text('Add New Publication');
-            $('#publicationForm').attr('action', '{{ route('publications.store') }}');
-            $('#publicationForm').attr('method', 'POST');
+            $('#addUpdateForm').attr('action', '{{ route('publications.store') }}');
+            $('#addUpdateForm').attr('method', 'POST');
+            $('#downloadLink').attr('required', true);
+            $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
+            $('#saveButton').removeClass('btn-warning').addClass('btn-success');
+
+            // Add asterisk to indicate required field
+            $('label[for="downloadLink"]').html('Upload File: <span style="color: red;">*</span>');
+
             $('#saveButton').text('Save');
-            $('#publicationForm input[name="_method"]').remove();
-            $('#publicationName').val('');
-            $('#publicationDescription').val('');
-            $('#publicationDownloadLink').val('');
-            $('#publicationIsVisible').bootstrapToggle('off');
-            $('#publicationFeatureOnNewsAndEvents').bootstrapToggle('off');
-            $('#publicationIsNewBadgeVisible').bootstrapToggle('off');
-            $('#addNewPublicationModal').modal('show');
+            $('#addUpdateForm input[name="_method"]').remove();
+            $('#name').val('');
+            $('#description').val('');
+            $('#downloadLink').val('');
+            $('#isVisible').bootstrapToggle('off');
+            $('#featureOnNewsAndEvents').bootstrapToggle('off');
+            $('#isNewBadgeVisible').bootstrapToggle('off');
+            $('#addUpdateModal').modal('show');
         });
     
-        // Handle Edit Button
-        $('.edit-button').on('click', function () {
-            var publicationId = $(this).data('id');
+        // Handle Update Button
+        $('.update-button').on('click', function () {
+            var id = $(this).data('id');
             var name = $(this).data('name');
             var description = $(this).data('description');
             var visibility = $(this).data('visibility') ? true : false;
@@ -242,33 +245,39 @@
             var new_badge = $(this).data('new_badge') ? true : false;
 
             $('#modalTitle').text('Update Publication');
-            $('#publicationForm').attr('action', '/admin/documents/publications/' + publicationId);
-            $('#publicationForm').find('input[name="_method"]').remove();
-            $('#publicationForm').append('<input type="hidden" name="_method" value="PATCH">');
+            $('#addUpdateForm').attr('action', '/admin/documents/publications/' + id);
+            $('#addUpdateForm').find('input[name="_method"]').remove();
+            $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
-            $('#publicationName').val(name);
-            $('#publicationDescription').val(description);
-            $('#publicationDownloadLink').val('');
+            $('#name').val(name);
+            $('#description').val(description);
+            $('#downloadLink').val('');
+            $('#downloadLink').removeAttr('required');
+            $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+            // Remove asterisk as field is not required
+            $('label[for="downloadLink"]').html('Upload File:');
 
             // Set toggle states for each checkbox
-            $('#publicationIsVisible').prop('checked', visibility).change();
-            $('#publicationFeatureOnNewsAndEvents').prop('checked', news_n_events).change();
-            $('#publicationIsNewBadgeVisible').prop('checked', new_badge).change();
+            $('#isVisible').prop('checked', visibility).change();
+            $('#featureOnNewsAndEvents').prop('checked', news_n_events).change();
+            $('#isNewBadgeVisible').prop('checked', new_badge).change();
 
-            $('#addNewPublicationModal').modal('show');
+            $('#addUpdateModal').modal('show');
         });
     
         // Handle Delete Button
         $('.delete-button').on('click', function () {
-            var publicationId = $(this).data('id');
-            var deleteUrl = '/admin/documents/publications/' + publicationId;
+            var id = $(this).data('id');
+            var deleteUrl = '/admin/documents/publications/' + id;
             $('#deleteForm').attr('action', deleteUrl);
-            $('#deleteConfirmationFormModal').modal('show');
+            $('#deleteConfirmationModal').modal('show');
         });
     
         // Reset toggle state when the modal is closed
-        $('#addNewFormModal').on('hidden.bs.modal', function () {
-            $('#publicationForm')[0].reset();
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
             $('.visibility-toggle').each(function() {
                 $(this).bootstrapToggle('off');
             });
@@ -291,6 +300,22 @@
                 icon: 'error',
                 title: 'Error!',
                 text: '{{ session('error') }}',
+            });
+        @endif
+
+        // Check if there are validation errors and display them in SweetAlert
+        @if ($errors->any())
+            let errorMessages = `<ul style="text-align: left;">`;
+            @foreach ($errors->all() as $error)
+                errorMessages += `<li>{{ $error }}</li>`;
+            @endforeach
+            errorMessages += `</ul>`;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonText: 'OK'
             });
         @endif
     </script>
