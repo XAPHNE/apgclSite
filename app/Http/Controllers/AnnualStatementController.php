@@ -4,55 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\AnnualStatement;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 
 class AnnualStatementController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $annualStatements = AnnualStatement::latest()->get();
+        return view('website.documents.annual-statements', compact('annualStatements'));
+    }
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        //
-
-        $data = AnnualStatement::get();
-
-        if ($request->ajax()) {
-
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($data) {
-
-                    $btn = '<button data-id="' . $data->id . '" class="edit btn btn-primary btn-sm editBtn">
-                           <span class="icon-bg"><i class="fas fa-edit"></i></span>
-                           </button>';
-
-                    if (Auth::check() && Auth::user()->admin == '1') {
-
-                        $btn .= ' <button data-id="' . $data->id . '" class="btn btn-danger btn-sm  deleteBtn">
-                            <span class="icon-bg"><i class="fas fa-trash-alt"></i></span>
-                            </button>';
-
-                    }
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('admin.documents.annual-statement', compact('data'));
-
+        $annualStatements = AnnualStatement::latest()->get();
+        return view('admin.documents.annual-statement', compact('annualStatements'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -61,131 +34,107 @@ class AnnualStatementController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-
-        $validator = Validator::make($request->all(),[
-
-            'description' => 'required',
-            'uploadFile' => 'required'
-
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'required|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
-
-
-        //store data in database
-        $annualstatement = new AnnualStatement;
-        $annualstatement->description = $request->input('description');
-        if ($request->hasfile('uploadFile')) {
-            $file = $request->file('uploadFile');
-            $fileName = time() . '_' . $request->uploadFile->getClientOriginalName();
-            $fileAddress = public_path('/admin-assets/Document/Annualstatement');
-            $file->move($fileAddress, $fileName);
-            $annualstatement->downloadLink = '/admin-assets/Document/Annualstatement' . '/' . $fileName;
+        if ($request->hasFile('downloadLink')) {
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
         }
-        $query = $annualstatement ->save();
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
-        }
-      
-       }
+        AnnualStatement::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
+        ]);
+
+        return redirect()->back()->with('success', 'Standard form added successfully');
     }
+
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(string $id)
     {
         //
-        $annualstatement = AnnualStatement::find($id);
-        return response()->json([
-            'status' => 200,
-            'annualstatement' => $annualstatement,
-        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        //
+        $annualStatement = AnnualStatement::findOrFail($id);
 
-        $validator = Validator::make($request->all(),[
-
-            'editDescription' => 'required',
-            // 'edituploadFile' => 'required'
-
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'nullable|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
+        if ($request->hasFile('downloadLink')) {
+            if (File::exists(public_path($annualStatement->downloadLink))) {
+                File::delete(public_path($annualStatement->downloadLink));
+            }
 
-
-        //store data in database
-        $annualstatement = AnnualStatement::find($request->annualstatementID);
-        $annualstatement->description = $request->input('editDescription');
-        if ($request->hasfile('edituploadFile')) {
-            $file = $request->file('edituploadFile');
-            $fileName = time() . '_' . $request->edituploadFile->getClientOriginalName();
-            $fileAddress = public_path('/admin-assets/Document/Annualstatement');
-            $file->move($fileAddress, $fileName);
-            $annualstatement->downloadLink = '/admin-assets/Document/Annualstatement' . '/' . $fileName;
-            unlink(public_path($request->input('fileLink')));
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+        } else {
+            $filePath = $annualStatement->downloadLink;
         }
-        $query = $annualstatement ->update();
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
-        }
-      
-       }
+        $annualStatement->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
+        ]);
+
+        return redirect()->back()->with('success', 'Standard Form updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        //
-        $annualstatement = AnnualStatement::find($id);
-        $file = AnnualStatement::where('id', $id)->pluck('downloadLink')->first();
-        unlink(public_path($file));
-        $annualstatement->delete();
+        $annualStatement = AnnualStatement::findOrFail($id);
+
+        if (File::exists(public_path($annualStatement->downloadLink))) {
+            File::delete(public_path($annualStatement->downloadLink));
+        }
+
+        $annualStatement->delete();
+
+        return redirect()->back()->with('success', 'Standard form deleted successfully');
     }
 }
