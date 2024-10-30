@@ -1,30 +1,37 @@
-<div class="modal fade" id="{{ $modalId }}" tabindex="-1" role="dialog" aria-labelledby="{{ $modalId }}Label" aria-hidden="true">
-    <div class="modal-dialog {{ $modalSize ?? 'modal-lg' }}" role="document">
+@props([
+    'modalId' => 'newModal',
+    'modalSize' => 'lg',
+    'modalHeaderBgColorClass' => 'bg-info',
+    'modalTitleId' => 'modalTitle',
+    'title' => '',
+    'formId' => 'modalForm',
+    'action' => '#',
+    'method' => 'POST',
+    'isPatchMethod' => false,
+    'cancelButtonText' => 'Close',
+    'submitButtonClass' => 'btn-primary',
+    'submitButtonText' => 'Save'
+])
+
+<div class="modal fade" id="{{ $modalId }}" tabindex="-1" aria-labelledby="{{ $modalTitleId }}" aria-hidden="true">
+    <div class="modal-dialog modal-{{ $modalSize }} modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="{{ $modalId }}Label">{{ $modalTitle }}</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header {{ $modalHeaderBgColorClass }}">
+                <h5 class="modal-title" id="{{ $modalTitleId }}">{{ $title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form id="{{ $formId }}" action="{{ $formAction }}" method="{{ $formMethod ?? 'POST' }}">
+            <form id="{{ $formId }}" action="{{ $action }}" method="{{ $method }}" enctype="multipart/form-data">
                 @csrf
-                @if(isset($formMethod) && in_array(strtoupper($formMethod), ['PUT', 'PATCH', 'DELETE']))
-                    @method($formMethod)
+                @if($isPatchMethod)
+                    @method('PATCH')
                 @endif
+
                 <div class="modal-body">
-                    @if($operationType !== 'delete')
-                        <!-- Slot for dynamic form content -->
-                        {{ $slot }}
-                    @else
-                        <p>{{ $deleteMessage ?? 'Are you sure you want to delete this item?' }}</p>
-                    @endif
+                    {{ $slot }}
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn {{ $operationType === 'delete' ? 'btn-danger' : 'btn-success' }}">
-                        {{ $submitLabel ?? ($operationType === 'delete' ? 'Yes, Delete' : 'Save') }}
-                    </button>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ $cancelButtonText }}</button>
+                    <button type="submit" class="btn {{ $submitButtonClass }}">{{ $submitButtonText }}</button>
                 </div>
             </form>
         </div>
