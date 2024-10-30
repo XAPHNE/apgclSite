@@ -1,420 +1,322 @@
-@extends('adminlte::page')
+@extends('components.layouts.adminLTE')
 
-@section('title', 'Annual Statement')
+@section('title')
+    Annual Statements
+@endsection
 
-@section('content_header')
-    <h1>Annual Statement</h1>
-@stop
+@section('page_title')
+    Annual Statements
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item">Documents</li>
+    <li class="breadcrumb-item active">Annual Statements</li>
+@endsection
 
 @section('content')
-    <div class="row">
-
-        <div class="col-lg-12 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row text-center mb-2">
-                        <h4 class="card-title">Annual Statement</h4>
-                        <button onclick="scrollFunction()" class="btn btn-success  ml-auto">Add
-                            Data</button> <!-- scrollFuction -used for -->
-                    </div>
-                    <table class="table table-striped datatable" id="annualstatement"
-                        style="width: 100%">
-                        <thead>
+<div class="row">
+    <div class="col col-sm-12">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="d-inline">Annual Statements List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
+                    <thead>
+                        <tr class="table-primary">
+                            <th class="text-center">#</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Description</th>
+                            {{-- <th class="text-center nosort">View</th> --}}
+                            <th class="text-center nosort">Visibility</th>
+                            <th class="text-center nosort">News & Events</th>
+                            <th class="text-center nosort">New Badge</th>
+                            <th class="text-center nosort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($annualStatements as $annualStatement)
                             <tr>
-                                <th scope="row" class="text-center">S. No.</th>
-                                <th>Description</th>
-                                <th>Download</th>
-                                <th>Action</th>
+                                <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                <td class="text-center align-middle">{{ $annualStatement->name }}</td>
+                                <td class="text-center align-middle">{{ $annualStatement->description }}</td>
+                                <td class="text-center align-middle">
+                                    @if ($annualStatement->visibility)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if ($annualStatement->news_n_events)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if ($annualStatement->new_badge)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle" style="white-space: nowrap;">
+                                    <a class="btn btn-info" href="{{ url($annualStatement->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
+                                    <button class="btn btn-warning update-button"
+                                        data-id="{{ $annualStatement->id }}"
+                                        data-name="{{ $annualStatement->name }}"
+                                        data-description="{{ $annualStatement->description }}"
+                                        data-downloadlink="{{ $annualStatement->downloadLink }}"
+                                        data-visibility="{{ $annualStatement->visibility }}"
+                                        data-news_n_events="{{ $annualStatement->news_n_events }}"
+                                        data-new_badge="{{ $annualStatement->new_badge }}"><i title="Update" class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger delete-button"
+                                            data-id="{{ $annualStatement->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <!-- Card Footer goes here -->
             </div>
         </div>
-
-        <div id="addDetails" class="col-lg-12 grid-margin strech-card">
-            <div class="card">
-                <div class="card-body">
-                    <form name="add_annualstatement" id="add_annualstatement" method="post"
-                        class="needs-validation" novalidate>
-                        <!-- validation code -->
-                        @csrf
-                        <!-- input description -->
-                        <div class="row mb-4">
-                            <label for="description"
-                                class="col-sm-2 col-form-label">Description:</label>
-                            <div class="col-sm-10">
-                                <input type="text"
-                                    class="form-control {{ $errors->has('description') ? 'error' : '' }}"
-                                    id="description" name="description" autocomplete="off"
-                                    aria-describedby="inputGroupPrepend" required>
-                                @if ($errors->has('description'))
-                                    <div class="error">
-                                        <span
-                                            class="text-danger">{{ $errors->first('description') }}</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <!-- input download link -->
-                        <div class="row mb-4">
-                            <label for="uploadFile" class="col-sm-2 col-form-label">Upload:</label>
-                            <div class="col-sm-10">
-                                <input type="file"
-                                    class="form-control {{ $errors->has('uploadFile') ? 'error' : '' }}"
-                                    id="uploadFile" name="uploadFile"
-                                    aria-describedby="inputGroupPrepend" autocomplete="off" required>
-                                @if ($errors->has('uploadFile'))
-                                    <div class="error">
-                                        <span
-                                            class="text-danger">{{ $errors->first('uploadFile') }}</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-
-                        <input type="submit" class="btn btn-success" name="send" value="ADD" />
-                        <!-- submit button -->
-
-                    </form>
-                </div>
-            </div>
-        </div>
-
     </div>
+</div>
 
-    <!-- Edit Modal -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Edit RTI Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+<!-- Add/Update Modal -->
+<div class="modal fade" id="addUpdateModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="modalTitle">Add New Annual Statement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-body">
-                    <div class="col-lg-12 grid-margin strech-card">
-                        <div class="card">
-                            <div class="card-body">
-                                <form name="edit_annualstatement" id="edit_annualstatement" method="post"
-                                    class="needs-validation" novalidate>
-                                    <!-- validation code -->
-                                    @csrf
-                                    @method('PUT')
-
-                                    <input type="hidden" name="annualstatementID" id="annualstatementID">
-                                    <input type="hidden" id="fileLink" name="fileLink">
-
-                                    <!-- input description -->
-                                    <div class="row mb-4">
-                                        <label for="editDescription"
-                                            class="col-sm-2 col-form-label">Description:</label>
-                                        <div class="col-sm-10">
-                                            <input type="text"
-                                                class="form-control {{ $errors->has('editDescription') ? 'error' : '' }}"
-                                                id="editDescription" name="editDescription" autocomplete="off"
-                                                aria-describedby="inputGroupPrepend" required>
-                                            @if ($errors->has('editDescription'))
-                                                <div class="error">
-                                                    <span
-                                                        class="text-danger">{{ $errors->first('editDescription') }}</span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <!-- input download link -->
-                                    <div class="row mb-4">
-                                        <label for="edituploadFile" class="col-sm-2 col-form-label">Upload:</label>
-                                        <div class="col-sm-10">
-                                            <input type="file"
-                                                class="form-control {{ $errors->has('edituploadFile') ? 'error' : '' }}"
-                                                id="edituploadFile" name="edituploadFile"
-                                                aria-describedby="inputGroupPrepend" autocomplete="off" required>
-                                            @if ($errors->has('edituploadFile'))
-                                                <div class="error">
-                                                    <span
-                                                        class="text-danger">{{ $errors->first('edituploadFile') }}</span>
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-dismiss="modal">CLOSE</button>
-                                        <button type="submit" class="btn updateBtn btn-success">UPDATE
-                                            DATA</button>
-                                    </div>
-                                    <!-- submit button -->
-
-                                </form>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name" class="required">Name:</label>
+                                <textarea type="text" class="form-control" id="name" name="name" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description" class="required">Description (Text for News & Events):</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="downloadLink">Upload File:</label>
+                                <input type="file" class="form-control" id="downloadLink" name="downloadLink">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- Visibility Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="visibility" value="0">
+                                <label for="isVisible">Is Visible:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- News & Events Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="news_n_events" value="0">
+                                <label for="featureOnNewsAndEvents">Feature on News & Events:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="featureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- New Badge Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="new_badge" value="0">
+                                <label for="isNewBadgeVisible">Is New:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
                 </div>
+            
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="saveButton">Save</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this annual statement?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
             </div>
         </div>
     </div>
-    <!-- Edit modal ended -->
+</div>
+@endsection
 
-    <!-- Delete Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteModalLabel">Delete Annualstatement Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form name="delete_annualstatement" id="delete_annualstatement">
-                        @csrf
-                        <h3>The Selected entry will be deleted</h3>
-                        <input type="hidden" id="delete_id" name="delete_id">
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
-                            <button class="btn confirmBtn btn-danger">CONFIRM</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-@stop
+@push('styles')
+<style>
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+    .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+@endpush
 
-@section('css')
-    {{-- <link rel="stylesheet" href="/admin-assets/css/custom.css"> --}}
-@stop
-
-@section('js')
-    {{-- Add here extra js --}}
-    <script src="{{ asset('admin-assets/js/custom.js') }}"></script>
-    <!-- custom script for edit Modal -->
-    <script>
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        var table = new DataTable('#table', {
+            columnDefs: [
+                {
+                    targets: 'nosort',
+                    orderable: false,
+                    searchable: false,
+                }
+            ],
+            scrollX: true,
         });
+        // Handle Add Button
+        $('#addButton').on('click', function () {
+            $('#modalTitle').text('Add New Annual Statement');
+            $('#addUpdateForm').attr('action', '{{ route('annual-statements.store') }}');
+            $('#addUpdateForm').attr('method', 'POST');
+            $('#downloadLink').attr('required', true);
+            $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
+            $('#saveButton').removeClass('btn-warning').addClass('btn-success');
 
+            // Add asterisk to indicate required field
+            $('label[for="downloadLink"]').html('Upload File: <span style="color: red;">*</span>');
 
-        $(document).ready(function() {
-
-            // Datatable
-            $('#annualstatement').DataTable({
-                "paging": true,
-                "lengthchange": true,
-                "searching": true,
-                "ordering": true,
-                "info": true,
-                "scrollX": true,
-                processing: true,
-                serverSide: true,
-                info: true,
-
-                ajax: "{{ route('annual-statement.index') }}",
-
-                columns: [{
-                        data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'downloadLink',
-                        name: 'downloadLink',
-                        render: function(data) {
-                            return '<div style="word-wrap: break-word;">' +
-                                '<i class="fas fa-file-pdf" style="color:red;"></i><a href="' +
-                                data + '" target="_blank"> Download/View </a></div>'
-                        }
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
-
-            // Add Details
-            $('#add_annualstatement').submit(function(e) {
-                e.preventDefault();
-
-                var formData = new FormData(this);
-
-                $.ajax({
-                    type: "post",
-                    url: "/annual-statement",
-                    data: formData,
-                    success: function(response) {
-                        if(response.code == 0){                            
-                                Swal.fire({
-                                icon: 'info',
-                                title: response.error,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                            printErrorMsg(response.error);
-                        }else if(response.code == 1){
-                            $('#add_annualstatement').trigger('reset');
-                                Swal.fire({
-                                icon: 'success',
-                                title:'Your Data has been Saved',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                        }else{
-                                Swal.fire({
-                                icon: 'info',
-                                title:'Something went wrong',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                        }
-
-
-                    },
-
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
-            });
-            // open to edit data
-
-            $(document).on('click', '.editBtn', function() {
-                var id = $(this).data('id'); //to take data
-                $('#editModal').modal('show');
-
-                // edit function work
-                $.ajax({
-                    type: "get",
-                    url: "/annual-statement/"+id+"/edit",
-                    success: function(response) {
-                        $('#annualstatementID').val(id)
-                        $('#editDescription').val(response.annualstatement.description);
-                        $('#fileLink').val(response.annualstatement.downloadLink);
-
-                    }
-                });
-
-                // update data
-
-                $('#edit_annualstatement').submit(function(e) {
-
-                    
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-
-                    var formData = new FormData(this);
-
-                    $.ajax({
-                        type: "post",
-                        url: "/annual-statement/"+id,
-                        data: formData,
-                        success: function(response) {
-                        if(response.code == 0){                            
-                                Swal.fire({
-                                icon: 'info',
-                                title: response.error,
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                            printErrorMsg(response.error);
-                        }else if(response.code == 1){
-                                $('#editModal').modal('hide');
-                                $('#edit_tariffOrder').trigger('reset');
-                                Swal.fire({
-                                icon: 'success',
-                                title:'Your Data has been Saved',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                        }else{
-                                $('#editModal').modal('hide');
-                                Swal.fire({
-                                icon: 'info',
-                                title:'Something went wrong',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                            datatableReload();
-                        }
-
-
-                    },
-                        cache: false,
-                        contentType: false,
-                        processData: false
-                    });
-                });
-
-            });
-
-            // click to open delete modal
-
-            $(document).on('click', '.deleteBtn', function() {
-                var id = $(this).data('id'); //to take data
-                $('#deleteModal').modal('show');
-                $('#delete_id').val(id);
-
-            });
-
-            // delete model work
-
-            $('#delete_annualstatement').submit(function(e) {
-
-                var id =$('#delete_id').val();
-
-                e.preventDefault();
-
-                var formData = new FormData(this);
-
-                $.ajax({
-                    type: "DELETE",
-                    url: "/annual-statement/"+id,
-                    data: formData,
-                    success: function(response) {
-                        $('#deleteModal').modal('hide');
-                        datatableReload();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Your Data has been Deleted',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
-                    },
-                    cache: false,
-                    contentType: false,
-                    processData: false
-                });
-            });
-
-
-            function printErrorMsg (msg) {
-                $.each( msg, function( key, value ) {
-                    alert(value);
-            });
-            }
-
+            $('#saveButton').text('Save');
+            $('#addUpdateForm input[name="_method"]').remove();
+            $('#name').val('');
+            $('#description').val('');
+            $('#downloadLink').val('');
+            $('#isVisible').bootstrapToggle('off');
+            $('#featureOnNewsAndEvents').bootstrapToggle('off');
+            $('#isNewBadgeVisible').bootstrapToggle('off');
+            $('#addUpdateModal').modal('show');
         });
+    
+        // Handle Update Button
+        $('.update-button').on('click', function () {
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var description = $(this).data('description');
+            var visibility = $(this).data('visibility') ? true : false;
+            var news_n_events = $(this).data('news_n_events') ? true : false;
+            var new_badge = $(this).data('new_badge') ? true : false;
+
+            $('#modalTitle').text('Update Annual Statement');
+            $('#addUpdateForm').attr('action', '/admin/documents/annual-statements/' + id);
+            $('#addUpdateForm').find('input[name="_method"]').remove();
+            $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
+            $('#saveButton').text('Update');
+            $('#name').val(name);
+            $('#description').val(description);
+            $('#downloadLink').val('');
+            $('#downloadLink').removeAttr('required');
+            $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+            // Remove asterisk as field is not required
+            $('label[for="downloadLink"]').html('Upload File:');
+
+            // Set toggle states for each checkbox
+            $('#isVisible').prop('checked', visibility).change();
+            $('#featureOnNewsAndEvents').prop('checked', news_n_events).change();
+            $('#isNewBadgeVisible').prop('checked', new_badge).change();
+
+            $('#addUpdateModal').modal('show');
+        });
+    
+        // Handle Delete Button
+        $('.delete-button').on('click', function () {
+            var id = $(this).data('id');
+            var deleteUrl = '/admin/documents/annual-statements/' + id;
+            $('#deleteForm').attr('action', deleteUrl);
+            $('#deleteConfirmationModal').modal('show');
+        });
+    
+        // Reset toggle state when the modal is closed
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
+            $('.visibility-toggle').each(function() {
+                $(this).bootstrapToggle('off');
+            });
+        });
+    });
     </script>
-    <!-- custom script for edit Modal -->
-@stop
+    <script>
+        // Check if there's a success message in the session
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+            });
+        @endif
+    
+        // Check if there's an error message in the session
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}',
+            });
+        @endif
+
+        // Check if there are validation errors and display them in SweetAlert
+        @if ($errors->any())
+            let errorMessages = `<ul style="text-align: left;">`;
+            @foreach ($errors->all() as $error)
+                errorMessages += `<li>{{ $error }}</li>`;
+            @endforeach
+            errorMessages += `</ul>`;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
+@endpush
