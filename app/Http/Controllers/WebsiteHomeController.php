@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnnualReturn;
+use App\Models\AnnualStatement;
+use App\Models\Publication;
+use App\Models\Report;
+use App\Models\RightToInformation;
 use App\Models\StandardForm;
+use App\Models\TariffPetition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -18,8 +24,26 @@ class WebsiteHomeController extends Controller
         }
         App::setLocale($lang);
 
+        $tariffPetition = TariffPetition::latest()->get();
+        $rtis = RightToInformation::latest()->get();
+        $annualStatements = AnnualStatement::latest()->get();
+        $annualReturns = AnnualReturn::latest()->get();
+        $reports = Report::latest()->get();
+        $publications = Publication::latest()->get();
         $standardForms = StandardForm::latest()->get();
-        return view('welcome', compact('standardForms'));
+
+        // Merge and sort by creation date
+        $latestEntries = collect($tariffPetition)
+            ->merge($rtis)
+            ->merge($annualStatements)
+            ->merge($annualReturns)
+            ->merge($reports)
+            ->merge($publications)
+            ->merge($standardForms)
+            ->sortByDesc('created_at')
+            ->values();
+
+        return view('welcome', compact('latestEntries'));
     }
 
     /**
