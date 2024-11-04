@@ -48,8 +48,8 @@ class TariffPetitionController extends Controller
 
         if ($request->hasFile('downloadLink')) {
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/Tariffs/Tariff Petition/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Tariffs/Tariff Petitions/'), $fileName);
         }
 
         TariffPetition::create([
@@ -103,8 +103,8 @@ class TariffPetitionController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/Tariffs/Tariff Petitions/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Tariffs/Tariff Petitions/'), $fileName);
         } else {
             $filePath = $tariffPetition->downloadLink;
         }

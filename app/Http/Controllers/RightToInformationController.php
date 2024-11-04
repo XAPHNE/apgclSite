@@ -48,8 +48,8 @@ class RightToInformationController extends Controller
 
         if ($request->hasFile('downloadLink')) {
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/RTIs/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/RTIs/'), $fileName);
         }
 
         RightToInformation::create([
@@ -103,8 +103,8 @@ class RightToInformationController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/RTIs/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/RTIs/'), $fileName);
         } else {
             $filePath = $rti->downloadLink;
         }

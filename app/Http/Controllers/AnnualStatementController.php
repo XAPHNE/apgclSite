@@ -48,8 +48,8 @@ class AnnualStatementController extends Controller
 
         if ($request->hasFile('downloadLink')) {
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/Annual Statements/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Statements/'), $fileName);
         }
 
         AnnualStatement::create([
@@ -103,8 +103,8 @@ class AnnualStatementController extends Controller
             }
 
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Annual Returns/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Returns/'), $fileName);
+            $filePath = 'admin-assets/Documents/Annual Statements/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Annual Statements/'), $fileName);
         } else {
             $filePath = $annualStatement->downloadLink;
         }
