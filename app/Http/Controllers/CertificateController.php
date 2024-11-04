@@ -2,203 +2,139 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Certificate;
-use Illuminate\Support\Facades\Auth;
-use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 
 class CertificateController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $certificates = Certificate::latest()->get();
+        return view('website.documents.certificates', compact('certificates'));
+    }
     /**
      * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        //
-
-        $data = certificate::get();
-
-        if ($request->ajax()) {
-
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($data) {
-
-                    $btn = '<button data-id="' . $data->id . '" class="edit btn btn-primary btn-sm editBtn">
-                           <span class="icon-bg"><i class="fas fa-edit"></i></span>
-                           </button>';
-
-                    if (Auth::check() && Auth::user()->admin == '1') {
-
-                        $btn .= ' <button data-id="' . $data->id . '" class="btn btn-danger btn-sm  deleteBtn">
-                           <span class="icon-bg"><i class="fas fa-trash-alt"></i></span>
-                           </button>';
-
-                    }
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('admin.documents.certificates', compact('data'));
+        $certificates = Certificate::latest()->get();
+        return view('admin.documents.certificate', compact('certificates'));
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
         //
-
     }
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
-
-        $validator = Validator::make($request->all(),[
-            
-            'description' => 'required',
-            'downloadLink' => 'required'
-
-
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'required|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
-
-
-        $certificate = new Certificate;
-        $certificate->description = $request->input('description');
-        if ($request->hasfile('downloadLink')) {
-
-            $this->validate($request, [
-                'downloadLink' => 'required',
-            ]);
-
-            $file = $request->file('downloadLink');
-            $fileName = time() . '_' . $request->downloadLink->getClientOriginalName();
-            $fileAddress = public_path('/admin-assets/Document/certificate');
-            $file->move($fileAddress, $fileName);
-            $certificate->downloadLink = '/admin-assets/Document/certificate' . '/' . $fileName;
+        if ($request->hasFile('downloadLink')) {
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Certificates/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Certificates/'), $fileName);
         }
 
-       $query = $certificate->save();
+        Certificate::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
+        ]);
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
-        }
-      
-       }
+        return redirect()->back()->with('success', 'Standard form added successfully');
     }
+
 
     /**
      * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(string $id)
     {
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(string $id)
     {
         //
-        $certificate = Certificate::find($id);
-        return response()->json([
-            'status' => 200,
-            'certificate' => $certificate,
-        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, string $id)
     {
-        //
-        $validator = Validator::make($request->all(),[
-            
-            'editDescription' => 'required',
-            // 'editDownloadLink' => 'required'
+        $certificate = Certificate::findOrFail($id);
 
-
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'nullable|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        if(!$validator->passes()){
-            return response()->json(['code'=>0,'error'=>$validator->errors()->all()]);//->toArray()]);
-       }else{
+        if ($request->hasFile('downloadLink')) {
+            if (File::exists(public_path($certificate->downloadLink))) {
+                File::delete(public_path($certificate->downloadLink));
+            }
 
-
-        $certificate = Certificate::find($request->certificateID);
-        $certificate->description = $request->input('editDescription');
-        if ($request->hasfile('editDownloadLink')) {
-
-            $this->validate($request, [
-                'editDownloadLink' => 'required',
-            ]);
-
-            $file = $request->file('editDownloadLink');
-            $fileName = time() . '_' . $request->editDownloadLink->getClientOriginalName();
-            $fileAddress = public_path('/Document/certificate');
-            $file->move($fileAddress, $fileName);
-            $certificate->downloadLink = '/Document/certificate' . '/' . $fileName;
-            unlink(public_path($request->input('fileLink')));
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Documents/Certificates/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Certificates/'), $fileName);
+        } else {
+            $filePath = $certificate->downloadLink;
         }
 
-       $query = $certificate ->update();
+        $certificate->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
+        ]);
 
-       if($query){
-            return response()->json(['code'=>1,'msg'=>'Data submitted successfully']);
-        }else{
-            return response()->json(['code'=>2,'msg'=>'Something went wrong']);
-        }
-      
-       }
+        return redirect()->back()->with('success', 'Standard Form updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        //
-        $certificate = certificate::find($id);
-        $file = certificate::where('id', $id)->pluck('downloadLink')->first();
-        unlink(public_path($file));
+        $certificate = Certificate::findOrFail($id);
+
+        if (File::exists(public_path($certificate->downloadLink))) {
+            File::delete(public_path($certificate->downloadLink));
+        }
+
         $certificate->delete();
 
+        return redirect()->back()->with('success', 'Standard form deleted successfully');
     }
 }
