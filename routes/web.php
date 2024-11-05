@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ActController;
+use App\Http\Controllers\ActsPoliciesServiceRulesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnualReturnController;
 use App\Http\Controllers\AnnualStatementController;
@@ -15,10 +17,14 @@ use App\Http\Controllers\DailyGenerationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RightToInformationController;
+use App\Http\Controllers\RosterController;
+use App\Http\Controllers\ServiceRuleController;
 use App\Http\Controllers\StandardFormController;
 use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
@@ -67,9 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
-    Route::resource('certificate', CertificateController::class);
-    Route::resource('tariff-order', TariffOrderController::class);
-    Route::resource('tariff-petition', TariffPetitionController::class);
+    
     
     
     Route::resource('departments', DepartmentController::class);
@@ -79,10 +83,19 @@ Route::middleware('auth')->group(function () {
     Route::resource('admin/corporate-social-responsibility', CSRController::class);
     Route::resource('admin/calendar', CalendarController::class);
     Route::resource('admin/daily-generation', DailyGenerationController::class);
-    Route::resource('admin/contacts', ContactController::class);
+    
 
     Route::prefix('admin')->group(function () {
+        Route::prefix('about-us')->group(function () {
+            //
+        });
         Route::prefix('documents')->group(function () {
+            Route::resource('rosters', RosterController::class);
+            Route::resource('acts', ActController::class);
+            Route::resource('policies', PolicyController::class);
+            Route::resource('service-rules', ServiceRuleController::class);
+            Route::resource('certificates', CertificateController::class);
+            Route::resource('tariff-order', TariffOrderController::class);
             Route::resource('tariff-petition', TariffPetitionController::class);
             Route::resource('right-to-information', RightToInformationController::class);
             Route::resource('annual-statements', AnnualStatementController::class);
@@ -91,6 +104,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('publications', PublicationController::class);
             Route::resource('standard-forms', StandardFormController::class);
         });
+        Route::resource('contact-us', ContactController::class);
     });
 
 
@@ -123,28 +137,20 @@ Route::middleware('locale')->group(function () {
         return view('website.aboutUs.boardOfDirectors');
     });
 
-    Route::get('/{lang}/about-us/offices', function ($lang) {
-        App::setLocale($lang);
-        return view('website.aboutUs.offices');
-    });
-
     Route::get('/{lang}/about-us/gallery', function ($lang) {
         App::setLocale($lang);
         return view('website.aboutUs.gallery');
     });
 
-    Route::get('/{lang}/documents/acts-policies-service-rules', function ($lang) {
-        App::setLocale($lang);
-        return view('website.documents.actsPoliciesServiceRules');
-    });
-
-    Route::get('/{lang}/documents/certificates', function ($lang) {
-        App::setLocale($lang);
-        return view('website.documents.certificate');
-    });
-
     Route::prefix('{lang}')->group(function () {
+        Route::prefix('about-us')->group(function () {
+            Route::get('offices', [OfficeController::class, 'websiteIndex']);
+        });
         Route::prefix('documents')->group(function () {
+            Route::get('rosters', [RosterController::class, 'websiteIndex']);
+            Route::get('acts-policies-service-rules', [ActsPoliciesServiceRulesController::class, 'websiteIndex']);
+            Route::get('certificates', [CertificateController::class, 'websiteIndex']);
+            Route::get('tariff-order', [TariffOrderController::class, 'websiteIndex']);
             Route::get('tariff-petition', [TariffPetitionController::class, 'websiteIndex']);
             Route::get('right-to-information', [RightToInformationController::class, 'websiteIndex']);
             Route::get('annual-statements', [AnnualStatementController::class, 'websiteIndex']);
@@ -153,6 +159,7 @@ Route::middleware('locale')->group(function () {
             Route::get('publications', [PublicationController::class, 'websiteIndex']);
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
+        Route::get('contact-us', [ContactController::class, 'websiteIndex']);
     });
 });
 
