@@ -7,4 +7,7 @@ return [
     'serial_num' => 'SL. No.',
     'particulars' => 'Particulars',
     'name_of_wings' => 'Name of wings',
+    'designation' => 'Designation',
+    'email' => 'Email-ID',
+    'phone' => 'Phone',
 ];
