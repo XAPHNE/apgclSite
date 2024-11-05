@@ -135,12 +135,13 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.documents')  <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/rosters') }}" class="nav-link">@lang('navigationMenu.roster')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/acts-policies-service-rules') }}" class="nav-link">@lang('navigationMenu.acts/policies/service_rules')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/certificates') }}" class="nav-link">@lang('navigationMenu.certificates')</a></li>
                                         <li class="nav-item">
                                             <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.tariff')  <i class="fas fa-caret-right"></i></a>
                                             <ul class="dropdown-menu">
-                                                <li class="nav-item"><a href="tarrif_orders.php" class="nav-link">@lang('navigationMenu.tariff_order')</a></li>
+                                                <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/tariff-order') }}" class="nav-link">@lang('navigationMenu.tariff_order')</a></li>
                                                 <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/documents/tariff-petition') }}" class="nav-link">@lang('navigationMenu.tariff_petition')</a></li>
                                             </ul>
                                         </li>
@@ -179,7 +180,7 @@
                                 </li>
                                 <li class="nav-item"><a href="disaster_management.php" class="nav-link">@lang('navigationMenu.disaster_management')</a></li>
                                 <li class="nav-item"><a href="dam_safety.php" class="nav-link">@lang('navigationMenu.dam_safety')</a></li>
-                                <li class="nav-item"><a href="contact-us.php" class="nav-link">@lang('navigationMenu.contact_us')</a></li>
+                                <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/contact-us') }}" class="nav-link">@lang('navigationMenu.contact_us')</a></li>
                             </ul>
                             <div class="menu-sidebar d-lg-none">
                                 <form>
