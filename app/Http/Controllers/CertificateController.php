@@ -61,7 +61,7 @@ class CertificateController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Certificate added successfully');
     }
 
 
@@ -118,7 +118,7 @@ class CertificateController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Certificate updated successfully');
     }
 
 
@@ -135,6 +135,6 @@ class CertificateController extends Controller
 
         $certificate->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Certificate deleted successfully');
     }
 }

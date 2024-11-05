@@ -54,7 +54,7 @@ class PolicyController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Policy added successfully');
     }
 
 
@@ -111,7 +111,7 @@ class PolicyController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Policy updated successfully');
     }
 
 
@@ -128,6 +128,6 @@ class PolicyController extends Controller
 
         $policy->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Policy deleted successfully');
     }
 }

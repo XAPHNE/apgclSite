@@ -61,7 +61,7 @@ class TariffPetitionController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Tariff petition added successfully');
     }
 
 
@@ -118,7 +118,7 @@ class TariffPetitionController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Tariff petition updated successfully');
     }
 
 
@@ -135,6 +135,6 @@ class TariffPetitionController extends Controller
 
         $tariffPetition->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Tariff petition deleted successfully');
     }
 }

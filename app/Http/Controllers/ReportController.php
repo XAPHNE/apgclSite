@@ -61,7 +61,7 @@ class ReportController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Report added successfully');
     }
 
 
@@ -118,7 +118,7 @@ class ReportController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Report updated successfully');
     }
 
 
@@ -135,6 +135,6 @@ class ReportController extends Controller
 
         $report->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Report deleted successfully');
     }
 }

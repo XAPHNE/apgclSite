@@ -61,7 +61,7 @@ class AnnualReturnController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Annual return added successfully');
     }
 
 
@@ -118,7 +118,7 @@ class AnnualReturnController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Annual return updated successfully');
     }
 
 
@@ -135,6 +135,6 @@ class AnnualReturnController extends Controller
 
         $annualReturn->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Annual return deleted successfully');
     }
 }

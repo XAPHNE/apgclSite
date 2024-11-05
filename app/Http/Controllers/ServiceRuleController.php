@@ -54,7 +54,7 @@ class ServiceRuleController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'Service rule added successfully');
     }
 
 
@@ -111,7 +111,7 @@ class ServiceRuleController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'Service rule updated successfully');
     }
 
 
@@ -128,6 +128,6 @@ class ServiceRuleController extends Controller
 
         $serviceRule->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'Service rule deleted successfully');
     }
 }

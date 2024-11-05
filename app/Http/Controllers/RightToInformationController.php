@@ -61,7 +61,7 @@ class RightToInformationController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard form added successfully');
+        return redirect()->back()->with('success', 'RTI added successfully');
     }
 
 
@@ -118,7 +118,7 @@ class RightToInformationController extends Controller
             'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return redirect()->back()->with('success', 'Standard Form updated successfully');
+        return redirect()->back()->with('success', 'RTI updated successfully');
     }
 
 
@@ -135,6 +135,6 @@ class RightToInformationController extends Controller
 
         $rti->delete();
 
-        return redirect()->back()->with('success', 'Standard form deleted successfully');
+        return redirect()->back()->with('success', 'RTI deleted successfully');
     }
 }
