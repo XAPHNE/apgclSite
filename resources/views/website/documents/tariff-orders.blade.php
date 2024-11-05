@@ -16,7 +16,7 @@
         <div class="row">
             <h4 class="line-vertical">@lang('navigationMenu.tariff_order')</h4>
             <div class="table-responsive">
-                <table id="table" class="table-bordered table table-striped" style="width:100%">
+                <table class="table-bordered table table-striped dataTable" style="width:100%">
                     <thead>
                         <tr class="bg-primary">
                             <th>@lang('table.serial_num')</th>
