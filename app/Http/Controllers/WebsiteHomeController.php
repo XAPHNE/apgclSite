@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Act;
 use App\Models\AnnualReturn;
 use App\Models\AnnualStatement;
+use App\Models\Certificate;
+use App\Models\Policy;
 use App\Models\Publication;
 use App\Models\Report;
 use App\Models\RightToInformation;
+use App\Models\Roster;
+use App\Models\ServiceRule;
 use App\Models\StandardForm;
+use App\Models\TariffOrder;
 use App\Models\TariffPetition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -24,6 +30,12 @@ class WebsiteHomeController extends Controller
         }
         App::setLocale($lang);
 
+        $rosters = Roster::latest()->get();
+        $acts = Act::latest()->get();
+        $policies = Policy::latest()->get();
+        $serviceRules = ServiceRule::latest()->get();
+        $certificates = Certificate::latest()->get();
+        $tariffOrders = TariffOrder::latest()->get();
         $tariffPetition = TariffPetition::latest()->get();
         $rtis = RightToInformation::latest()->get();
         $annualStatements = AnnualStatement::latest()->get();
@@ -33,7 +45,13 @@ class WebsiteHomeController extends Controller
         $standardForms = StandardForm::latest()->get();
 
         // Merge and sort by creation date
-        $latestEntries = collect($tariffPetition)
+        $latestEntries = collect($rosters)
+            ->merge($acts)
+            ->merge($policies)
+            ->merge($serviceRules)
+            ->merge($certificates)
+            ->merge($tariffOrders)
+            ->merge($tariffPetition)
             ->merge($rtis)
             ->merge($annualStatements)
             ->merge($annualReturns)
