@@ -15,15 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('designation');
-            $table->string('location');
             $table->integer('priority');
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('description')->nullable();
-            $table->string('downloadLink')->nullable();
-            $table->boolean('visibility')->default(false);
-            $table->boolean('news_n_events')->default(false);
-            $table->boolean('new_badge')->default(false);
+            $table->boolean('is_office_bearer');
+            $table->string('office_name')->nullable();
+            $table->string('office_address')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

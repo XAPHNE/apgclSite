@@ -8,16 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    use SoftDeletes;
-
-    public $fillable = [
-        'name',
-        'designation',
-        'location',
-        'priority',
-        'phone',
-        'email'
-    ];
+    public $fillable = ['name', 'designation', 'priority', 'phone', 'email', 'is_office_bearer', 'office_name', 'office_address'];
 }
