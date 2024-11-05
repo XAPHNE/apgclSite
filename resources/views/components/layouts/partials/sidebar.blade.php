@@ -103,11 +103,12 @@
                         <p>Documents<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Acts</p></a></li>
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Policies</p></a></li>
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Service Rules</p></a></li>
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Certificates</p></a></li>
-                        <li class="nav-item"><a href="#" class="nav-link"><i class="far fa-circle nav-icon"></i><p>Tariff Order</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/rosters') }}" class="nav-link {{ Request::is('admin/documents/rosters*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Roster</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/acts') }}" class="nav-link {{ Request::is('admin/documents/acts*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Acts</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/policies') }}" class="nav-link {{ Request::is('admin/documents/policies*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Policies</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/service-rules') }}" class="nav-link {{ Request::is('admin/documents/service-rules*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Service Rules</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/certificates') }}" class="nav-link {{ Request::is('admin/documents/certificates*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Certificates</p></a></li>
+                        <li class="nav-item"><a href="{{ url('admin/documents/tariff-order') }}" class="nav-link {{ Request::is('admin/documents/tariff-order*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Order</p></a></li>
                         <li class="nav-item"><a href="{{ url('admin/documents/tariff-petition') }}" class="nav-link {{ Request::is('admin/documents/tariff-petition*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Petition</p></a></li>
                         <li class="nav-item"><a href="{{ url('admin/documents/right-to-information') }}" class="nav-link {{ Request::is('admin/documents/right-to-information*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Right to Information</p></a></li>
                         <li class="nav-item"><a href="{{ url('admin/documents/annual-statements') }}" class="nav-link {{ Request::is('admin/documents/annual-statements*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Annual Statement</p></a></li>
@@ -136,7 +137,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/contact-us') }}" class="nav-link {{ Request::is('admin/contact-us*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
                         <p>Contacts</p>
                     </a>
