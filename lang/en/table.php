@@ -5,4 +5,6 @@ return [
     'download_view' => 'Download/View',
     'name' => 'Name',
     'serial_num' => 'SL. No.',
+    'particulars' => 'Particulars',
+    'name_of_wings' => 'Name of wings',
 ];
