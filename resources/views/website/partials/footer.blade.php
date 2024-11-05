@@ -171,9 +171,15 @@
                 }
             ],
         });
-        $('#actstable').DataTable();
-        $('#policytable').DataTable();
-        $('#standard-formstable').DataTable();
+        $('.dataTable').DataTable({
+            columnDefs: [
+                {
+                    targets: 'nosort',
+                    orderable: false,
+                    searchable: false,
+                }
+            ],
+        });
         $('#contactustable').DataTable();
     });
 </script>
