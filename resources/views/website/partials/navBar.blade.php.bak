@@ -4,95 +4,94 @@
         <span class="slider round"></span>
     </label>
 </div>
+
 <header>
-<div class="topbar">
-    <div class="container-fluid">
-        <div class="topbar-content">
-            <div class="row align-items-center">
-                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="top-contact-area mbl-none">
-                         <div class="row">
-                            <div class="col-2 st-wd">
-                                <a class="navbar-brand d-flex " href="{{ url('/' . app()->getLocale()) }}">
-                                    <img class="black-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
-                                    <img class="white-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
-                                </a> 
-                            </div>
-                            <div class="col-10">
-                                <span class="mt-5">
-                                    <h4 class="text-black fs-5 mt-3">ASSAM POWER GENERATION CORPORATION LTD.</h4>
-                                    <div class="text-black">অসম শক্তি উৎপাদন নিগম লিমিটেড</div>
-                                </span>
-                            </div>
-                         </div>
+    <div class="topbar">
+        <div class="container-fluid">
+            <div class="topbar-content">
+                <div class="row align-items-center">
+                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="top-contact-area mbl-none">
+                             <div class="row">
+                                <div class="col-2 st-wd">
+                                    <a class="navbar-brand d-flex " href="{{ url('/' . app()->getLocale()) }}">
+                                        <img class="black-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
+                                        <img class="white-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
+                                    </a> 
+                                </div>
+                                <div class="col-10">
+                                    <span class="mt-5">
+                                        <h4 class="text-black fs-5 mt-3">ASSAM POWER GENERATION CORPORATION LTD.</h4>
+                                        <div class="text-black">অসম শক্তি উৎপাদন নিগম লিমিটেড</div>
+                                    </span>
+                                </div>
+                             </div>
+                        </div>
                     </div>
-                </div>
-                <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="top-contact-area">
-                        <ul>
-                            <li>
-                                <a href="#stmc">@lang('header.skip_to_main_content') |</a>
-                            </li>
-                            <li>
-                                <a href="site_map.php">@lang('header.site_map') |</a>
-                            </li>
-                            <li>
-                                <a href="screen_reader.php">@lang('header.screen_reader') |</a>
-                            </li>
-                            <li>
-                                <span class="me-1" style="cursor:pointer;" onclick="setFontSize(14)">-@lang('header.font_size')</span>
-                                <span class="me-1" style="cursor:pointer;"onclick="setFontSize(16)">@lang('header.font_size')</span>
-                                <span  style="cursor:pointer;" onclick="setFontSize(18)">@lang('header.font_size')+ |</span>
-                            </li>
+                    <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="top-contact-area">
+                            <ul>
+                                <li>
+                                    <a href="#">@lang('header.skip_to_main_content') |</a>
+                                </li>
+                                <li>
+                                    <a href="site_map.php">@lang('header.site_map') |</a>
+                                </li>
+                                <li>
+                                    <a href="screen_reader.php">@lang('header.screen_reader') |</a>
+                                </li>
+                                <li>
+                                    <span class="me-1" style="cursor:pointer;" onclick="setFontSize(14)">-@lang('header.font_size')</span>
+                                    <span class="me-1" style="cursor:pointer;"onclick="setFontSize(16)">@lang('header.font_size')</span>
+                                    <span  style="cursor:pointer;" onclick="setFontSize(18)">@lang('header.font_size')+ |</span>
+                                </li>
+                                @if (App::getLocale() == 'as')
+                                    <li>
+                                        <a id="english" href="#" onclick="changeLocale('en')">English |</a>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a id="assamese" href="#" onclick="changeLocale('as')">অসমীয়া |</a>
+                                    </li>
+                                    
+                                @endif                          
 
-                            @if (App::getLocale() == 'as')
                                 <li>
-                                    <a id="english" href="#" onclick="changeLocale('en')">English |</a>
-                                </li>
-                            @else
-                                <li>
-                                    <a id="assamese" href="#" onclick="changeLocale('as')">অসমীয়া |</a>
-                                </li>
-                                
-                            @endif
-
-
-                            <li>
-                            <div class="dropdown account-details">
-                            <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">@lang('header.employee_corner')</a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li>
-                                    <a class="dropdown-item" href="https://mail.apgcl.org/" target="_blank">@lang('header.employee_mail')</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="https://dashboard.apgcl.org/" target="_blank">@lang('header.apgcl_dashboard')</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="https://epragati.apgcl.org:44900/irj/portal" target="_blank">@lang('header.apgcl_ess/mss_portal')</a>
+                                    <div class="dropdown account-details">
+                                        <a class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">@lang('header.employee_corner') </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <li>
+                                                <a class="dropdown-item" href="https://mail.apgcl.org/">@lang('header.employee_mail')</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="https://dashboard.apgcl.org/">@lang('header.apgcl_dashboard')</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="https://epragati.apgcl.org:44900/irj/portal">@lang('header.apgcl_ess/mss_portal')</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                             </ul>
                         </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="topbar-right-area d-flex">
-                    <div class="indian-logo">
-                        {{-- <img class="" src="{{ asset('website-assets/images/home/logo_amrit.png') }}" alt="logo" /> --}}
-                     </div>
-                     <div class="menu-sidebar">
-                            <form>
-                                <div class="input-group m-search-box">
-                                    <input type="text" class="form-control" placeholder="@lang('header.search')" required>
-                                    <button class="btn" type="submit"><i class="fas fa-search"></i></button>
-                                </div>
-                            </form>
+                        <div class="topbar-right-area d-flex">
+                        <div class="indian-logo">
+                            <img class="" src="{{ asset('website-assets/images/home/logo_amrit.png') }}" alt="logo" />
+                         </div>
+                         <div class="menu-sidebar">
+                                <form>
+                                    <div class="input-group m-search-box">
+                                        <input type="text" class="form-control" placeholder="@lang('header.search')" required>
+                                        <button class="btn" type="submit"><i class="fas fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
     <div class="header-area">
         <div class="navbar-area">
             <div class="main-responsive-nav">

@@ -37,9 +37,8 @@
             <button class="acme-news-ticker-pause"></button>
         </div> -->
     </div> 
-
     <!-- two Grid Section start -->
-    <div class="two-grid-home pt-70">
+    <div id="stmc" class="two-grid-home pt-70">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
