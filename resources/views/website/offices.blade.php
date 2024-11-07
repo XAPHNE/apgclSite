@@ -16,87 +16,39 @@
     <div class="container">
         <div class="row">
             <h4 class="line-vertical">OFFICES (HEAD QUARTER)</h4>
+            @foreach($contacts->whereIn('priority', [1, 2]) as $contact)
             <div class="col-md-4">
                 <div class="mt-1 mb-3">
                     <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chairman</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
+                        <h4 class="fs-5">{{ $contact->office_name }}</h4>
+                        <p class="mb-0">
+                            {{ $contact->office_address }}
+                            <br>
                             <!-- Ph: 0361 2739503 -->
-                            E-mail: rakesh.kumar@apgcl.org
+                            <br>
+                            E-mail: {{ $contact->email }}
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="mt-1 mb-3">
-                    <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Managing Director</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: bibhu.bhuyan@apgcl.org
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="row mt-3">
             <h4 class="line-vertical">OTHER OFFICES (HEAD QUARTER)</h4>
+            @foreach($contacts->filter(fn($contact) => $contact->is_office_bearer) as $contact)
             <div class="col-md-4">
                 <div class="mt-1 mb-3">
                     <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chief General Manager(Hydro & Civil)</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: saurav.saikia@apgcl.org
+                        <h4 class="fs-5">{{ $contact->office_name }}</h4>
+                        <p class="mb-0">
+                            {{ $contact->office_address }}
+                            <br>
+                            E-mail: {{ $contact->email }}
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="mt-1 mb-3">
-                    <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chief General Manager(Generation)</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: md.zakir@apgcl.org
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mt-1 mb-3">
-                    <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chief General Manager(NRE)</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: prasanna.gogoi@apgcl.org
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mt-1 mb-3">
-                    <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chief General Manager(PP&I)</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: akshay.talukdar@apgcl.org
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mt-1 mb-3">
-                    <div class="box-board text-center shadow p-2 sd-height">
-                        <h4 class="fs-5">Office of The Chief General Manager(F&A)</h4>
-                        <p class="mb-0">Assam Power Generation Corporation Ltd.<br>
-                            3rd Floor, Bijulee Bhawan, Guwahati-1<br>
-                            E-mail: suresh.kaimal@apgcl.org
-                        </p>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
         <div class="row mt-3">
             <h4 class="line-vertical">OFFICES (PROJECTS)</h4>
