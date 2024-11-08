@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
+                <table id="table" class="table display nowrap table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center align-middle nosort">Priority</th>
@@ -32,9 +32,10 @@
                             {{-- <th class="text-center align-middle nosort">View</th> --}}
                             <th class="text-center align-middle nosort">Phone</th>
                             <th class="text-center align-middle nosort">Email</th>
+                            <th class="text-center align-middle nosort">Office Bearer</th>
+                            <th class="text-center align-middle nosort">Office Category</th>
                             <th class="text-center align-middle nosort">Office</th>
                             <th class="text-center align-middle nosort">Office Address</th>
-                            <th class="text-center align-middle nosort">Office Bearer</th>
                             <th class="text-center align-middle nosort">Actions</th>
                         </tr>
                     </thead>
@@ -46,8 +47,6 @@
                                 <td class="text-center align-middle">{{ $contact->designation }}</td>
                                 <td class="text-center align-middle">{{ $contact->phone ?? 'N/A' }}</td>
                                 <td class="text-center align-middle">{{ $contact->email ?? 'N/A' }}</td>
-                                <td class="text-center align-middle">{{ $contact->office_name ?? 'N/A' }}</td>
-                                <td class="text-center align-middle">{{ $contact->office_address ?? 'N/A' }}</td>
                                 <td class="text-center align-middle">
                                     @if ($contact->is_office_bearer)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -55,6 +54,9 @@
                                         <i class="fas fa-times-circle text-danger"></i>
                                     @endif
                                 </td>
+                                <td class="text-center align-middle">{{ $contact->office_category ?? 'N/A' }}</td>
+                                <td class="text-center align-middle">{{ $contact->office_name ?? 'N/A' }}</td>
+                                <td class="text-center align-middle">{{ $contact->office_address ?? 'N/A' }}</td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $contact->id }}"
@@ -63,6 +65,7 @@
                                         data-priority="{{ $contact->priority }}"
                                         data-phone="{{ $contact->phone }}"
                                         data-email="{{ $contact->email }}"
+                                        data-office_category="{{ $contact->office_category }}"
                                         data-office_name="{{ $contact->office_name }}"
                                         data-office_address="{{ $contact->office_address }}"
                                         data-is_office_bearer="{{ $contact->is_office_bearer }}"><i title="Update" class="fas fa-edit"></i>
@@ -130,23 +133,38 @@
                             </div>
                         </div>
                         <div class="col">
-                            <!-- Is Office Bearer Checkbox with Hidden Input -->
-                            <div class="form-group">
-                                <input type="hidden" name="is_office_bearer" value="0">
-                                <label for="isOfficeBearer">Is Office Bearer:</label>
-                                <input type="checkbox" class="form-control visibility-toggle" id="isOfficeBearer" name="is_office_bearer" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            <div class="row">
+                                <div class="col">
+                                    <!-- Is Office Bearer Checkbox with Hidden Input -->
+                                    <div class="form-group">
+                                        <input type="hidden" name="is_office_bearer" value="0">
+                                        <label for="isOfficeBearer">Office Bearer:</label>
+                                        <input type="checkbox" class="form-control visibility-toggle" id="isOfficeBearer" name="is_office_bearer" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group office-details">
+                                        <label class="form-label" for="officeCategory">Office Category:</label>
+                                        <select class="form-control" id="officeCategory" name="office_category">
+                                            <option value="" disabled selected>Select</option>
+                                            @foreach ($officeCategories as $value => $label)
+                                                <option value="{{ $value }}">{{ $label }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-group">
+                            <div class="form-group office-details">
                                 <label for="officeName">Office Name:</label>
                                 <input type="text" class="form-control" id="officeName" name="office_name">
                             </div>
                         </div>
                         <div class="col">
-                            <div class="form-group">
+                            <div class="form-group office-details">
                                 <label for="officeAddress">Office Address:</label>
                                 <textarea type="text" class="form-control" id="officeAddress" name="office_address"></textarea>
                             </div>
@@ -231,6 +249,7 @@
             $('#priority').val('');
             $('#phone').val('');
             $('#email').val('');
+            $('#officeCategory').val('');
             $('#officeName').val('');
             $('#officeAddress').val('');
             $('#isOfficeBearer').bootstrapToggle('off');
@@ -238,13 +257,14 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
             var designation = $(this).data('designation');
             var priority = $(this).data('priority');
             var phone = $(this).data('phone');
             var email = $(this).data('email');
+            var office_category = $(this).data('office_category');
             var office_name = $(this).data('office_name');
             var office_address = $(this).data('office_address');
             var is_office_bearer = $(this).data('is_office_bearer') ? true : false;
@@ -259,6 +279,7 @@
             $('#priority').val(priority);
             $('#phone').val(phone);
             $('#email').val(email);
+            $('#officeCategory').val(office_category);
             $('#officeName').val(office_name);
             $('#officeAddress').val(office_address);
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
@@ -273,7 +294,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/contact-us/' + id;
             $('#deleteForm').attr('action', deleteUrl);
@@ -287,6 +308,22 @@
                 $(this).bootstrapToggle('off');
             });
         });
+
+        // Show/hide office details fields based on "Is Office Bearer" checkbox state
+        $('#isOfficeBearer').on('change', function () {
+            if ($(this).is(':checked')) {
+                $('.office-details').show();
+            } else {
+                $('.office-details').hide();
+            }
+        });
+
+        // Initialize the toggle state based on checkbox value (for update cases)
+        if ($('#isOfficeBearer').is(':checked')) {
+            $('.office-details').show();
+        } else {
+            $('.office-details').hide();
+        }
     });
     </script>
     <script>

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->boolean('is_office_bearer');
+            $table->string('office_category')->nullable();
             $table->string('office_name')->nullable();
             $table->string('office_address')->nullable();
             $table->softDeletes();

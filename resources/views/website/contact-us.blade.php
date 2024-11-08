@@ -21,7 +21,7 @@
                         <tr class="bg-primary">
                             <th>@lang('table.serial_num')</th>
                             <th>@lang('table.name')</th>
-                            <th width="70%">@lang('table.designation')</th>
+                            <th>@lang('table.designation')</th>
                             <th>@lang('table.email')</th>
                         </tr>
                     </thead>
@@ -30,16 +30,12 @@
                             $serial = 1;
                         @endphp
                         @foreach ($contacts as $contact)
-                            @if ($contact->visibility)
-                                <tr>
-                                    <td class="text-center">{{ $serial++ }}</td>
-                                    <td class="text-start">{{ $contact->name }}</td>
-                                    <td class="text-start">{{ $contact->designation }}</td>
-                                    <td class="text-start">{{ $contact->email }}</td>
-                                </tr>
-                            @endif
-                            
-                            
+                        <tr>
+                            <td class="text-center">{{ $serial++ }}</td>
+                            <td class="text-start">{{ $contact->name }}</td>
+                            <td class="text-start">{{ $contact->designation }}</td>
+                            <td class="text-start">{{ $contact->email }}</td>
+                        </tr>
                         @endforeach
                             
                         <!-- Add more rows as needed -->

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Yajra\DataTables\DataTables;
 
 class ContactController extends Controller
 {
@@ -21,7 +20,8 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $contacts = Contact::orderBy('priority')->get();
-        return view('admin.contact-us', compact('contacts'));
+        $officeCategories = Contact::officeCategories();
+        return view('admin.contact-us', compact('contacts', 'officeCategories'));
     }
 
     /**
@@ -44,6 +44,7 @@ class ContactController extends Controller
             'phone' => 'nullable|string|max:15',
             'email' => 'nullable|string|email|max:255',
             'is_office_bearer' => 'nullable|boolean',
+            'office_category' => 'nullable|string|max:255',
             'office_name' => 'nullable|string|max:255',
             'office_address' => 'nullable|string|max:255',
         ]);
@@ -60,6 +61,7 @@ class ContactController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'is_office_bearer' => $request->boolean('is_office_bearer'),
+            'office_category' => $request->input('office_category'),
             'office_name' => $request->office_name,
             'office_address' => $request->office_address,
         ]);
@@ -97,6 +99,7 @@ class ContactController extends Controller
             'phone' => 'nullable|string|max:15',
             'email' => 'nullable|string|email|max:255',
             'is_office_bearer' => 'nullable|boolean',
+            'office_category' => 'nullable|string|max:255',
             'office_name' => 'nullable|string|max:255',
             'office_address' => 'nullable|string|max:255',
         ]);
@@ -126,6 +129,7 @@ class ContactController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'is_office_bearer' => $request->boolean('is_office_bearer'),
+            'office_category' => $request->input('office_category'),
             'office_name' => $request->office_name,
             'office_address' => $request->office_address,
         ]);
