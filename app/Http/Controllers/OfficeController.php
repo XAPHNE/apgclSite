@@ -12,7 +12,7 @@ class OfficeController extends Controller
     {
         App::setLocale($lang);
         $contacts = Contact::orderBy('priority')->get();
-        return view('website.offices', compact('contacts'));
+        return view('website.aboutUs.offices', compact('contacts'));
     }
     /**
      * Display a listing of the resource.
