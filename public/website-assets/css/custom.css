@@ -173,6 +173,10 @@ button.ln-btn {
 .top-contact-area {
     margin-top: -12px;
 }
+
+.top-contact-area ul li a {
+    font-size: small;
+}
 /* table  */
 td a {
     color: #000 !important;
