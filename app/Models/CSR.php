@@ -8,12 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CSR extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    use SoftDeletes;
-
-    public $fillable = [
-        'description',
-        'downloadLink'
-    ];
+    protected $fillable = ['name', 'description', 'downloadLink', 'visibility', 'news_n_events', 'new_badge'];
 }

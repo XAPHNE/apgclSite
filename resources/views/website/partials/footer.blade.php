@@ -42,7 +42,7 @@
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="csr.php" target="_blank">@lang('footer.csr')</a>
+                                    <a href="{{ url('/' . app()->getLocale() . '/corporate-social-responsibility') }}">@lang('footer.csr')</a>
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>

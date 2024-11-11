@@ -40,7 +40,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/news-and-events') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/news-and-events') }}" class="nav-link {{ Request::is('admin/news-and-events*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell text-green me-2"></i>
                         <p>News & Events</p>
                     </a>
@@ -119,7 +119,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/daily-generation') }}" class="nav-link {{ Request::is('admin/daily-generation*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-lightbulb text-green me-2"></i>
                         <p>Daily Generation</p>
                     </a>
@@ -143,7 +143,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/corporate-social-responsibility') }}" class="nav-link {{ Request::is('admin/corporate-social-responsibility*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-hands-helping text-green me-2"></i>
                         <p>CSR</p>
                     </a>

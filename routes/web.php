@@ -81,13 +81,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('user-management', AdminController::class);
     Route::resource('financial-years', FinancialYearController::class);
     Route::resource('admin/disaster-management', DisasterManagementController::class);
-    Route::resource('admin/corporate-social-responsibility', CSRController::class);
+    
     Route::resource('admin/calendar', CalendarController::class);
-    Route::resource('admin/daily-generation', DailyGenerationController::class);
+    
     
 
     Route::prefix('admin')->group(function () {
-        Route::resource('news-and-events', NewsAndEventController::class);
         Route::prefix('about-us')->group(function () {
             //
         });
@@ -106,7 +105,10 @@ Route::middleware('auth')->group(function () {
             Route::resource('publications', PublicationController::class);
             Route::resource('standard-forms', StandardFormController::class);
         });
+        Route::resource('news-and-events', NewsAndEventController::class);
         Route::resource('contact-us', ContactController::class);
+        Route::resource('corporate-social-responsibility', CSRController::class);
+        Route::resource('daily-generation', DailyGenerationController::class);
     });
 
 
@@ -162,6 +164,7 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);
+        Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);
     });
 });
 
