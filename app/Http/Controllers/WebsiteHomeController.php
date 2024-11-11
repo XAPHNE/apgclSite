@@ -6,6 +6,7 @@ use App\Models\Act;
 use App\Models\AnnualReturn;
 use App\Models\AnnualStatement;
 use App\Models\Certificate;
+use App\Models\NewsAndEvent;
 use App\Models\Policy;
 use App\Models\Publication;
 use App\Models\Report;
@@ -30,6 +31,7 @@ class WebsiteHomeController extends Controller
         }
         App::setLocale($lang);
 
+        $newsAndEvents = NewsAndEvent::latest()->get();
         $rosters = Roster::latest()->get();
         $acts = Act::latest()->get();
         $policies = Policy::latest()->get();
@@ -45,7 +47,8 @@ class WebsiteHomeController extends Controller
         $standardForms = StandardForm::latest()->get();
 
         // Merge and sort by creation date
-        $latestEntries = collect($rosters)
+        $latestEntries = collect($newsAndEvents)
+            ->merge($rosters)
             ->merge($acts)
             ->merge($policies)
             ->merge($serviceRules)

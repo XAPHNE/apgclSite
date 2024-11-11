@@ -40,14 +40,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                    <a href="{{ url('admin/news-and-events') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-bell text-green me-2"></i>
                         <p>News & Events</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-id-badge text-green me-2"></i>
                         <p>About Us<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -73,7 +73,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-id-card-alt text-green me-2"></i>
                         <p>Career<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -99,7 +99,7 @@
                 </li>
                 <li class="nav-item {{ Request::is('admin/documents*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ Request::is('admin/documents*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-file text-green me-2"></i>
                         <p>Documents<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
@@ -120,38 +120,32 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-lightbulb text-green me-2"></i>
                         <p>Daily Generation</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-calendar text-green me-2"></i>
                         <p>Calendar</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-exclamation-triangle text-green me-2"></i>
                         <p>Disaster Management</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/contact-us') }}" class="nav-link {{ Request::is('admin/contact-us*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-address-book text-green me-2"></i>
                         <p>Contacts</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
+                        <i class="nav-icon fas fa-hands-helping text-green me-2"></i>
                         <p>CSR</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('ticket-management') }}" class="nav-link {{ Request::is('ticket-management*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-receipt text-green me-2"></i>
-                        <p>Tickets</p>
                     </a>
                 </li>
                 <li class="nav-header">Settings</li>

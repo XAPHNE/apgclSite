@@ -17,6 +17,7 @@ use App\Http\Controllers\DailyGenerationController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
+use App\Http\Controllers\NewsAndEventController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProfileController;
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function () {
     
 
     Route::prefix('admin')->group(function () {
+        Route::resource('news-and-events', NewsAndEventController::class);
         Route::prefix('about-us')->group(function () {
             //
         });
