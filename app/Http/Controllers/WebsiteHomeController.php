@@ -8,6 +8,7 @@ use App\Models\AnnualStatement;
 use App\Models\Calendar;
 use App\Models\Certificate;
 use App\Models\CSR;
+use App\Models\DisasterManagement;
 use App\Models\NewsAndEvent;
 use App\Models\Policy;
 use App\Models\Publication;
@@ -49,6 +50,7 @@ class WebsiteHomeController extends Controller
         $standardForms = StandardForm::latest()->get();
         $csrs = CSR::latest()->get();
         $calendars = Calendar::latest()->get();
+        $disasterManagements = DisasterManagement::latest()->get();
 
         // Merge and sort by creation date
         $latestEntries = collect($newsAndEvents)
@@ -67,6 +69,7 @@ class WebsiteHomeController extends Controller
             ->merge($standardForms)
             ->merge($csrs)
             ->merge($calendars)
+            ->merge($disasterManagements)
             ->sortByDesc('created_at')
             ->values();
 

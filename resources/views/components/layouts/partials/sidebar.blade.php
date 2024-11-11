@@ -125,13 +125,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/calendars') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/calendars') }}" class="nav-link {{ Request::is('admin/calendars*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar text-green me-2"></i>
                         <p>Calendar</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/disaster-management') }}" class="nav-link {{ Request::is('admin/disaster-management*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-exclamation-triangle text-green me-2"></i>
                         <p>Disaster Management</p>
                     </a>

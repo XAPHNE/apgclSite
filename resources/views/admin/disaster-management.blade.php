@@ -1,199 +1,321 @@
-@extends('adminlte::page')
+@extends('components.layouts.adminLTE')
 
-@section('title', 'Disaster Management')
+@section('title')
+    Disaster Management
+@endsection
 
-@section('content_header')
-    <h1>Disaster Management</h1>
-@stop
+@section('page_title')
+    Disaster Management
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Disaster Management</li>
+@endsection
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col grid-margin stretch-card">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="d-inline">Disaster Management Records</h2>
-                    <button class="btn btn-primary float-right" data-toggle="modal" data-target="#disasterModal"><i class="fas fa-plus"></i> Add Record</button>
+<div class="row">
+    <div class="col col-sm-12">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="d-inline">Disaster Management List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped datatable" id="datatable" style="width: 100%">
-                        <thead>
+            </div>
+            <div class="card-body">
+                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
+                    <thead>
+                        <tr class="table-primary">
+                            <th class="text-center align-middle">#</th>
+                            <th class="text-center align-middle">Name</th>
+                            <th class="text-center align-middle">Description</th>
+                            {{-- <th class="text-center align-middle nosort">View</th> --}}
+                            <th class="text-center align-middle nosort">Visibility</th>
+                            <th class="text-center align-middle nosort">News & Events</th>
+                            <th class="text-center align-middle nosort">New Badge</th>
+                            <th class="text-center align-middle nosort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($disasterManagements as $disasterManagement)
                             <tr>
-                                <th>#</th>
-                                <th>Description</th>
-                                <th>File Name</th>
-                                <th>File Link</th>
-                                <th>Action</th>
+                                <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                <td class="text-center align-middle">{{ $disasterManagement->name }}</td>
+                                <td class="text-center align-middle">{{ $disasterManagement->description }}</td>
+                                <td class="text-center align-middle">
+                                    @if ($disasterManagement->visibility)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if ($disasterManagement->news_n_events)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle">
+                                    @if ($disasterManagement->new_badge)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
+                                <td class="text-center align-middle" style="white-space: nowrap;">
+                                    <a class="btn btn-info" href="{{ url($disasterManagement->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
+                                    <button class="btn btn-warning update-button"
+                                        data-id="{{ $disasterManagement->id }}"
+                                        data-name="{{ $disasterManagement->name }}"
+                                        data-description="{{ $disasterManagement->description }}"
+                                        data-downloadlink="{{ $disasterManagement->downloadLink }}"
+                                        data-visibility="{{ $disasterManagement->visibility }}"
+                                        data-news_n_events="{{ $disasterManagement->news_n_events }}"
+                                        data-new_badge="{{ $disasterManagement->new_badge }}"><i title="Update" class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger delete-button"
+                                            data-id="{{ $disasterManagement->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <!-- Card Footer goes here -->
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Disaster Management Modal -->
-    <div class="modal fade" id="disasterModal" tabindex="-1" aria-labelledby="disasterModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="disasterModalLabel">Add Disaster Management Record</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+<!-- Add/Update Modal -->
+<div class="modal fade" id="addUpdateModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="modalTitle">Add New Disaster Management item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-body">
-                    <form id="disaster_form" enctype="multipart/form-data" method="POST">
-                        @csrf
-                        <input type="hidden" id="disasterID" name="disasterID">
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Enter Description" required>
-                            @error('description')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="name" class="required">Name:</label>
+                                <textarea type="text" class="form-control" id="name" name="name" required></textarea>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="fileLink">File</label>
-                            <input type="file" class="form-control @error('fileLink') is-invalid @enderror" id="fileLink" name="fileLink">
-                            @error('fileLink')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description" class="required">Description (Text for News & Events):</label>
+                                <textarea class="form-control" id="description" name="description" required></textarea>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label class="form-label" for="downloadLink">Upload File:</label>
+                                <input type="file" class="form-control" id="downloadLink" name="downloadLink">
+                            </div>
                         </div>
-                    </form>
+                        <div class="col">
+                            <!-- Visibility Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="visibility" value="0">
+                                <label for="isVisible">Is Visible:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isVisible" name="visibility" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- News & Events Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="news_n_events" value="0">
+                                <label for="featureOnNewsAndEvents">Feature on News & Events:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="featureOnNewsAndEvents" name="news_n_events" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- New Badge Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="new_badge" value="0">
+                                <label for="isNewBadgeVisible">Is New:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isNewBadgeVisible" name="new_badge" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="saveButton">Save</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Disaster Management item?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
             </div>
         </div>
     </div>
-@stop
+</div>
+@endsection
 
-@section('css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-@stop
+@push('styles')
+<style>
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+    .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+@endpush
 
-@section('js')
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(document).ready(function() {
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('disaster-management.index') }}",
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'description', name: 'description' },
-                    { data: 'fileName', name: 'fileName' },
-                    { data: 'fileLink', name: 'fileLink', orderable: false, searchable: false },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ]
-            });
-
-            $('#disaster_form').on('submit', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                var url = "{{ route('disaster-management.store') }}";
-
-                if ($('#disasterID').val()) {
-                    url = "{{ route('disaster-management.update', ':id') }}".replace(':id', $('#disasterID').val());
-                    formData.append('_method', 'PUT');
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        var table = new DataTable('#table', {
+            columnDefs: [
+                {
+                    targets: 'nosort',
+                    orderable: false,
+                    searchable: false,
                 }
+            ],
+            scrollX: true,
+        });
+        // Handle Add Button
+        $('#addButton').on('click', function () {
+            $('#modalTitle').text('Add New Certificate');
+            $('#addUpdateForm').attr('action', '{{ route('disaster-management.store') }}');
+            $('#addUpdateForm').attr('method', 'POST');
+            $('#downloadLink').attr('required', true);
+            $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
+            $('#saveButton').removeClass('btn-warning').addClass('btn-success');
 
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function(response) {
-                        $('#disaster_form').trigger('reset');
-                        $('#disasterModal').modal('hide');
-                        table.ajax.reload();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Record saved successfully',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                        });
-                    },
-                    processData: false,
-                    contentType: false
-                });
-            });
+            // Add asterisk to indicate required field
+            $('label[for="downloadLink"]').html('Upload File: <span style="color: red;">*</span>');
 
-            $(document).on('click', '.edit-button', function() {
-                var id = $(this).data('id');
-                $.get("{{ route('disaster-management.show', ':id') }}".replace(':id', id), function(data) {
-                    $('#disasterID').val(data.id);
-                    $('#description').val(data.description);
-                    $('#disasterModalLabel').text('Update Disaster Management Record');
-                    $('#saveBtn').text('Update');
-                    $('#disasterModal').modal('show');
-                });
-            });
+            $('#saveButton').text('Save');
+            $('#addUpdateForm input[name="_method"]').remove();
+            $('#name').val('');
+            $('#description').val('');
+            $('#downloadLink').val('');
+            $('#isVisible').bootstrapToggle('off');
+            $('#featureOnNewsAndEvents').bootstrapToggle('off');
+            $('#isNewBadgeVisible').bootstrapToggle('off');
+            $('#addUpdateModal').modal('show');
+        });
+    
+        // Handle Update Button
+        $('.update-button').on('click', function () {
+            var id = $(this).data('id');
+            var name = $(this).data('name');
+            var description = $(this).data('description');
+            var visibility = $(this).data('visibility') ? true : false;
+            var news_n_events = $(this).data('news_n_events') ? true : false;
+            var new_badge = $(this).data('new_badge') ? true : false;
 
-            $(document).on('click', '.delete-button', function() {
-                var id = $(this).data('id');
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'DELETE',
-                            url: "{{ route('disaster-management.destroy', ':id') }}".replace(':id', id),
-                            success: function(response) {
-                                table.ajax.reload();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Record has been deleted.',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                });
-                            }
-                        });
-                    }
-                });
-            });
+            $('#modalTitle').text('Update Disaster Management item');
+            $('#addUpdateForm').attr('action', '/admin/disaster-management/' + id);
+            $('#addUpdateForm').find('input[name="_method"]').remove();
+            $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
+            $('#saveButton').text('Update');
+            $('#name').val(name);
+            $('#description').val(description);
+            $('#downloadLink').val('');
+            $('#downloadLink').removeAttr('required');
+            $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
 
-            $('#disasterModal').on('hidden.bs.modal', function () {
-                $('#disaster_form').trigger('reset');
-                $('#disasterID').val('');
-                $('#disasterModalLabel').text('Add Disaster Management Record');
-                $('#saveBtn').text('Save');
+            // Remove asterisk as field is not required
+            $('label[for="downloadLink"]').html('Upload File:');
+
+            // Set toggle states for each checkbox
+            $('#isVisible').prop('checked', visibility).change();
+            $('#featureOnNewsAndEvents').prop('checked', news_n_events).change();
+            $('#isNewBadgeVisible').prop('checked', new_badge).change();
+
+            $('#addUpdateModal').modal('show');
+        });
+    
+        // Handle Delete Button
+        $('.delete-button').on('click', function () {
+            var id = $(this).data('id');
+            var deleteUrl = '/admin/disaster-management/' + id;
+            $('#deleteForm').attr('action', deleteUrl);
+            $('#deleteConfirmationModal').modal('show');
+        });
+    
+        // Reset toggle state when the modal is closed
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
+            $('.visibility-toggle').each(function() {
+                $(this).bootstrapToggle('off');
             });
         });
+    });
     </script>
-@stop
+    <script>
+        // Check if there's a success message in the session
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+            });
+        @endif
+    
+        // Check if there's an error message in the session
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}',
+            });
+        @endif
+
+        // Check if there are validation errors and display them in SweetAlert
+        @if ($errors->any())
+            let errorMessages = `<ul style="text-align: left;">`;
+            @foreach ($errors->all() as $error)
+                errorMessages += `<li>{{ $error }}</li>`;
+            @endforeach
+            errorMessages += `</ul>`;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
+@endpush

@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DisasterManagement extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    use SoftDeletes;
-
-    public $fillable = [
-        'description',
-        'fileName',
-        'fileLink'
-    ];
+    protected $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge'];
 }

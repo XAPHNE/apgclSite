@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('departments', DepartmentController::class);
     Route::resource('user-management', AdminController::class);
     Route::resource('financial-years', FinancialYearController::class);
-    Route::resource('admin/disaster-management', DisasterManagementController::class);
+    
     
     
     
@@ -110,6 +110,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('calendars', CalendarController::class);
         Route::resource('corporate-social-responsibility', CSRController::class);
         Route::resource('daily-generation', DailyGenerationController::class);
+        Route::resource('disaster-management', DisasterManagementController::class);
     });
 
 
@@ -166,6 +167,7 @@ Route::middleware('locale')->group(function () {
         });
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);
         Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);
+        Route::get('disaster-management', [DisasterManagementController::class, 'websiteIndex']);
     });
 });
 

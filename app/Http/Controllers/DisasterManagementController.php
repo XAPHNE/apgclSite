@@ -4,33 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\DisasterManagement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
-use Yajra\DataTables\DataTables;
 
 class DisasterManagementController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $disasterManagements = DisasterManagement::latest()->get();
+        return view('website.disaster-management', compact('disasterManagements'));
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = DisasterManagement::select('*');
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $btn = '<button class="btn btn-warning edit-button" data-id="' . $row->id . '"><i class="fas fa-edit"></i></button>';
-                    $btn .= ' <button class="btn btn-danger delete-button" data-id="' . $row->id . '"><i class="fas fa-trash-alt"></i></button>';
-                    return $btn;
-                })
-                ->editColumn('fileLink', function ($row) {
-                    return '<a href="' . asset('admin-assets/disaster-management/' . $row->fileLink) . '" target="_blank">View File</a>';
-                })
-                ->rawColumns(['action', 'fileLink'])
-                ->make(true);
-        }
-
-        return view('admin.disaster-management');
+        $disasterManagements = DisasterManagement::latest()->get();
+        return view('admin.disaster-management', compact('disasterManagements'));
     }
 
     /**
@@ -47,33 +38,39 @@ class DisasterManagementController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'description' => 'required|string|max:255',
-            'fileLink' => 'required|mimes:pdf|max:2048', // Validate for PDF and max 2MB size
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'required|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        // Handle file upload
-        if ($request->hasFile('fileLink')) {
-            $file = $request->file('fileLink');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('admin-assets/disaster-management'), $filename);
-
-            DisasterManagement::create([
-                'description' => $request->description,
-                'fileName' => $file->getClientOriginalName(),
-                'fileLink' => $filename,
-            ]);
-
-            return response()->json(['success' => 'Record added successfully.']);
+        if ($request->hasFile('downloadLink')) {
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Disaster Management/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Disaster Management/'), $fileName);
         }
+
+        DisasterManagement::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
+        ]);
+
+        return redirect()->back()->with('success', 'Disaster Management added successfully');
     }
+
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $disaster = DisasterManagement::find($id);
-        return response()->json($disaster);
+        //
     }
 
     /**
@@ -89,48 +86,55 @@ class DisasterManagementController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $disasterManagement = DisasterManagement::findOrFail($id);
+
         $request->validate([
-            'description' => 'required|string|max:255',
-            'fileLink' => 'nullable|mimes:pdf|max:2048', // Validate for PDF and max 2MB size
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'downloadLink' => 'nullable|file',
+            'visibility' => 'nullable|boolean',
+            'news_n_events' => 'nullable|boolean',
+            'new_badge' => 'nullable|boolean',
         ]);
 
-        $disaster = DisasterManagement::findOrFail($id);
-
-        if ($request->hasFile('fileLink')) {
-            // Delete the old file if it exists
-            if (File::exists(public_path('admin-assets/disaster-management/' . $disaster->fileLink))) {
-                File::delete(public_path('admin-assets/disaster-management/' . $disaster->fileLink));
+        if ($request->hasFile('downloadLink')) {
+            if (File::exists(public_path($disasterManagement->downloadLink))) {
+                File::delete(public_path($disasterManagement->downloadLink));
             }
 
-            $file = $request->file('fileLink');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('admin-assets/disaster-management'), $filename);
-
-            $disaster->fileLink = $filename;
-            $disaster->fileName = $file->getClientOriginalName();
+            $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
+            $filePath = 'admin-assets/Disaster Management/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/Disaster Management/'), $fileName);
+        } else {
+            $filePath = $disasterManagement->downloadLink;
         }
 
-        $disaster->update([
+        $disasterManagement->update([
+            'name' => $request->name,
             'description' => $request->description,
+            'downloadLink' => $filePath,
+            'visibility' => $request->boolean('visibility'),
+            'news_n_events' => $request->boolean('news_n_events'),
+            'new_badge' => $request->boolean('new_badge'),
         ]);
 
-        return response()->json(['success' => 'Record updated successfully.']);
+        return redirect()->back()->with('success', 'Disaster Management updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        $disaster = DisasterManagement::findOrFail($id);
+        $disasterManagement = DisasterManagement::findOrFail($id);
 
-        // Delete the file from storage
-        if (File::exists(public_path('admin-assets/disaster-management/' . $disaster->fileLink))) {
-            File::delete(public_path('admin-assets/disaster-management/' . $disaster->fileLink));
+        if (File::exists(public_path($disasterManagement->downloadLink))) {
+            File::delete(public_path($disasterManagement->downloadLink));
         }
 
-        $disaster->delete();
+        $disasterManagement->delete();
 
-        return response()->json(['success' => 'Record deleted successfully.']);
+        return redirect()->back()->with('success', 'Disaster Management deleted successfully');
     }
 }

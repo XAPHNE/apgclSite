@@ -50,7 +50,7 @@
                                 @endphp
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="{{ url($latestCalendar->downloadLink) }}" target="_blank">@lang('footer.calender_&_holiday')</a>
+                                    <a href="{{ url($latestCalendar->downloadLink ?? '#') }}" target="_blank">@lang('footer.calender_&_holiday')</a>
                                 </li>
                             </ul>
                         </div>

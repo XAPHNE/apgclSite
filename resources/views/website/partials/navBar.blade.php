@@ -179,7 +179,7 @@
                                         <li class="nav-item"><a href="recruitment.php" class="nav-link">@lang('navigationMenu.recruitment')</a></li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a href="disaster_management.php" class="nav-link">@lang('navigationMenu.disaster_management')</a></li>
+                                <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/disaster-management') }}" class="nav-link">@lang('navigationMenu.disaster_management')</a></li>
                                 <li class="nav-item"><a href="dam_safety.php" class="nav-link">@lang('navigationMenu.dam_safety')</a></li>
                                 <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/contact-us') }}" class="nav-link">@lang('navigationMenu.contact_us')</a></li>
                             </ul>
