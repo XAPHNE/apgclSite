@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Act;
 use App\Models\AnnualReturn;
 use App\Models\AnnualStatement;
+use App\Models\Calendar;
 use App\Models\Certificate;
 use App\Models\CSR;
 use App\Models\NewsAndEvent;
@@ -47,6 +48,7 @@ class WebsiteHomeController extends Controller
         $publications = Publication::latest()->get();
         $standardForms = StandardForm::latest()->get();
         $csrs = CSR::latest()->get();
+        $calendars = Calendar::latest()->get();
 
         // Merge and sort by creation date
         $latestEntries = collect($newsAndEvents)
@@ -64,6 +66,7 @@ class WebsiteHomeController extends Controller
             ->merge($publications)
             ->merge($standardForms)
             ->merge($csrs)
+            ->merge($calendars)
             ->sortByDesc('created_at')
             ->values();
 

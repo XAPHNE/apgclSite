@@ -44,9 +44,13 @@
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
                                     <a href="{{ url('/' . app()->getLocale() . '/corporate-social-responsibility') }}">@lang('footer.csr')</a>
                                 </li>
+                                @php
+                                    use App\Models\Calendar;
+                                    $latestCalendar = Calendar::whereNotNull('downloadLink')->latest()->first();
+                                @endphp
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="calendar.php" target="_blank">@lang('footer.calender_&_holiday')</a>
+                                    <a href="{{ url($latestCalendar->downloadLink) }}" target="_blank">@lang('footer.calender_&_holiday')</a>
                                 </li>
                             </ul>
                         </div>

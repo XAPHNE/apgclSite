@@ -82,7 +82,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('financial-years', FinancialYearController::class);
     Route::resource('admin/disaster-management', DisasterManagementController::class);
     
-    Route::resource('admin/calendar', CalendarController::class);
+    
     
     
 
@@ -107,6 +107,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::resource('news-and-events', NewsAndEventController::class);
         Route::resource('contact-us', ContactController::class);
+        Route::resource('calendars', CalendarController::class);
         Route::resource('corporate-social-responsibility', CSRController::class);
         Route::resource('daily-generation', DailyGenerationController::class);
     });

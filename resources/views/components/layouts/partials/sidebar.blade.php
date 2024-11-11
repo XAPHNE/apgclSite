@@ -125,7 +125,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/calendars') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar text-green me-2"></i>
                         <p>Calendar</p>
                     </a>

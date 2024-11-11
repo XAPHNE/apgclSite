@@ -8,12 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Calendar extends Model
 {
-    use HasFactory;
-
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
     
-    public $fillable = [
-        'description',
-        'downloadLink'
-    ];
+    protected $fillable = ['name', 'description', 'downloadLink', 'visibility', 'news_n_events', 'new_badge'];
 }
