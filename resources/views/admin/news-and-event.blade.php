@@ -211,7 +211,7 @@
             var news_n_events = $(this).data('news_n_events') ? true : false;
             var new_badge = $(this).data('new_badge') ? true : false;
 
-            $('#modalTitle').text('Update Certificate');
+            $('#modalTitle').text('Update News and Event');
             $('#addUpdateForm').attr('action', '/admin/news-and-events/' + id);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
