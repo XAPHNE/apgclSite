@@ -137,6 +137,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url('admin/dam-safety') }}" class="nav-link {{ Request::is('admin/admin/dam-safety*') ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-building-shield text-green me-2"></i>
+                        <p>Dam Safety</p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url('admin/contact-us') }}" class="nav-link {{ Request::is('admin/contact-us*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-address-book text-green me-2"></i>
                         <p>Contacts</p>

@@ -180,7 +180,7 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/disaster-management') }}" class="nav-link">@lang('navigationMenu.disaster_management')</a></li>
-                                <li class="nav-item"><a href="dam_safety.php" class="nav-link">@lang('navigationMenu.dam_safety')</a></li>
+                                <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/dam-safety') }}" class="nav-link">@lang('navigationMenu.dam_safety')</a></li>
                                 <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/contact-us') }}" class="nav-link">@lang('navigationMenu.contact_us')</a></li>
                             </ul>
                             <div class="menu-sidebar d-lg-none">

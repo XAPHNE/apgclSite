@@ -14,6 +14,7 @@ use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CSRController;
 use App\Http\Controllers\DailyGenerationController;
+use App\Http\Controllers\DamSafetyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
@@ -111,6 +112,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('corporate-social-responsibility', CSRController::class);
         Route::resource('daily-generation', DailyGenerationController::class);
         Route::resource('disaster-management', DisasterManagementController::class);
+        Route::resource('dam-safety', DamSafetyController::class);
     });
 
 
@@ -168,6 +170,7 @@ Route::middleware('locale')->group(function () {
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);
         Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);
         Route::get('disaster-management', [DisasterManagementController::class, 'websiteIndex']);
+        Route::get('dam-safety', [DamSafetyController::class, 'websiteIndex']);
     });
 });
 
