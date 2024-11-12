@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CertificateController;
+use App\Http\Controllers\CompanyProfileController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CSRController;
 use App\Http\Controllers\DailyGenerationController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\DamSafetyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
+use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\NewsAndEventController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PolicyController;
@@ -158,6 +160,7 @@ Route::middleware('locale')->group(function () {
 
     Route::prefix('{lang}')->group(function () {
         Route::prefix('about-us')->group(function () {
+            Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex']);
             Route::get('offices', [OfficeController::class, 'websiteIndex']);
         });
         Route::prefix('documents')->group(function () {
@@ -174,6 +177,7 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::prefix('career')->group(function () {
+            Route::get('internship', [InternshipController::class, 'websiteIndex']);
             Route::get('apprenticeship', [ApprenticeshipController::class, 'websiteIndex']);
             Route::get('recruitments', [RecruitmentController::class, 'websiteIndex']);
         });
