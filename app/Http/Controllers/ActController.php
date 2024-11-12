@@ -123,7 +123,7 @@ class ActController extends Controller
         $act = Act::findOrFail($id);
 
         if (File::exists(public_path($act->downloadLink))) {
-            File::delete(public_path($act->downloadLink));
+            // File::delete(public_path($act->downloadLink));
         }
 
         $act->delete();

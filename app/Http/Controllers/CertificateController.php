@@ -130,7 +130,7 @@ class CertificateController extends Controller
         $certificate = Certificate::findOrFail($id);
 
         if (File::exists(public_path($certificate->downloadLink))) {
-            File::delete(public_path($certificate->downloadLink));
+            // File::delete(public_path($certificate->downloadLink));
         }
 
         $certificate->delete();

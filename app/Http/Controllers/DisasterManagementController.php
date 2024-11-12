@@ -130,7 +130,7 @@ class DisasterManagementController extends Controller
         $disasterManagement = DisasterManagement::findOrFail($id);
 
         if (File::exists(public_path($disasterManagement->downloadLink))) {
-            File::delete(public_path($disasterManagement->downloadLink));
+            // File::delete(public_path($disasterManagement->downloadLink));
         }
 
         $disasterManagement->delete();

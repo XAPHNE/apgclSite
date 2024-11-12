@@ -130,7 +130,7 @@ class PublicationController extends Controller
         $publication = Publication::findOrFail($id);
 
         if (File::exists(public_path($publication->downloadLink))) {
-            File::delete(public_path($publication->downloadLink));
+            // File::delete(public_path($publication->downloadLink));
         }
 
         $publication->delete();

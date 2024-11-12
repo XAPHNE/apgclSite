@@ -130,7 +130,7 @@ class AnnualStatementController extends Controller
         $annualStatement = AnnualStatement::findOrFail($id);
 
         if (File::exists(public_path($annualStatement->downloadLink))) {
-            File::delete(public_path($annualStatement->downloadLink));
+            // File::delete(public_path($annualStatement->downloadLink));
         }
 
         $annualStatement->delete();

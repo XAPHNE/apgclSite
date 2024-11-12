@@ -123,7 +123,7 @@ class PolicyController extends Controller
         $policy = Policy::findOrFail($id);
 
         if (File::exists(public_path($policy->downloadLink))) {
-            File::delete(public_path($policy->downloadLink));
+            // File::delete(public_path($policy->downloadLink));
         }
 
         $policy->delete();

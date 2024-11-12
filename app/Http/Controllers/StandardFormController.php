@@ -133,7 +133,7 @@ class StandardFormController extends Controller
         $standardForm = StandardForm::findOrFail($id);
 
         if (File::exists(public_path($standardForm->downloadLink))) {
-            File::delete(public_path($standardForm->downloadLink));
+            // File::delete(public_path($standardForm->downloadLink));
         }
 
         $standardForm->delete();

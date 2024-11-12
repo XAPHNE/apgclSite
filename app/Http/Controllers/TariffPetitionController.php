@@ -130,7 +130,7 @@ class TariffPetitionController extends Controller
         $tariffPetition = TariffPetition::findOrFail($id);
 
         if (File::exists(public_path($tariffPetition->downloadLink))) {
-            File::delete(public_path($tariffPetition->downloadLink));
+            // File::delete(public_path($tariffPetition->downloadLink));
         }
 
         $tariffPetition->delete();

@@ -134,7 +134,7 @@ class RosterController extends Controller
         $roster = Roster::findOrFail($id);
 
         if (File::exists(public_path($roster->downloadLink))) {
-            File::delete(public_path($roster->downloadLink));
+            // File::delete(public_path($roster->downloadLink));
         }
 
         $roster->delete();

@@ -130,7 +130,7 @@ class CalendarController extends Controller
         $calendar = Calendar::findOrFail($id);
 
         if (File::exists(public_path($calendar->downloadLink))) {
-            File::delete(public_path($calendar->downloadLink));
+            // File::delete(public_path($calendar->downloadLink));
         }
 
         $calendar->delete();

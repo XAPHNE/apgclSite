@@ -123,7 +123,7 @@ class ServiceRuleController extends Controller
         $serviceRule = ServiceRule::findOrFail($id);
 
         if (File::exists(public_path($serviceRule->downloadLink))) {
-            File::delete(public_path($serviceRule->downloadLink));
+            // File::delete(public_path($serviceRule->downloadLink));
         }
 
         $serviceRule->delete();

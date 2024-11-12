@@ -130,7 +130,7 @@ class DamSafetyController extends Controller
         $damSafety = DamSafety::findOrFail($id);
 
         if (File::exists(public_path($damSafety->downloadLink))) {
-            File::delete(public_path($damSafety->downloadLink));
+            // File::delete(public_path($damSafety->downloadLink));
         }
 
         $damSafety->delete();

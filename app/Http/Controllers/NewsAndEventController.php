@@ -116,7 +116,7 @@ class NewsAndEventController extends Controller
         $newsAndEvent = NewsAndEvent::findOrFail($id);
 
         if (File::exists(public_path($newsAndEvent->downloadLink))) {
-            File::delete(public_path($newsAndEvent->downloadLink));
+            // File::delete(public_path($newsAndEvent->downloadLink));
         }
 
         $newsAndEvent->delete();

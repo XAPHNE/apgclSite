@@ -130,7 +130,7 @@ class TariffOrderController extends Controller
         $tariffOrder = TariffOrder::findOrFail($id);
 
         if (File::exists(public_path($tariffOrder->downloadLink))) {
-            File::delete(public_path($tariffOrder->downloadLink));
+            // File::delete(public_path($tariffOrder->downloadLink));
         }
 
         $tariffOrder->delete();

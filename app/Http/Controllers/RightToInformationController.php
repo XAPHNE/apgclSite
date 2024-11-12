@@ -130,7 +130,7 @@ class RightToInformationController extends Controller
         $rti = RightToInformation::findOrFail($id);
 
         if (File::exists(public_path($rti->downloadLink))) {
-            File::delete(public_path($rti->downloadLink));
+            // File::delete(public_path($rti->downloadLink));
         }
 
         $rti->delete();

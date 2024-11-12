@@ -131,7 +131,7 @@ class CSRController extends Controller
         $csr = CSR::findOrFail($id);
 
         if (File::exists(public_path($csr->downloadLink))) {
-            File::delete(public_path($csr->downloadLink));
+            // File::delete(public_path($csr->downloadLink));
         }
 
         $csr->delete();

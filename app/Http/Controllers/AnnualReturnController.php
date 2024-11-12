@@ -130,7 +130,7 @@ class AnnualReturnController extends Controller
         $annualReturn = AnnualReturn::findOrFail($id);
 
         if (File::exists(public_path($annualReturn->downloadLink))) {
-            File::delete(public_path($annualReturn->downloadLink));
+            // File::delete(public_path($annualReturn->downloadLink));
         }
 
         $annualReturn->delete();

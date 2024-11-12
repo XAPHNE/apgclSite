@@ -130,7 +130,7 @@ class ReportController extends Controller
         $report = Report::findOrFail($id);
 
         if (File::exists(public_path($report->downloadLink))) {
-            File::delete(public_path($report->downloadLink));
+            // File::delete(public_path($report->downloadLink));
         }
 
         $report->delete();
