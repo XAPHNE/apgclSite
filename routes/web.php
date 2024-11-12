@@ -5,6 +5,7 @@ use App\Http\Controllers\ActsPoliciesServiceRulesController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnualReturnController;
 use App\Http\Controllers\AnnualStatementController;
+use App\Http\Controllers\ApprenticeshipController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
@@ -108,6 +109,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('standard-forms', StandardFormController::class);
         });
         Route::prefix('career')->group(function () {
+            Route::resource('apprenticeship', ApprenticeshipController::class);
             Route::resource('recruitments', RecruitmentController::class);
         });
         Route::resource('news-and-events', NewsAndEventController::class);
@@ -172,6 +174,7 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::prefix('career')->group(function () {
+            Route::get('apprenticeship', [ApprenticeshipController::class, 'websiteIndex']);
             Route::get('recruitments', [RecruitmentController::class, 'websiteIndex']);
         });
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);

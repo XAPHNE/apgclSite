@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Act;
 use App\Models\AnnualReturn;
 use App\Models\AnnualStatement;
+use App\Models\Apprenticeship;
 use App\Models\Calendar;
 use App\Models\Certificate;
 use App\Models\CSR;
@@ -55,6 +56,7 @@ class WebsiteHomeController extends Controller
         $disasterManagements = DisasterManagement::latest()->get();
         $damSafeties = DamSafety::latest()->get();
         $recruitments = Recruitment::latest()->get();
+        $apprenticeships = Apprenticeship::latest()->get();
 
         // Merge and sort by creation date
         $latestEntries = collect($newsAndEvents)
@@ -76,6 +78,7 @@ class WebsiteHomeController extends Controller
             ->merge($disasterManagements)
             ->merge($damSafeties)
             ->merge($recruitments)
+            ->merge($apprenticeships)
             ->sortByDesc('created_at')
             ->values();
 

@@ -1,0 +1,7 @@
+<?php
+
+return[
+    'provisions_of_apprenticeship_act' => 'As per the provisions of the Apprentice Act, 1961, as amended from time to time, it is a statutory obligation on the part of every employer to engage stipulated number of Graduate/Technician apprentices every year in their establishment for one year apprenticeship training along with applicable stipend. In APGCL vide office order no. MD/APGCL/PLT/03/11/13 dated 09/06/2014, approval for engagement of 10 nos Graduate Apprentices and 25 nos Diploma Holder (Technician) Apprentices posts per year as per statutory requirement was accorded.',
+    'as_such' => 'As such apprentices have been engaged at APGCL since then. However in the year 2020 & 2021, due to Covid-19 induced lockdown, no apprentices could be engaged.',
+    'note' => 'Note: Applications may be submitted every year between July-October to the CGM(Gen)/GM(HR) APGCL, Bijulee Bhwan, Paltan Bazar, Ghy-01, from eligible Engineering Graduate/Diploma holders regarding their engagement for the next year as Graduate/Technician Apprentices at APGCL along with educational testimonials and valid NATS registration ID as applicable under the Apprentice Act, 1961, as amended from time to time.',
+];
