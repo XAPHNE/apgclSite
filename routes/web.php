@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\BoardOfDirectorsController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CertificateController;
 use App\Http\Controllers\CompanyProfileController;
@@ -93,7 +94,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::prefix('about-us')->group(function () {
-            //
+            Route::resource('board-of-directors', BoardOfDirectorsController::class);
         });
         Route::prefix('documents')->group(function () {
             Route::resource('rosters', RosterController::class);
@@ -143,16 +144,6 @@ Route::middleware(['auth', 'twofactor'])->group(function () {
 Route::middleware('locale')->group(function () {
     Route::get('/{lang?}', [WebsiteHomeController::class, 'index'])->name('welcome');
 
-    Route::get('/{lang}/about-us/company-profile', function ($lang) {
-        App::setLocale($lang);
-        return view('website.aboutUs.companyProfile');
-    });
-
-    Route::get('/{lang}/about-us/board-of-directors', function ($lang) {
-        App::setLocale($lang);
-        return view('website.aboutUs.boardOfDirectors');
-    });
-
     Route::get('/{lang}/about-us/gallery', function ($lang) {
         App::setLocale($lang);
         return view('website.aboutUs.gallery');
@@ -160,6 +151,7 @@ Route::middleware('locale')->group(function () {
 
     Route::prefix('{lang}')->group(function () {
         Route::prefix('about-us')->group(function () {
+            Route::get('board-of-directors', [BoardOfDirectorsController::class, 'websiteIndex']);
             Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex']);
             Route::get('offices', [OfficeController::class, 'websiteIndex']);
         });

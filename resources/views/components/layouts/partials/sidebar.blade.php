@@ -52,15 +52,9 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('admin/about-us/board-of-directors') }}" class="nav-link {{ Request::is('admin/about-us/board-of-directors*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Board of Directors</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Offices</p>
                             </a>
                         </li>
                         <li class="nav-item">
