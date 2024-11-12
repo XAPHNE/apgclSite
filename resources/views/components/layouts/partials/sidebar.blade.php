@@ -45,8 +45,8 @@
                         <p>News & Events</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/about-us*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('admin/about-us*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-id-badge text-green me-2"></i>
                         <p>About Us<i class="right fas fa-angle-left"></i></p>
                     </a>
@@ -71,8 +71,8 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                <li class="nav-item {{ Request::is('admin/career*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('admin/career*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-id-card-alt text-green me-2"></i>
                         <p>Career<i class="right fas fa-angle-left"></i></p>
                     </a>
@@ -80,19 +80,13 @@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Internship</p>
+                                <p>Apprenticeship</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('admin/career/recruitments') }}" class="nav-link {{ Request::is('admin/career/recruitments*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Recruitment</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Gallery</p>
                             </a>
                         </li>
                     </ul>

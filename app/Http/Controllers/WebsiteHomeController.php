@@ -13,6 +13,7 @@ use App\Models\DisasterManagement;
 use App\Models\NewsAndEvent;
 use App\Models\Policy;
 use App\Models\Publication;
+use App\Models\Recruitment;
 use App\Models\Report;
 use App\Models\RightToInformation;
 use App\Models\Roster;
@@ -53,6 +54,7 @@ class WebsiteHomeController extends Controller
         $calendars = Calendar::latest()->get();
         $disasterManagements = DisasterManagement::latest()->get();
         $damSafeties = DamSafety::latest()->get();
+        $recruitments = Recruitment::latest()->get();
 
         // Merge and sort by creation date
         $latestEntries = collect($newsAndEvents)
@@ -73,6 +75,7 @@ class WebsiteHomeController extends Controller
             ->merge($calendars)
             ->merge($disasterManagements)
             ->merge($damSafeties)
+            ->merge($recruitments)
             ->sortByDesc('created_at')
             ->values();
 

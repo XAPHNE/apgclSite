@@ -23,6 +23,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\RecruitmentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RightToInformationController;
 use App\Http\Controllers\RosterController;
@@ -106,6 +107,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('publications', PublicationController::class);
             Route::resource('standard-forms', StandardFormController::class);
         });
+        Route::prefix('career')->group(function () {
+            Route::resource('recruitments', RecruitmentController::class);
+        });
         Route::resource('news-and-events', NewsAndEventController::class);
         Route::resource('contact-us', ContactController::class);
         Route::resource('calendars', CalendarController::class);
@@ -166,6 +170,9 @@ Route::middleware('locale')->group(function () {
             Route::get('reports', [ReportController::class, 'websiteIndex']);
             Route::get('publications', [PublicationController::class, 'websiteIndex']);
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
+        });
+        Route::prefix('career')->group(function () {
+            Route::get('recruitments', [RecruitmentController::class, 'websiteIndex']);
         });
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);
         Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);

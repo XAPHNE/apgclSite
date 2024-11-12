@@ -128,7 +128,7 @@
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.about_us') <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/company-profile') }}" class="nav-link">@lang('navigationMenu.company_profile')</a></li>
-                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/board-of-directors') }}" class="nav-link active">@lang('navigationMenu.board_of_directors')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/board-of-directors') }}" class="nav-link">@lang('navigationMenu.board_of_directors')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/offices') }}" class="nav-link">@lang('navigationMenu.offices')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/gallery') }}" class="nav-link">@lang('navigationMenu.gallery')</a></li>
                                     </ul>
@@ -176,7 +176,7 @@
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><a href="internship.php" class="nav-link">@lang('navigationMenu.internship')</a></li>
                                         <li class="nav-item"><a href="apprenticeship.php" class="nav-link">@lang('navigationMenu.apprenticeship')</a></li>
-                                        <li class="nav-item"><a href="recruitment.php" class="nav-link">@lang('navigationMenu.recruitment')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/career/recruitments') }}" class="nav-link">@lang('navigationMenu.recruitment')</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/disaster-management') }}" class="nav-link">@lang('navigationMenu.disaster_management')</a></li>
