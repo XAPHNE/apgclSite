@@ -174,7 +174,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.career')  <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="internship.php" class="nav-link">@lang('navigationMenu.internship')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/career/internship') }}" class="nav-link">@lang('navigationMenu.internship')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/career/apprenticeship') }}" class="nav-link">@lang('navigationMenu.apprenticeship')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/career/recruitments') }}" class="nav-link">@lang('navigationMenu.recruitment')</a></li>
                                     </ul>

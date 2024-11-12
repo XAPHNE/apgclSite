@@ -1,0 +1,6 @@
+<?php
+
+return [
+    'summer_internship' => 'Summer Internship trainings are allowed in the month of June/July and Winter Internship trainings are allowed in the month of December/January to the deserving 5th/6th Semester Graduate/Diploma Engineering Students from colleges/Universities of Assam/India every year at the running power plants of Assam Power Generation Corporation Limited viz. Namrup Thermal Power Station, Namrup, Lakwa Thermal Power Station, Maibella, and Karbi Langpi Hydro Electric Project, Lengery etc.',
+    'note' => 'Note: Training & Placement Officer (TPO)s of the colleges/Universities are requested to submit their nomination of students addressed to the CGM(Gen)/GM(HR), APGCL, Bijulee Bhwan, Paltan Bazar, Ghy-01, at-least 1(One) month before the commencement of the proposed training. Applicants will be shortlisted on first come first serve basis only. A maximun number of upto 10(ten) students only per branch per institute will be considered for summer/winter internship training in a particular financial year. No stipend shall be paid to the students. Students shall have to arrange for their fooding and lodging on their own during the training period.',
+];
