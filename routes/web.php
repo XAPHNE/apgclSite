@@ -171,6 +171,7 @@ Route::middleware('locale')->group(function () {
         Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);
         Route::get('disaster-management', [DisasterManagementController::class, 'websiteIndex']);
         Route::get('dam-safety', [DamSafetyController::class, 'websiteIndex']);
+        Route::get('calendars-and-holidays', [CalendarController::class, 'websiteIndex']);
     });
 });
 

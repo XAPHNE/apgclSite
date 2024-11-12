@@ -4,10 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Calendar;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
 
 class CalendarController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $calendars = Calendar::latest()->get();
+        return view('website.calendars', compact('calendars'));
+    }
     /**
      * Display a listing of the resource.
      */
