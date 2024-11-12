@@ -13,7 +13,7 @@ class RecruitmentController extends Controller
     {
         App::setLocale($lang);
         $recruitments = Recruitment::latest()->get();
-        return view('website.recruitments', compact('recruitments'));
+        return view('website.career.recruitments', compact('recruitments'));
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class RecruitmentController extends Controller
     public function index(Request $request)
     {
         $recruitments = Recruitment::latest()->get();
-        return view('admin.recruitment', compact('recruitments'));
+        return view('admin.career.recruitment', compact('recruitments'));
     }
 
     /**
