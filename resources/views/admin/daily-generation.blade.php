@@ -1,202 +1,237 @@
-@extends('adminlte::page')
+@extends('components.layouts.adminLTE')
 
-@section('title', 'Daily Generation Management')
+@section('title')
+    Daily Generation
+@endsection
 
-@section('content_header')
-    <h1>Daily Generation Management</h1>
-@stop
+@section('page_title')
+    Daily Generation
+@endsection
+
+@section('breadcrumb')
+    <li class="breadcrumb-item active">Daily Generation</li>
+@endsection
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col grid-margin stretch-card">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="d-inline">Daily Generation Records</h2>
-                    @if ($recordCount == 0)
-                        <button class="btn btn-primary float-right" data-toggle="modal" data-target="#dailyGenerationModal"><i class="fas fa-plus"></i> Add Record</button>
-                    @endif
+<div class="row">
+    <div class="col col-sm-12">
+        <div class="card card-success">
+            <div class="card-header">
+                <h3 class="d-inline">Daily Generation List</h3>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
                 </div>
-                <div class="card-body">
-                    <table class="table table-striped datatable" id="datatable" style="width: 100%">
-                        <thead>
+            </div>
+            <div class="card-body">
+                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
+                    <thead>
+                        <tr class="table-primary">
+                            <th class="text-center align-middle">#</th>
+                            <th class="text-center align-middle">Description</th>
+                            {{-- <th class="text-center align-middle nosort">View</th> --}}
+                            <th class="text-center align-middle nosort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($dailyGenerations as $dailyGeneration)
                             <tr>
-                                <th>#</th>
-                                <th>Description</th>
-                                <th>Download Link</th>
-                                <th>Last Update</th>
-                                <th>Action</th>
+                                <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                <td class="text-center align-middle">{{ $dailyGeneration->description }}</td>
+                                <td class="text-center align-middle" style="white-space: nowrap;">
+                                    <a class="btn btn-info" href="{{ url($dailyGeneration->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
+                                    <button class="btn btn-warning update-button"
+                                        data-id="{{ $dailyGeneration->id }}"
+                                        data-description="{{ $dailyGeneration->description }}"
+                                        data-downloadlink="{{ $dailyGeneration->downloadLink }}"><i title="Update" class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger delete-button"
+                                            data-id="{{ $dailyGeneration->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer">
+                <!-- Card Footer goes here -->
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Daily Generation Modal -->
-    <div class="modal fade" id="dailyGenerationModal" tabindex="-1" aria-labelledby="dailyGenerationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dailyGenerationModalLabel">Add Daily Generation Record</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+<!-- Add/Update Modal -->
+<div class="modal fade" id="addUpdateModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="modalTitle">Add New Daily Generation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="modal-body">
-                    <form id="dailyGeneration_form" enctype="multipart/form-data" method="POST">
-                        @csrf
-                        <input type="hidden" id="dailyGenerationID" name="dailyGenerationID">
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <input type="text" class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Enter Description" required>
-                            @error('description')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="downloadLink">File</label>
-                            <input type="file" class="form-control @error('downloadLink') is-invalid @enderror" id="downloadLink" name="downloadLink">
-                            @error('downloadLink')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" id="saveBtn">Save</button>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="description" class="required">Description:</label>
+                        <textarea class="form-control" id="description" name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="downloadLink">Upload File:</label>
+                        <input type="file" class="form-control" id="downloadLink" name="downloadLink">
+                    </div>
                 </div>
+            
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success" id="saveButton">Save</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title">Confirm Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Daily Generation?</p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+                <form id="deleteForm" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                </form>
             </div>
         </div>
     </div>
-@stop
+</div>
+@endsection
 
-@section('css')
-    <link rel="stylesheet" href="/admin-assets/css/custom.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
-@stop
+@push('styles')
+<style>
+    .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
+    .toggle.ios .toggle-handle { border-radius: 20px; }
+</style>
+<style>
+    .required:after {
+        content: " *";
+        color: red;
+    }
+</style>
+@endpush
 
-@section('js')
-    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(document).ready(function() {
-            var table = $('#datatable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{{ route('daily-generation.index') }}",
-                columns: [
-                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'description', name: 'description' },
-                    { data: 'downloadLink', name: 'downloadLink', orderable: false, searchable: false },
-                    { data: 'updated_at', name: 'updated_at' },
-                    { data: 'action', name: 'action', orderable: false, searchable: false }
-                ]
-            });
-
-            $('#dailyGeneration_form').on('submit', function(e) {
-                e.preventDefault();
-                var formData = new FormData(this);
-                var url = "{{ route('daily-generation.store') }}";
-
-                if ($('#dailyGenerationID').val()) {
-                    url = "{{ route('daily-generation.update', ':id') }}".replace(':id', $('#dailyGenerationID').val());
-                    formData.append('_method', 'PUT');
+@push('scripts')
+<script>
+    $(document).ready(function () {
+        var table = new DataTable('#table', {
+            columnDefs: [
+                {
+                    targets: 'nosort',
+                    orderable: false,
+                    searchable: false,
                 }
+            ],
+            scrollX: true,
+        });
+        // Handle Add Button
+        $('#addButton').on('click', function () {
+            $('#modalTitle').text('Add New Daily Generation');
+            $('#addUpdateForm').attr('action', '{{ route('daily-generation.store') }}');
+            $('#addUpdateForm').attr('method', 'POST');
+            $('#downloadLink').attr('required', true);
+            $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
+            $('#saveButton').removeClass('btn-warning').addClass('btn-success');
 
-                $.ajax({
-                    type: 'POST',
-                    url: url,
-                    data: formData,
-                    success: function(response) {
-                        $('#dailyGeneration_form').trigger('reset');
-                        $('#dailyGenerationModal').modal('hide');
-                        table.ajax.reload();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Record saved successfully',
-                            showConfirmButton: false,
-                            timer: 1500
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!',
-                        });
-                    },
-                    processData: false,
-                    contentType: false
-                });
-            });
+            // Add asterisk to indicate required field
+            $('label[for="downloadLink"]').html('Upload File: <span style="color: red;">*</span>');
 
-            $(document).on('click', '.edit-button', function() {
-                var id = $(this).data('id');
-                $.get("{{ route('daily-generation.show', ':id') }}".replace(':id', id), function(data) {
-                    $('#dailyGenerationID').val(data.id);
-                    $('#description').val(data.description);
-                    $('#dailyGenerationModalLabel').text('Update Daily Generation Record');
-                    $('#saveBtn').text('Update');
-                    $('#dailyGenerationModal').modal('show');
-                });
-            });
+            $('#saveButton').text('Save');
+            $('#addUpdateForm input[name="_method"]').remove();
+            $('#description').val('');
+            $('#downloadLink').val('');
+            $('#addUpdateModal').modal('show');
+        });
+    
+        // Handle Update Button
+        $('.update-button').on('click', function () {
+            var id = $(this).data('id');
+            var description = $(this).data('description');
 
-            $(document).on('click', '.delete-button', function() {
-                var id = $(this).data('id');
-                Swal.fire({
-                    title: 'Are you sure?',
-                    text: "You won't be able to revert this!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, delete it!'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'DELETE',
-                            url: "{{ route('daily-generation.destroy', ':id') }}".replace(':id', id),
-                            success: function(response) {
-                                table.ajax.reload();
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Deleted!',
-                                    text: 'Record has been deleted.',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Oops...',
-                                    text: 'Something went wrong!',
-                                });
-                            }
-                        });
-                    }
-                });
-            });
+            $('#modalTitle').text('Update Daily Generation');
+            $('#addUpdateForm').attr('action', '/admin/daily-generation/' + id);
+            $('#addUpdateForm').find('input[name="_method"]').remove();
+            $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
+            $('#saveButton').text('Update');
+            $('#description').val(description);
+            $('#downloadLink').val('');
+            $('#downloadLink').removeAttr('required');
+            $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
 
-            $('#dailyGenerationModal').on('hidden.bs.modal', function () {
-                $('#dailyGeneration_form').trigger('reset');
-                $('#dailyGenerationID').val('');
-                $('#dailyGenerationModalLabel').text('Add Daily Generation Record');
-                $('#saveBtn').text('Save');
+            // Remove asterisk as field is not required
+            $('label[for="downloadLink"]').html('Upload File:');
+
+            $('#addUpdateModal').modal('show');
+        });
+    
+        // Handle Delete Button
+        $('.delete-button').on('click', function () {
+            var id = $(this).data('id');
+            var deleteUrl = '/admin/daily-generation/' + id;
+            $('#deleteForm').attr('action', deleteUrl);
+            $('#deleteConfirmationModal').modal('show');
+        });
+    
+        // Reset toggle state when the modal is closed
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
+            $('.visibility-toggle').each(function() {
+                $(this).bootstrapToggle('off');
             });
         });
+    });
     </script>
-@stop
+    <script>
+        // Check if there's a success message in the session
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: '{{ session('success') }}',
+            });
+        @endif
+    
+        // Check if there's an error message in the session
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: '{{ session('error') }}',
+            });
+        @endif
+
+        // Check if there are validation errors and display them in SweetAlert
+        @if ($errors->any())
+            let errorMessages = `<ul style="text-align: left;">`;
+            @foreach ($errors->all() as $error)
+                errorMessages += `<li>{{ $error }}</li>`;
+            @endforeach
+            errorMessages += `</ul>`;
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: errorMessages,
+                confirmButtonText: 'OK'
+            });
+        @endif
+    </script>
+@endpush

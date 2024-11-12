@@ -36,9 +36,13 @@
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
                                     <a href="{{ url('/' . app()->getLocale() . '/about-us/company-profile') }}" target="_blank">@lang('footer.company_profile')</a>
                                 </li>
+                                @php
+                                    use App\Models\DailyGeneration;
+                                    $dailyGeneration = DailyGeneration::whereNotNull('downloadLink')->latest()->first();
+                                @endphp
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="{{ url('website-assets/images/common/dailgen_footer.pdf') }}" target="_blank">@lang('footer.daily_generation')</a>
+                                    <a href="{{ url($dailyGeneration->downloadLink ?? '#') }}" target="_blank">@lang('footer.daily_generation')</a>
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>

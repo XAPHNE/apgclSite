@@ -8,12 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DailyGeneration extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    use SoftDeletes;
-
-    public $fillable = [
-        'description',
-        'downloadLink'
-    ];
+    public $fillable = ['description', 'downloadLink'];
 }
