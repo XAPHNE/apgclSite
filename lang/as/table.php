@@ -10,4 +10,6 @@ return [
     'designation' => 'পদবী',
     'email' => 'ইমেইল-আইডি',
     'phone' => 'ফোন',
+    'projects' => 'প্রকল্প',
+    'capacity' => 'ক্ষমতা',
 ];

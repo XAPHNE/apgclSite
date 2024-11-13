@@ -10,4 +10,6 @@ return [
     'designation' => 'Designation',
     'email' => 'Email-ID',
     'phone' => 'Phone',
+    'projects' => 'Projects',
+    'capacity' => 'Capacity',
 ];

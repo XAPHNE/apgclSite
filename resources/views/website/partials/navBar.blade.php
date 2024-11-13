@@ -14,8 +14,8 @@
                          <div class="row">
                             <div class="col-2 st-wd">
                                 <a class="navbar-brand d-flex " href="{{ url('/' . app()->getLocale()) }}">
-                                    <img class="black-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
-                                    <img class="white-logo" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
+                                    <img class="black-logo pt-2" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
+                                    <img class="white-logo pt-2" src="{{ asset('website-assets/images/logo.png') }}" alt="logo" />
                                 </a> 
                             </div>
                             <div class="col-10">
@@ -155,12 +155,12 @@
                                     </ul>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.ongoing_projects') <i class="fas fa-long-arrow-alt-down"></i></a>
+                                    <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.projects') <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
                                         <li class="nav-item"><a href="hydro.php" class="nav-link">@lang('navigationMenu.hydro_plants')</a></li>
                                         <li class="nav-item"><a href="thermal.php" class="nav-link">@lang('navigationMenu.thermal_plants')</a></li>
                                         <li class="nav-item"><a href="ongoing.php" class="nav-link">@lang('navigationMenu.ongoing_projects')</a></li>
-                                        <li class="nav-item"><a href="pipeline.php" class="nav-link">@lang('navigationMenu.projects_in_pipeline')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/projects/projects-in-pipeline') }}" class="nav-link">@lang('navigationMenu.projects_in_pipeline')</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">

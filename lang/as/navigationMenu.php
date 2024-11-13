@@ -25,6 +25,7 @@
         'standard_forms' => 'মানক (Standard) ফর্ম /বিহিত প্র-পত্ৰ',
         'hydro_plants' => 'জলবিদ্যুৎ কেন্দ্র',
         'thermal_plants' => 'তাপবিদ্যুৎ কেন্দ্র',
+        'projects' => 'প্রকল্প',
         'ongoing_projects' => 'কাম চলি থকা প্রকল্প',
         'projects_in_pipeline' => 'কাম আৰম্ভ হ’বলগীয়া প্রকল্প',
         'tenders' => 'নিবিদা',

@@ -106,6 +106,26 @@
                         <li class="nav-item"><a href="{{ url('admin/documents/standard-forms') }}" class="nav-link {{ Request::is('admin/documents/standard-forms*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Standard Forms</p></a></li>
                     </ul>
                 </li>
+                <li class="nav-item {{ Request::is('admin/projects*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('admin/projects*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-id-badge text-green me-2"></i>
+                        <p>Projects<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('admin/projects/ongoing-projects') }}" class="nav-link {{ Request::is('admin/projects/ongoing-projects*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>On going</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/projects/projects-in-pipeline') }}" class="nav-link {{ Request::is('admin/projects/projects-in-pipeline*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>In Pipeline</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{ url('admin/daily-generation') }}" class="nav-link {{ Request::is('admin/daily-generation*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-lightbulb text-green me-2"></i>
