@@ -12,4 +12,5 @@ return [
     'phone' => 'Phone',
     'projects' => 'Projects',
     'capacity' => 'Capacity',
+    'location' => 'Location',
 ];

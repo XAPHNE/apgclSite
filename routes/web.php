@@ -24,6 +24,7 @@ use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\NewsAndEventController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\OngoingProjectsController;
 use App\Http\Controllers\PolicyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectsInPipelineController;
@@ -113,6 +114,7 @@ Route::middleware('auth')->group(function () {
             Route::resource('standard-forms', StandardFormController::class);
         });
         Route::prefix('projects')->group(function () {
+            Route::resource('ongoing-projects', OngoingProjectsController::class);
             Route::resource('projects-in-pipeline', ProjectsInPipelineController::class);
         });
         Route::prefix('career')->group(function () {
@@ -173,6 +175,7 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::prefix('projects')->group(function () {
+            Route::get('ongoing-projects', [OngoingProjectsController::class, 'websiteIndex']);
             Route::get('projects-in-pipeline', [ProjectsInPipelineController::class, 'websiteIndex']);
         });
         Route::prefix('career')->group(function () {

@@ -12,4 +12,5 @@ return [
     'phone' => 'ফোন',
     'projects' => 'প্রকল্প',
     'capacity' => 'ক্ষমতা',
+    'location' => 'স্থান',
 ];
