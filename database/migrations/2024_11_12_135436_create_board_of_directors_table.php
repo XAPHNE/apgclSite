@@ -17,6 +17,10 @@ return new class extends Migration
             $table->String('designation');
             $table->String('organisation');
             $table->String('downloadLink');
+            $table->boolean('is_chairman');
+            $table->boolean('is_md');
+            $table->boolean('is_gov_rep');
+            $table->boolean('is_indi_ditr');
             $table->timestamps();
             $table->softDeletes(); 
         });

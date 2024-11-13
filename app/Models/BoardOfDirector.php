@@ -10,5 +10,5 @@ class BoardOfDirector extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'designation', 'organisation', 'downloadLink'];
+    protected $fillable = ['name', 'designation', 'organisation', 'downloadLink', 'is_chairman', 'is_md', 'is_gov_rep', 'is_indi_ditr'];
 }

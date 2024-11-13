@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BoardOfDirector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 
 class BoardOfDirectorsController extends Controller
 {
@@ -19,8 +20,8 @@ class BoardOfDirectorsController extends Controller
      */
     public function index(Request $request)
     {
-        $certificates = Certificate::latest()->get();
-        return view('admin.documents.certificate', compact('certificates'));
+        $boardOfDirectors = BoardOfDirector::latest()->get();
+        return view('admin.about-us.board-of-directors', compact('boardOfDirectors'));
     }
 
     /**
@@ -38,29 +39,33 @@ class BoardOfDirectorsController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'description' => 'required|string',
+            'designation' => 'required|string',
+            'organisation' => 'required|string',
             'downloadLink' => 'required|file',
-            'visibility' => 'nullable|boolean',
-            'news_n_events' => 'nullable|boolean',
-            'new_badge' => 'nullable|boolean',
+            'is_chairman' => 'nullable|boolean',
+            'is_md' => 'nullable|boolean',
+            'is_gov_rep' => 'nullable|boolean',
+            'is_indi_ditr' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('downloadLink')) {
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Certificates/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Certificates/'), $fileName);
+            $filePath = 'admin-assets/About Us/Board of Directors/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/About Us/Board of Directors/'), $fileName);
         }
 
-        Certificate::create([
+        BoardOfDirector::create([
             'name' => $request->name,
-            'description' => $request->description,
+            'designation' => $request->designation,
+            'organisation' => $request->organisation,
             'downloadLink' => $filePath,
-            'visibility' => $request->boolean('visibility'),
-            'news_n_events' => $request->boolean('news_n_events'),
-            'new_badge' => $request->boolean('new_badge'),
+            'is_chairman' => $request->boolean('is_chairman'),
+            'is_md' => $request->boolean('is_md'),
+            'is_gov_rep' => $request->boolean('is_gov_rep'),
+            'is_indi_ditr' => $request->boolean('is_indi_ditr'),
         ]);
 
-        return redirect()->back()->with('success', 'Certificate added successfully');
+        return redirect()->back()->with('success', 'Board of Director added successfully');
     }
 
 
@@ -85,39 +90,43 @@ class BoardOfDirectorsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $certificate = Certificate::findOrFail($id);
+        $boardOfDirector = BoardOfDirector::findOrFail($id);
 
         $request->validate([
             'name' => 'required|string',
-            'description' => 'required|string',
+            'designation' => 'required|string',
+            'organisation' => 'required|string',
             'downloadLink' => 'nullable|file',
-            'visibility' => 'nullable|boolean',
-            'news_n_events' => 'nullable|boolean',
-            'new_badge' => 'nullable|boolean',
+            'is_chairman' => 'nullable|boolean',
+            'is_md' => 'nullable|boolean',
+            'is_gov_rep' => 'nullable|boolean',
+            'is_indi_ditr' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('downloadLink')) {
-            if (File::exists(public_path($certificate->downloadLink))) {
-                File::delete(public_path($certificate->downloadLink));
+            if (File::exists(public_path($boardOfDirector->downloadLink))) {
+                File::delete(public_path($boardOfDirector->downloadLink));
             }
 
             $fileName = time() . '_' . $request->file('downloadLink')->getClientOriginalName();
-            $filePath = 'admin-assets/Documents/Certificates/' . $fileName;
-            $request->file('downloadLink')->move(public_path('admin-assets/Documents/Certificates/'), $fileName);
+            $filePath = 'admin-assets/About Us/Board of Directors/' . $fileName;
+            $request->file('downloadLink')->move(public_path('admin-assets/About Us/Board of Directors/'), $fileName);
         } else {
-            $filePath = $certificate->downloadLink;
+            $filePath = $boardOfDirector->downloadLink;
         }
 
-        $certificate->update([
+        $boardOfDirector->update([
             'name' => $request->name,
-            'description' => $request->description,
+            'designation' => $request->designation,
+            'organisation' => $request->organisation,
             'downloadLink' => $filePath,
-            'visibility' => $request->boolean('visibility'),
-            'news_n_events' => $request->boolean('news_n_events'),
-            'new_badge' => $request->boolean('new_badge'),
+            'is_chairman' => $request->boolean('is_chairman'),
+            'is_md' => $request->boolean('is_md'),
+            'is_gov_rep' => $request->boolean('is_gov_rep'),
+            'is_indi_ditr' => $request->boolean('is_indi_ditr'),
         ]);
 
-        return redirect()->back()->with('success', 'Certificate updated successfully');
+        return redirect()->back()->with('success', 'Board of Director updated successfully');
     }
 
 
@@ -126,14 +135,14 @@ class BoardOfDirectorsController extends Controller
      */
     public function destroy(string $id)
     {
-        $certificate = Certificate::findOrFail($id);
+        $boardOfDirector = BoardOfDirector::findOrFail($id);
 
-        if (File::exists(public_path($certificate->downloadLink))) {
-            // File::delete(public_path($certificate->downloadLink));
+        if (File::exists(public_path($boardOfDirector->downloadLink))) {
+            // File::delete(public_path($boardOfDirector->downloadLink));
         }
 
-        $certificate->delete();
+        $boardOfDirector->delete();
 
-        return redirect()->back()->with('success', 'Certificate deleted successfully');
+        return redirect()->back()->with('success', 'Board of Director deleted successfully');
     }
 }
