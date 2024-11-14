@@ -179,9 +179,16 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::prefix('projects')->group(function () {
+            Route::prefix('thermal-plants')->group(function () {
+                Route::view('ntps', 'website.projects.thermal-plants.ntps');
+                Route::view('nrpp', 'website.projects.thermal-plants.nrpp');
+                Route::view('ltps', 'website.projects.thermal-plants.ltps');
+                Route::view('lrpp', 'website.projects.thermal-plants.lrpp');
+            });
             Route::prefix('ongoing-projects')->group(function () {
                 Route::get('lkhep', [LKHEPPolicyController::class, 'websiteIndex']);
             });
+            Route::view('thermal-plants', 'website.projects.thermal-plants');
             Route::get('ongoing-projects', [OngoingProjectsController::class, 'websiteIndex']);
             Route::get('projects-in-pipeline', [ProjectsInPipelineController::class, 'websiteIndex']);
         });
