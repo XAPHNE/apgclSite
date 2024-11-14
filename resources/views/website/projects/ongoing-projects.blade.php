@@ -5,7 +5,8 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb bread-text">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}" class="bread-text"><i class="fas fa-home" style="color:#3ca369;" aria-hidden="true"></i> @lang('navigationMenu.home') /</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/') }}" class="bread-text"><i class="fas fa-home" style="color:#3ca369;" aria-hidden="true"></i> @lang('navigationMenu.home') </a>/</li>
+                <li class="breadcrumb-item"><a href="#" class="bread-text">@lang('navigationMenu.projects') </a>/</li>
                 <li class="breadcrumb-item"><a href="#" class="bread-text">@lang('navigationMenu.ongoing_projects') </a></li>
             </ol>
         </nav>
