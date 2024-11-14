@@ -22,6 +22,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\InternshipController;
+use App\Http\Controllers\LKHEPPolicyController;
 use App\Http\Controllers\NewsAndEventController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\OngoingProjectsController;
@@ -60,8 +61,8 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-    Route::post('register', [RegisteredUserController::class, 'store']);
+    // Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+    // Route::post('register', [RegisteredUserController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])->name('password.request');
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])->name('password.email');
@@ -114,6 +115,9 @@ Route::middleware('auth')->group(function () {
             Route::resource('standard-forms', StandardFormController::class);
         });
         Route::prefix('projects')->group(function () {
+            Route::prefix('ongoing-projects')->group(function () {
+                Route::resource('LKHEP-policies', LKHEPPolicyController::class);
+            });
             Route::resource('ongoing-projects', OngoingProjectsController::class);
             Route::resource('projects-in-pipeline', ProjectsInPipelineController::class);
         });
@@ -175,6 +179,9 @@ Route::middleware('locale')->group(function () {
             Route::get('standard-forms', [StandardFormController::class, 'websiteIndex']);
         });
         Route::prefix('projects')->group(function () {
+            Route::prefix('ongoing-projects')->group(function () {
+                Route::get('lkhep', [LKHEPPolicyController::class, 'websiteIndex']);
+            });
             Route::get('ongoing-projects', [OngoingProjectsController::class, 'websiteIndex']);
             Route::get('projects-in-pipeline', [ProjectsInPipelineController::class, 'websiteIndex']);
         });

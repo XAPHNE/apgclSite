@@ -112,11 +112,19 @@
                         <p>Projects<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
+                        <li class="nav-item {{ Request::is('admin/ongoing-projects*') ? 'menu-open' : '' }}">
                             <a href="{{ url('admin/projects/ongoing-projects') }}" class="nav-link {{ Request::is('admin/projects/ongoing-projects*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>On going</p>
+                                <p>On going<i class="right fas fa-angle-left"></i></p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ url('admin/projects/ongoing-projects/LKHEP-policies') }}" class="nav-link {{ Request::is('admin/projects/LKHEP-policies*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>LKHEP Policies</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a href="{{ url('admin/projects/projects-in-pipeline') }}" class="nav-link {{ Request::is('admin/projects/projects-in-pipeline*') ? 'active' : '' }}">
