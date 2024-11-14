@@ -32,7 +32,11 @@
                         @foreach ($ongoingProjects as $ongoingProject)
                             <tr>
                                 <td class="text-center">{{ $serial++ }}</td>
-                                <td class="text-start">{{ $ongoingProject->name }}</td>
+                                <td class="text-start">
+                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('/' . app()->getLocale() . '/' . $ongoingProject->link ?? '#') }}">
+                                        {{ $ongoingProject->name }}
+                                    </a>
+                                </td>
                                 <td class="text-center">{{ $ongoingProject->capacity }}</td>
                                 <td class="text-center">{{ $ongoingProject->location }}</td>
                             </tr>

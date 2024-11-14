@@ -16,6 +16,7 @@ return new class extends Migration
             $table->String('name');
             $table->String('location');
             $table->double('capacity');
+            $table->String('link')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

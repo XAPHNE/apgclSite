@@ -31,6 +31,7 @@
                             <th class="text-center align-middle">Projects</th>
                             <th class="text-center align-middle">Capacity (MW)</th>
                             <th class="text-center align-middle">Location</th>
+                            <th class="text-center align-middle">Link</th>
                             <th class="text-center align-middle nosort">Actions</th>
                         </tr>
                     </thead>
@@ -38,15 +39,22 @@
                         @foreach ($ongoingProjects as $ongoingProject)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-start align-middle">{{ $ongoingProject->name }}</td>
+                                <td class="text-start align-middle">
+                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('admin/' . $ongoingProject->link) }}" 
+                                       class="text-decoration-none {{ is_null($ongoingProject->link) ? 'text-black' : '' }}">
+                                       {{ $ongoingProject->name }}
+                                    </a>
+                                </td>
                                 <td class="text-center align-middle">{{ $ongoingProject->capacity }}</td>
                                 <td class="text-center align-middle">{{ $ongoingProject->location }}</td>
+                                <td class="text-center align-middle">{{ $ongoingProject->link ?? 'N/A' }}</td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $ongoingProject->id }}"
                                         data-name="{{ $ongoingProject->name }}"
                                         data-capacity="{{ $ongoingProject->capacity }}"
-                                        data-location="{{ $ongoingProject->location }}"><i title="Update" class="fas fa-edit"></i>
+                                        data-location="{{ $ongoingProject->location }}"
+                                        data-link="{{ $ongoingProject->link }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
                                             data-id="{{ $ongoingProject->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
@@ -86,6 +94,10 @@
                     <div class="form-group">
                         <label for="location" class="required">Location:</label>
                         <input type="text" class="form-control" id="location" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="link">Link:</label>
+                        <input type="text" class="form-control" id="link" name="link">
                     </div>
                 </div>
             
@@ -162,6 +174,7 @@
             $('#name').val('');
             $('#capacity').val('');
             $('#location').val('');
+            $('#link').val('');
             $('#addUpdateModal').modal('show');
         });
     
@@ -171,6 +184,7 @@
             var name = $(this).data('name');
             var capacity = $(this).data('capacity');
             var location = $(this).data('location');
+            var link = $(this).data('link');
 
             $('#modalTitle').text('Update Project In Pipeline');
             $('#addUpdateForm').attr('action', '/admin/projects/ongoing-projects/' + id);
@@ -180,6 +194,7 @@
             $('#name').val(name);
             $('#capacity').val(capacity);
             $('#location').val(location);
+            $('#link').val(link);
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
             $('#saveButton').removeClass('btn-success').addClass('btn-warning');
 

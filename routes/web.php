@@ -116,7 +116,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::prefix('projects')->group(function () {
             Route::prefix('ongoing-projects')->group(function () {
-                Route::resource('LKHEP-policies', LKHEPPolicyController::class);
+                Route::resource('lkhep', LKHEPPolicyController::class);
             });
             Route::resource('ongoing-projects', OngoingProjectsController::class);
             Route::resource('projects-in-pipeline', ProjectsInPipelineController::class);

@@ -40,12 +40,14 @@ class OngoingProjectsController extends Controller
             'name' => 'required|string',
             'capacity' => 'required|numeric',
             'location' => 'required|string',
+            'link' => 'nullable|string',
         ]);
 
         OngoingProjects::create([
             'name' => $request->name,
             'capacity' => $request->capacity,
             'location' => $request->location,
+            'link' => $request->link,
         ]);
 
         return redirect()->back()->with('success', 'Ongoing project added successfully');
@@ -79,12 +81,14 @@ class OngoingProjectsController extends Controller
             'name' => 'required|string',
             'capacity' => 'required|numeric',
             'location' => 'required|string',
+            'link' => 'nullable|string',
         ]);
 
         $ongoingProject->update([
             'name' => $request->name,
             'capacity' => $request->capacity,
             'location' => $request->location,
+            'link' => $request->link,
         ]);
 
         return redirect()->back()->with('success', 'Ongoing project updated successfully');
