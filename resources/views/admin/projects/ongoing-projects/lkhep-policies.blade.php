@@ -152,7 +152,7 @@
         // Handle Add Button
         $('#addButton').on('click', function () {
             $('#modalTitle').text('Add New LKHEP Policy');
-            $('#addUpdateForm').attr('action', '{{ route('LKHEP-policies.store') }}');
+            $('#addUpdateForm').attr('action', '{{ route('lkhep.store') }}');
             $('#addUpdateForm').attr('method', 'POST');
             $('#downloadLink').attr('required', true);
             $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
@@ -176,7 +176,7 @@
             var description = $(this).data('description');
 
             $('#modalTitle').text('Update LKHEP Policy');
-            $('#addUpdateForm').attr('action', '/admin/projects/ongoing-projects/LKHEP-policies/' + id);
+            $('#addUpdateForm').attr('action', '/admin/projects/ongoing-projects/lkhep/' + id);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
@@ -196,7 +196,7 @@
         // Handle Delete Button
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
-            var deleteUrl = '/admin/projects/ongoing-projects/LKHEP-policies/' + id;
+            var deleteUrl = '/admin/projects/ongoing-projects/lkhep/' + id;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');
         });
