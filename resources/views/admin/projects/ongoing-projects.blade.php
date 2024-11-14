@@ -40,7 +40,7 @@
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-start align-middle">
-                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('admin/' . $ongoingProject->link) }}" 
+                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('admin/projects/ongoing-projects/' . $ongoingProject->link) }}" 
                                        class="text-decoration-none {{ is_null($ongoingProject->link) ? 'text-black' : '' }}">
                                        {{ $ongoingProject->name }}
                                     </a>

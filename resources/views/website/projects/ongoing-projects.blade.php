@@ -33,7 +33,7 @@
                             <tr>
                                 <td class="text-center">{{ $serial++ }}</td>
                                 <td class="text-start">
-                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('/' . app()->getLocale() . '/' . $ongoingProject->link ?? '#') }}">
+                                    <a href="{{ is_null($ongoingProject->link) ? '#' : url('/' . app()->getLocale() . '/projects/ongoing-projects/' . $ongoingProject->link ?? '#') }}">
                                         {{ $ongoingProject->name }}
                                     </a>
                                 </td>
