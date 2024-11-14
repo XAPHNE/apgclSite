@@ -39,11 +39,11 @@
                                 <a href="{{ url('forgot-password') }}">Forgot Password</a>
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="primary">
                                 <a href="{{ url('register') }}">Register a new</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.col -->
                     <div class="col-4">
