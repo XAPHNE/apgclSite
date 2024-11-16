@@ -160,6 +160,7 @@
 <script src="{{ asset('website-assets/js/datatables.min.js') }}"></script>
 <!-- gallery -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!-- ticker -->
 {{-- <script type="text/javascript" src="{{ asset('website-assets/plugins/ticker/js/jquery.js') }}"></script> --}}
 <script type="text/javascript" src="{{ asset('website-assets/plugins/ticker/js/acmeticker.js') }}"></script>
