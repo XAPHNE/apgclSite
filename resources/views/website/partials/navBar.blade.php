@@ -157,7 +157,7 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.projects') <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="hydro.php" class="nav-link">@lang('navigationMenu.hydro_plants')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/projects/hydro-plants') }}" class="nav-link">@lang('navigationMenu.hydro_plants')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/projects/thermal-plants') }}" class="nav-link">@lang('navigationMenu.thermal_plants')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/projects/ongoing-projects') }}" class="nav-link">@lang('navigationMenu.ongoing_projects')</a></li>
                                         <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/projects/projects-in-pipeline') }}" class="nav-link">@lang('navigationMenu.projects_in_pipeline')</a></li>
