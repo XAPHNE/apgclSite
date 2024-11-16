@@ -136,16 +136,12 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr><td>FY 2023-24</td><td>478.955</td></tr>
-                                            <tr><td>FY 2022-23</td><td>505.406</td></tr>
-                                            <tr><td>FY 2021-22</td><td>510.114</td></tr>
-                                            <tr><td>FY 2020-21</td><td>477.074</td></tr>
-                                            <tr><td>FY 2019-20</td><td>504.200</td></tr>
+                                            <!-- Rows will be populated dynamically -->
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-md-7">
-                                    <canvas id="myChart_lrpp"></canvas>
+                                    <canvas id="myChart"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -155,11 +151,19 @@
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                         <div class="mt-3 mb-3">
                             <h5 class="line-vertical">Contact</h5>
+                            @php
+                                $contact = App\Models\Contact::where('designation', 'LIKE', '%Lakwa Replacement Power Plant%')
+                                    ->orWhere('designation', 'LIKE', '%LRPP%')
+                                    ->orWhere('designation', 'LIKE', '%Lakwa Thermal Power Station%')
+                                    ->orWhere('designation', 'LIKE', '%LTPS%')
+                                    ->first();
+                                $designation = $contact ? explode(',', $contact->designation)[0] : null;
+                            @endphp
                             <table class="table table-bordered">
                                 <tbody>
-                                    <tr><td>Project Head</td><td>Sri Janardan Das</td></tr>
-                                    <tr><td>Designation</td><td>General Manager</td></tr>
-                                    <tr><td>Email</td><td>janardan.das@apgcl.org</td></tr>
+                                    <tr><td>Project Head</td><td>{{ $contact->name ?? 'N/A' }}</td></tr>
+                                    <tr><td>Designation</td><td>{{ $designation ?? 'N/A' }}</td></tr>
+                                    <tr><td>Email</td><td>{{ $contact->email ?? 'N/A' }}</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -215,17 +219,45 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" defer></script>
 <script defer>
     document.addEventListener("DOMContentLoaded", function() {
-        const ctx = document.getElementById('myChart_lrpp').getContext('2d');
+        // Define the generation data as an array of objects
+        const generationData = [
+            { year: "FY 2019-20", generation: 504.200 },
+            { year: "FY 2020-21", generation: 477.074 },
+            { year: "FY 2021-22", generation: 510.114 },
+            { year: "FY 2022-23", generation: 505.406 },
+            { year: "FY 2023-24", generation: 478.955 }
+        ];
+
+        // Sort the data by year in descending order for the table
+        const tableData = [...generationData].sort((a, b) => {
+            // Extract the years as integers for comparison
+            const yearA = parseInt(a.year.split(" ")[1]);
+            const yearB = parseInt(b.year.split(" ")[1]);
+            return yearB - yearA; // Descending order
+        });
+
+        // Populate the table dynamically
+        const tableBody = document.querySelector("#generation-table tbody");
+        tableData.forEach(item => {
+            const row = `<tr><td>${item.year}</td><td>${item.generation.toFixed(3)}</td></tr>`;
+            tableBody.innerHTML += row;
+        });
+
+        // Extract labels and data for the chart (keep chronological order)
+        const labels = generationData.map(item => item.year);
+        const data = generationData.map(item => item.generation);
+
+        // Create the chart
+        const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ["F.Y. 2019-20", "F.Y. 2020-21", "F.Y. 2021-22", "F.Y. 2022-23", "F.Y. 2023-24"],
+                labels: labels,
                 datasets: [{
                     label: "Generation Status",
-                    data: [504.200, 477.074, 510.114, 505.406, 478.955],
+                    data: data,
                     borderColor: "rgba(0,0,255,1.0)",
                     backgroundColor: "rgba(0,0,255,0.3)",
                     tension: 0
@@ -235,11 +267,22 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 scales: {
-                    y: { beginAtZero: true, min: 200, max: 600, title: { display: true, text: 'Generation in MU' } },
-                    x: { title: { display: true, text: 'Financial Year' } }
+                    y: { 
+                        // beginAtZero: true, 
+                        // min: 200, 
+                        // max: 600, 
+                        title: { display: true, text: 'Generation in MU' } 
+                    },
+                    x: { 
+                        title: { display: true, text: 'Financial Year' } 
+                    }
                 },
                 plugins: {
-                    title: { display: true, text: 'Total Generation Status LRPP (Last Five Years)', font: { size: 25 } }
+                    title: { 
+                        display: true, 
+                        text: 'Total Generation Status LRPP (Last Five Years)', 
+                        font: { size: 25 } 
+                    }
                 }
             }
         });
