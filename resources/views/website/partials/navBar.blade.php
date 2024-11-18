@@ -166,9 +166,8 @@
                                 <li class="nav-item">
                                     <a href="#" class="nav-link dropdown-toggle">@lang('navigationMenu.tenders')  <i class="fas fa-long-arrow-alt-down"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li class="nav-item"><a href="tenders.php" class="nav-link">@lang('navigationMenu.current_financial_year')</a></li>
-                                        <li class="nav-item"><a href="previous_tenders.php" class="nav-link">@lang('navigationMenu.previous_financial_year')</a></li>
-                                        <li class="nav-item"><a href="archive.php" class="nav-link">@lang('navigationMenu.archive')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/tenders/current-financial-year') }}" class="nav-link">@lang('navigationMenu.current_financial_year')</a></li>
+                                        <li class="nav-item"><a href="{{ url('/' . app()->getLocale() . '/tenders/archive') }}" class="nav-link">@lang('navigationMenu.archive')</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">

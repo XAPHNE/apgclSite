@@ -34,7 +34,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ url('admin/tenders') }}" class="nav-link {{ Request::is('admin/tenders*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-fw fa-file-invoice text-green me-2"></i>
                         <p>Tenders</p>
                     </a>

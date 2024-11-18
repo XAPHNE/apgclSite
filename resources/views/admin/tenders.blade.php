@@ -1,16 +1,15 @@
 @extends('components.layouts.adminLTE')
 
 @section('title')
-    Financial Years
+    Tenders
 @endsection
 
 @section('page_title')
-    Financial Years
+    Tenders
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('admin/tenders') }}">Tenders</a></li>
-    <li class="breadcrumb-item active">Financial Years</li>
+    <li class="breadcrumb-item">Tenders</li>
 @endsection
 
 @section('content')
@@ -18,8 +17,9 @@
     <div class="col col-sm-12">
         <div class="card card-success">
             <div class="card-header">
-                <h3 class="d-inline">Financial Year List</h3>
+                <h3 class="d-inline">Tender List</h3>
                 <div class="card-tools">
+                    <a href="{{ url('admin/tenders/financial-years') }}" type="button" class="btn btn-danger">Add Financial Years</a>
                     <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
                 </div>
             </div>
@@ -28,22 +28,33 @@
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center align-middle">#</th>
-                            <th class="text-center align-middle">Financial Years</th>
+                            <th class="text-center align-middle">Financial Year</th>
+                            <th class="text-center align-middle">Tender No</th>
+                            <th class="text-center align-middle">Tender Details</th>
+                            <th class="text-center align-middle nosort">Archived</th>
                             <th class="text-center align-middle nosort">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($financialYears as $financialYear)
+                        @foreach ($tenders as $tender)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $financialYear->year }}</td>
+                                <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
+                                <td class="text-center align-middle">{{ $tender->tender_no }}</td>
+                                <td class="text-center align-middle">{{ $tender->description }}</td>
+                                <td class="text-center align-middle">
+                                    @if ($tender->is_archived)
+                                        <i class="fas fa-check-circle text-success"></i>
+                                    @else
+                                        <i class="fas fa-times-circle text-danger"></i>
+                                    @endif
+                                </td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
-                                        data-id="{{ $financialYear->id }}"
-                                        data-year="{{ $financialYear->year }}"><i title="Update" class="fas fa-edit"></i>
+                                        data-id="{{ $tender->id }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
-                                            data-id="{{ $financialYear->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                            data-id="{{ $tender->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -60,10 +71,10 @@
 
 <!-- Add/Update Modal -->
 <div class="modal fade" id="addUpdateModal">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
-                <h5 class="modal-title" id="modalTitle">Add New Financial Year</h5>
+                <h5 class="modal-title" id="modalTitle">Add New Tender</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
@@ -72,8 +83,35 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="year" class="required">Financial Year:</label>
-                                <input type="text" class="form-control" id="year" name="year" placeholder="YYYY-YYYY" required>
+                                <label for="financialYear" class="form-label">Financial Year</label>
+                                <select name="financial_year_id" id="financialYear" class="form-select required" required>
+                                    <option disabled>Select</option>
+                                    @foreach($financialYears as $financialYear)
+                                        <option value="{{ $financialYear->id }}">{{ $financialYear->year }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tenderNo" class="form-label">Tender No.:</label>
+                                <input type="text" class="form-control required" id="tenderNo" name="tender_no" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control required" id="description" name="description" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- Archive Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="is_archived" value="0">
+                                <label for="isArchived">Is Archived:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isArchived" name="is_archived" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                     </div>
@@ -141,31 +179,42 @@
         });
         // Handle Add Button
         $('#addButton').on('click', function () {
-            $('#modalTitle').text('Add New Financial Year');
-            $('#addUpdateForm').attr('action', '{{ route('financial-years.store') }}');
+            $('#modalTitle').text('Add New Tender');
+            $('#addUpdateForm').attr('action', '{{ route('tenders.store') }}');
             $('#addUpdateForm').attr('method', 'POST');
             $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
             $('#saveButton').removeClass('btn-warning').addClass('btn-success');
 
             $('#saveButton').text('Save');
             $('#addUpdateForm input[name="_method"]').remove();
-            $('#year').val('');
+            $('#financialYear').val('');
+            $('#tenderNo').val('');
+            $('#description').val('');
+            $('#isArchived').bootstrapToggle('off');
             $('#addUpdateModal').modal('show');
         });
     
         // Handle Update Button
         $('.update-button').on('click', function () {
             var id = $(this).data('id');
-            var year = $(this).data('year');
+            var financial_year_id = $(this).data('financial_year_id');
+            var tender_no = $(this).data('tender_no');
+            var description = $(this).data('description');
+            var is_archived = $(this).data('is_archived') ? true : false;
 
-            $('#modalTitle').text('Update Financial Year');
-            $('#addUpdateForm').attr('action', '/admin/tenders/financial-years/' + id);
+            $('#modalTitle').text('Update Tender');
+            $('#addUpdateForm').attr('action', '/admin/tenders/' + id);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
-            $('#year').val(year);
+            $('#financialYear').val(financial_year_id);
+            $('#tenderNo').val(tender_no);
+            $('#description').val(description);
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
             $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+            // Set toggle states for each checkbox
+            $('#isArchived').prop('checked', is_archived).change();
 
             $('#addUpdateModal').modal('show');
         });
@@ -173,9 +222,17 @@
         // Handle Delete Button
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
-            var deleteUrl = '/admin/tenders/financial-years/' + id;
+            var deleteUrl = '/admin/tenders/' + id;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');
+        });
+    
+        // Reset toggle state when the modal is closed
+        $('#addUpdateModal').on('hidden.bs.modal', function () {
+            $('#addUpdateForm')[0].reset();
+            $('.visibility-toggle').each(function() {
+                $(this).bootstrapToggle('off');
+            });
         });
     });
     </script>

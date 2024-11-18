@@ -82,7 +82,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/tenders', function () { return view('admin.tenders.index'); })->name('tenders.index');
     
     
     
@@ -134,6 +133,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('daily-generation', DailyGenerationController::class);
         Route::resource('disaster-management', DisasterManagementController::class);
         Route::resource('dam-safety', DamSafetyController::class);
+        Route::resource('tenders', TenderController::class);
     });
 
 
@@ -198,6 +198,10 @@ Route::middleware('locale')->group(function () {
             Route::view('thermal-plants', 'website.projects.thermal-plants');
             Route::get('ongoing-projects', [OngoingProjectsController::class, 'websiteIndex']);
             Route::get('projects-in-pipeline', [ProjectsInPipelineController::class, 'websiteIndex']);
+        });
+        Route::prefix('tenders')->group(function () {
+            Route::get('current-financial-year', [FinancialYearController::class, 'websiteIndex']);
+            Route::get('archive', [FinancialYearController::class, 'archivedTenders']);
         });
         Route::prefix('career')->group(function () {
             Route::get('internship', [InternshipController::class, 'websiteIndex']);

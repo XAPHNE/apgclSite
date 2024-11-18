@@ -2,53 +2,127 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FinancialYear;
+use App\Models\Tender;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\File;
 
 class TenderController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $tenders = Tender::with('tenderFiles')
+            ->where('is_archived', false)
+            ->latest()
+            ->get();
+        return view('website.tenders.current-financial-year', compact('tenders'));
+    }
+
+    public function archivedTenders(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $tenders = Tender::with('tenderFiles')
+            ->where('is_archived', true)
+            ->latest()
+            ->get();
+        return view('website.tenders.archive', compact('tenders'));
+    }
+    /**
+     * Display a listing of the resource.
+     */
     public function index(Request $request)
     {
+        $financialYears = FinancialYear::latest()->get();
+        $tenders = Tender::with('tenderFiles')->latest()->get();
+        return view('admin.tenders', compact('tenders', 'financialYears'));
+    }
 
-        $year = DB::table('financial_years')
-            ->orderBy('year', 'desc')
-            ->value('year');
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
 
-        if (Auth::user()->admin == '1') {
-            $data = Tender::where('financialYear', $year)
-                ->where('archived', 0)
-                ->get();
-        } else {
-            $data = Tender::where('financialYear', $year)
-                ->where('archived', 0)
-                ->where('department', Auth::user()->department)
-                ->get();
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'tender_no' => 'required|string',
+            'description' => 'required|string',
+            'is_archived' => 'nullable|boolean',
+            'financial_year_id' => 'required|exists:financial_years,id',
+        ]);
+
+        $tender = Tender::create([
+            'tender_no' => $request->tender_no,
+            'description' => $request->description,
+            'financial_year_id' => $request->financial_year_id,
+            'is_archived' => false,
+        ]);
+
+        return redirect()->route('tenders.show', $tender->id)->with('success', 'Tender added successfully');
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $tender = Tender::findOrFail($id);
+
+        $request->validate([
+            'tender_no' => 'required|string',
+            'description' => 'required|string',
+            'is_archived' => 'nullable|boolean',
+            'financial_year_id' => 'required|exists:financial_years,id',
+        ]);
+
+        $tender->update(['tender_no' => $request->tender_no,
+            'description' => $request->description,
+            'financial_year_id' => $request->financial_year_id,
+            'is_archived' => $request->boolean('is_archived'),
+        ]);
+
+        return redirect()->back()->with('success', 'Tender updated successfully');
+    }
+
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $tender = Tender::findOrFail($id);
+
+        if (File::exists(public_path($tender->downloadLink))) {
+            // File::delete(public_path($tender->downloadLink));
         }
 
-        if ($request->ajax()) {
+        $tender->delete();
 
-            return Datatables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function ($data) {
-
-                    $btn = '<button data-id="' . $data->id . '" class="edit btn btn-primary btn-sm editBtn">
-                           <span class="icon-bg"><i class="mdi mdi-border-color menu-icon"></i></span>
-                           </button>';
-
-                    if (Auth::check() && Auth::user()->admin == '1') {
-
-                        $btn .= ' <button data-id="' . $data->id . '" class="btn btn-danger btn-sm  deleteBtn">
-                           <span class="icon-bg"><i class="mdi mdi-delete menu-icon"></i></span>
-                           </button>';
-
-                    }
-
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-
-        return view('admin.tenders.index', compact('data'));
+        return redirect()->back()->with('success', 'Tender deleted successfully');
     }
 }

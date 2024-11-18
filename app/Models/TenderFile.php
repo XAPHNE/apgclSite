@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class FinancialYear extends Model
+class TenderFile extends Model
 {
     use HasFactory, SoftDeletes;
-    
-    protected $fillable = ['year'];
 
-    public function tenders()
+    protected $fillable = ['tender_id', 'name', 'downloadLink'];
+
+    public function tender()
     {
-        return $this->hasMany(Tender::class);
+        return $this->belongsTo(Tender::class);
     }
 }

@@ -29,7 +29,7 @@
         'ongoing_projects' => 'ONGOING PROJECTS',
         'projects_in_pipeline' => 'PROJECTS IN PIPELINE',
         'tenders' => 'TENDERS',
-        'current_financial_year' => 'CURRENT FINALCIAL YEAR',
+        'current_financial_year' => 'CURRENT FINANCIAL YEAR',
         'previous_financial_year' => 'PREVIOUS FINANCIAL YEAR',
         'archive' => 'ARCHIVE',
         'career' => 'CAREER',
