@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\FinancialYear;
 use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 
 class FinancialYearController extends Controller
 {
@@ -13,20 +12,8 @@ class FinancialYearController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $data = FinancialYear::select('*');
-            return DataTables::of($data)
-                ->addIndexColumn()
-                ->addColumn('action', function($row){
-                    $btn = '<button class="btn btn-warning edit-button" data-id="'.$row->id.'"><i class="fas fa-edit"></i></button>';
-                    $btn .= ' <button class="btn btn-danger delete-button" data-id="'.$row->id.'"><i class="fas fa-trash-alt"></i></button>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        
-        return view('admin.financial-years');
+        $financialYears = FinancialYear::latest()->get();
+        return view('admin.tenders.financial-years', compact('financialYears'));
     }
 
     /**
@@ -43,21 +30,19 @@ class FinancialYearController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'year' => 'required|string|max:255',
+            'year' => [
+            'required',
+            'string',
+            'max:9',
+            'regex:/^\d{4}-\d{4}$/',
+        ],
         ]);
     
-        // Create the financial year record
-        $financialYear = FinancialYear::create($request->all());
-    
-        // Create the directory in the public/tenders directory
-        $directoryName = 'tenders_' . str_replace(' ', '_', $request->year);
-        $directoryPath = public_path('admin-assets/tenders/' . $directoryName);
-    
-        if (!file_exists($directoryPath)) {
-            mkdir($directoryPath, 0777, true); // Create directory with read/write/execute permissions
-        }
-    
-        return response()->json(['success' => 'Financial Year added successfully, and directory created.']);
+        FinancialYear::create([
+            'year' => $request->year,
+        ]);
+
+        return redirect()->back()->with('success', 'Financial Year added successfully');
     }
 
     /**
@@ -65,8 +50,7 @@ class FinancialYearController extends Controller
      */
     public function show(string $id)
     {
-        $financialYear = FinancialYear::find($id);
-        return response()->json($financialYear);
+        //
     }
 
     /**
@@ -82,14 +66,22 @@ class FinancialYearController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $financialYear = FinancialYear::findOrFail($id);
+
         $request->validate([
-            'year' => 'required|string|max:255',
+            'year' => [
+            'required',
+            'string',
+            'max:9',
+            'regex:/^\d{4}-\d{4}$/',
+        ],
         ]);
 
-        $financialYear = FinancialYear::findOrFail($id);
-        $financialYear->update($request->all());
+        $financialYear->update([
+            'year' => $request->year,
+        ]);
 
-        return response()->json(['success' => 'Financial Year updated successfully.']);
+        return redirect()->back()->with('success', 'Financial Year updated successfully');
     }
 
     /**
@@ -97,7 +89,10 @@ class FinancialYearController extends Controller
      */
     public function destroy(string $id)
     {
-        FinancialYear::destroy($id);
-        return response()->json(['success' => 'Financial Year deleted successfully.']);
+        $financialYear = FinancialYear::findOrFail($id);
+
+        $financialYear->delete();
+
+        return redirect()->back()->with('success', 'Financial Year deleted successfully');
     }
 }

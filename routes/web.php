@@ -86,9 +86,8 @@ Route::middleware('auth')->group(function () {
     
     
     
-    Route::resource('departments', DepartmentController::class);
+    // Route::resource('departments', DepartmentController::class);
     Route::resource('user-management', AdminController::class);
-    Route::resource('financial-years', FinancialYearController::class);
     
     
     
@@ -120,6 +119,9 @@ Route::middleware('auth')->group(function () {
             });
             Route::resource('ongoing-projects', OngoingProjectsController::class);
             Route::resource('projects-in-pipeline', ProjectsInPipelineController::class);
+        });
+        Route::prefix('tenders')->group(function () {
+            Route::resource('financial-years', FinancialYearController::class);
         });
         Route::prefix('career')->group(function () {
             Route::resource('apprenticeship', ApprenticeshipController::class);
