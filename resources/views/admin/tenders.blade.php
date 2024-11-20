@@ -51,7 +51,12 @@
                                 </td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
-                                        data-id="{{ $tender->id }}"><i title="Update" class="fas fa-edit"></i>
+                                        data-id="{{ $tender->id }}"
+                                        data-financial_year_id="{{ $tender->financialYear->year }}"
+                                        data-tender_no="{{ $tender->tender_no }}"
+                                        data-description="{{ $tender->description }}"
+                                        data-is_archived="{{ $tender->is_archived }}"
+                                        data-directory_name="{{ $tender->directory_name }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
                                             data-id="{{ $tender->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
@@ -83,9 +88,9 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="financialYear" class="form-label">Financial Year</label>
+                                <label for="financialYear" class="form-label">Financial Year:</label>
                                 <select name="financial_year_id" id="financialYear" class="form-select required" required>
-                                    <option disabled>Select</option>
+                                    <option selected disabled>Select</option>
                                     @foreach($financialYears as $financialYear)
                                         <option value="{{ $financialYear->id }}">{{ $financialYear->year }}</option>
                                     @endforeach
@@ -119,15 +124,15 @@
                         <div class="col">
                             <label class="form-label">Select Existing Folder:</label>
                             <select class="form-select">
-                                <option disabled>Select</option>
+                                <option selected disabled>Select</option>
                                 @foreach($tenders as $tender)
                                     <option value="{{ $tender->directory_name }}">{{ $tender->directory_name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="col">
-                            <label class="form-label">Directory Name</label>
-                            <input type="text" class="form-control required" required>
+                            <label for="directoryName" class="form-label">Directory Name</label>
+                            <input id="directoryName" type="text" class="form-control required" name="directory_name" required>
                         </div>
                     </div>
                 </div>
@@ -205,6 +210,7 @@
             $('#financialYear').val('');
             $('#tenderNo').val('');
             $('#description').val('');
+            $('#directoryName').val('');
             $('#isArchived').bootstrapToggle('off');
             $('#addUpdateModal').modal('show');
         });
@@ -215,6 +221,7 @@
             var financial_year_id = $(this).data('financial_year_id');
             var tender_no = $(this).data('tender_no');
             var description = $(this).data('description');
+            var directory_name = $(this).data('directory_name');
             var is_archived = $(this).data('is_archived') ? true : false;
 
             $('#modalTitle').text('Update Tender');
@@ -225,6 +232,7 @@
             $('#financialYear').val(financial_year_id);
             $('#tenderNo').val(tender_no);
             $('#description').val(description);
+            $('#directoryName').val(directory_name);
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
             $('#saveButton').removeClass('btn-success').addClass('btn-warning');
 
