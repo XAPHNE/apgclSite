@@ -24,20 +24,54 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-10">
-                        <h5 class="d-inline pb-2">Tender No: </h5> {{ $tender->tender_no }}
-                        <br>
-                        <h5 class="d-inline">Financial Year: </h5> {{ $tender->financialYear->year }}
-                        <br>
-                        <h5 class="d-inline">Directory Name: </h5> {{ $tender->directory_name }}
-                        <br>
-                        <h5>Tender Description :</h5>
-                        <p>{{ $tender->description }}</p>
+                    <div class="col-9">
+                        <div class="p-3 m-1 card">
+                            <p>
+                                <strong class="d-inline">Tender No:</strong>
+                                <span class="ms-2">{{ $tender->tender_no }}</span>
+                            </p>
+                            <p>
+                                <strong class="d-inline">Financial Year:</strong>
+                                <span class="ms-2">{{ $tender->financialYear->year }}</span>
+                            </p>
+                            <p>
+                                <strong class="d-inline">Directory Name:</strong>
+                                <span class="ms-2">{{ $tender->directory_name }}</span>
+                            </p>
+                            <p>
+                                <strong>Tender Description:</strong><br>
+                                <span>{{ $tender->description }}</span>
+                            </p>
+                        </div>
                     </div>
-                    <div class="col-2">
-                        <h5>Uploaded Files:</h5>
-                        <p><a><i class="fas fa-file-download" aria-hidden="true"></i></a></p>
-                    </div>
+                    <div class="col-3">
+                        <div class="p-3 m-1 card">
+                            <h5>Uploaded Files:</h5>
+                            @foreach ($tenderFiles as $tenderFile)
+                                <div class="mb-2 row justify-content-between">
+                                    <!-- Anchor Tag Column -->
+                                    <div class="col">
+                                        <a href="{{ url($tenderFile->downloadLink) }}" class="text-decoration-none" target="_blank">
+                                            <i class="fas fa-file-download" aria-hidden="true"></i> {{ $tenderFile->name }}
+                                        </a>
+                                    </div>
+                                    <!-- Buttons Column -->
+                                    <div class="col">
+                                        <button class="btn btn-sm btn-warning update-button"
+                                                data-id="{{ $tenderFile->id }}"
+                                                data-name="{{ $tenderFile->name }}"
+                                                data-downloadLink="{{ $tenderFile->downloadLink }}">
+                                            <i title="Update" class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-sm btn-danger delete-button"
+                                                data-id="{{ $tenderFile->id }}">
+                                            <i title="Delete" class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>                    
                 </div>
             </div>
             <div class="card-footer">
@@ -58,6 +92,7 @@
             <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
+                    <input type="hidden" id="tenderId" name="tender_id" value="{{ $tender->id }}">
                     <div class="form-group">
                         <label for="name" class="required">File Name:</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -131,7 +166,7 @@
         // Handle Add Button
         $('#addButton').on('click', function () {
             $('#modalTitle').text('Add New Tender File');
-            $('#addUpdateForm').attr('action', '{{ route('tenders.store') }}');
+            $('#addUpdateForm').attr('action', '{{ route('tenders.tender-files.store', ['tender' => $tender->id]) }}');
             $('#addUpdateForm').attr('method', 'POST');
             $('#downloadLink').attr('required', true);
             $('#addUpdateModal .modal-header').removeClass('bg-warning').addClass('bg-success');
@@ -151,17 +186,17 @@
         $('.update-button').on('click', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
+            var tenderId = '{{ $tender->id }}';
 
-            $('#modalTitle').text('Update Certificate');
-            $('#addUpdateForm').attr('action', '/admin/tenders/' + id);
+            $('#modalTitle').text('Update Tender File');
+            $('#addUpdateForm').attr('action', `/admin/tenders/${tenderId}/tender-files/${id}`);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
-            $('#saveButton').text('Update');
             $('#name').val(name);
             $('#downloadLink').val('');
             $('#downloadLink').removeAttr('required');
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
-            $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning').text('Update');
 
             // Remove asterisk as field is not required
             $('label[for="downloadLink"]').html('Upload File:');
@@ -172,7 +207,8 @@
         // Handle Delete Button
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
-            var deleteUrl = '/admin/tenders/' + id;
+            var tenderId = '{{ $tender->id }}';
+            var deleteUrl = `/admin/tenders/${tenderId}/tender-files/${id}`;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');
         });
