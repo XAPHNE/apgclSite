@@ -39,6 +39,7 @@ use App\Http\Controllers\StandardFormController;
 use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
 use App\Http\Controllers\TenderController;
+use App\Http\Controllers\TenderFileController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\WebsiteHomeController;
 use Illuminate\Support\Facades\Route;
@@ -134,6 +135,9 @@ Route::middleware('auth')->group(function () {
         Route::resource('disaster-management', DisasterManagementController::class);
         Route::resource('dam-safety', DamSafetyController::class);
         Route::resource('tenders', TenderController::class);
+        Route::resource('tenders.tender-files', TenderFileController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->scoped(['tenderFile' => 'id',]);
     });
 
 
