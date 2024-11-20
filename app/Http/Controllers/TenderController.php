@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FinancialYear;
 use App\Models\Tender;
+use App\Models\TenderFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\File;
@@ -75,7 +76,10 @@ class TenderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $tender = Tender::findOrFail($id);
+        $tenderFiles = TenderFile::where('tender_id', $id);
+
+        return view('admin.tenders.tender-details', compact('tender', 'tenderFiles'));
     }
 
     /**

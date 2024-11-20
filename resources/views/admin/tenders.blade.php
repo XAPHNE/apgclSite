@@ -40,7 +40,7 @@
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
-                                <td class="text-center align-middle">{{ $tender->tender_no }}</td>
+                                <td class="text-center align-middle"><a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">{{ $tender->tender_no }}</a></td>
                                 <td class="text-center align-middle">{{ $tender->description }}</td>
                                 <td class="text-center align-middle">
                                     @if ($tender->is_archived)
@@ -113,6 +113,21 @@
                                 <label for="isArchived">Is Archived:</label>
                                 <input type="checkbox" class="form-control visibility-toggle" id="isArchived" name="is_archived" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Select Existing Folder:</label>
+                            <select class="form-select">
+                                <option disabled>Select</option>
+                                @foreach($tenders as $tender)
+                                    <option value="{{ $tender->directory_name }}">{{ $tender->directory_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Directory Name</label>
+                            <input type="text" class="form-control required" required>
                         </div>
                     </div>
                 </div>

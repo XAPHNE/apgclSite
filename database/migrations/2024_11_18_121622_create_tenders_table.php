@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('tender_no');
             $table->longText('description');
             $table->boolean('is_archived');
+            $table->string('directory_name');
             $table->foreignIdFor(FinancialYear::class)->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();

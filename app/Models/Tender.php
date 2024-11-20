@@ -10,7 +10,7 @@ class Tender extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['tender_no', 'description', 'is_archived', 'financial_year_id'];
+    protected $fillable = ['tender_no', 'description', 'is_archived', 'directory_name', 'financial_year_id'];
 
     public function financialYear()
     {
