@@ -57,14 +57,16 @@ class TenderController extends Controller
             'tender_no' => 'required|string',
             'description' => 'required|string',
             'is_archived' => 'nullable|boolean',
+            'directory_name' => 'required|string',
             'financial_year_id' => 'required|exists:financial_years,id',
         ]);
 
         $tender = Tender::create([
             'tender_no' => $request->tender_no,
-            'description' => $request->description,
+            'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => false,
+            'directory_name' => ucwords($request->directory_name),
         ]);
 
         return redirect()->route('tenders.show', $tender->id)->with('success', 'Tender added successfully');
@@ -77,7 +79,7 @@ class TenderController extends Controller
     public function show(string $id)
     {
         $tender = Tender::findOrFail($id);
-        $tenderFiles = TenderFile::where('tender_id', $id);
+        $tenderFiles = TenderFile::where('tender_id', $id)->latest()->get();
 
         return view('admin.tenders.tender-details', compact('tender', 'tenderFiles'));
     }
@@ -101,13 +103,16 @@ class TenderController extends Controller
             'tender_no' => 'required|string',
             'description' => 'required|string',
             'is_archived' => 'nullable|boolean',
+            'directory_name' => 'required|string',
             'financial_year_id' => 'required|exists:financial_years,id',
         ]);
 
-        $tender->update(['tender_no' => $request->tender_no,
-            'description' => $request->description,
+        $tender->update([
+            'tender_no' => $request->tender_no,
+            'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => $request->boolean('is_archived'),
+            'directory_name' => ucwords($request->directory_name),
         ]);
 
         return redirect()->back()->with('success', 'Tender updated successfully');
