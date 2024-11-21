@@ -25,9 +25,9 @@
             <div class="col">
                 <div class="row">
                     <div class="col-2">
-                        <label for="inputState">Financial Year</label>
+                        <label for="inputState"><h6>Financial Year:</h6></label>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         <select id="inputFY" class="form-control">
                             @foreach ($financialYears as $financialYear)
                                 <option value="{{ $financialYear->id }}" {{ $financialYear->id == $selectedFinancialYearId ? 'selected' : '' }}>
@@ -45,9 +45,12 @@
 <section class="pt-0">
     <div class="container">
         <div class="row">
-            <h4 class="line-vertical">F.Y.- @lang('navigationMenu.tenders')</h4>
+            <h4 class="line-vertical">
+                F.Y. - {{ $financialYears->firstWhere('id', $selectedFinancialYearId)->year ?? '' }} 
+                @lang('navigationMenu.tenders')
+            </h4>
             <div class="table-responsive">
-                <table id="tenders-table" class="table-bordered table table-striped" style="width:100%">
+                <table id="tenders-table" class="table table-bordered table-striped" style="width:100%">
                     <thead>
                         <tr class="bg-primary">
                             <th>Tender No.</th>
@@ -62,12 +65,10 @@
                                 <td class="text-start">{{ $tender->description }}</td>
                                 <td>
                                     @foreach ($tender->tenderFiles as $tenderFile)
-                                        <p>
-                                            <a href="{{ url($tenderFile->downloadLink) }}" target="_blank">
-                                                <i class="fas fa-file-download" aria-hidden="true"></i>
-                                                {{ $tenderFile->name }}
-                                            </a>
-                                        </p>
+                                        <a href="{{ url($tenderFile->downloadLink) }}" target="_blank">
+                                            <i class="fas fa-file-download" aria-hidden="true"></i>
+                                            {{ $tenderFile->name }}
+                                        </a>
                                     @endforeach
                                 </td>
                             </tr>
@@ -101,7 +102,7 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        $('#tenders-table').DataTable({
+        let table = $('#tenders-table').DataTable({
             "ordering": false,
             columnDefs: [
                 { width: 100, targets: 0 },
@@ -110,24 +111,49 @@
             ],
         });
 
+        // Handle Financial Year Dropdown Change
         $('#inputFY').on('change', function () {
             const financialYearId = $(this).val();
+            const selectedFinancialYear = $(this).find(':selected').text();
             const lang = '{{ app()->getLocale() }}'; // Current language
+
+            $('.line-vertical').text(`F.Y. - ${selectedFinancialYear} @lang('navigationMenu.tenders')`);
 
             $.ajax({
                 url: `/${lang}/tenders/archive`, // Use the correct archive route
                 method: 'GET',
-                data: { financial_year_id: financialYearId, lang: lang },
+                data: { financial_year_id: financialYearId },
+                beforeSend: function () {
+                    // Optionally show a loader
+                    $('#tenders-body').html('<tr><td colspan="3">Loading...</td></tr>');
+                },
                 success: function (response) {
                     if (response.html) {
-                        $('#tenders-body').html(response.html); // Update table body with new rows
+                        // Destroy the existing DataTable
+                        table.destroy();
+
+                        // Update the table body with new data
+                        $('#tenders-body').html(response.html);
+
+                        // Reinitialize DataTable
+                        table = $('#tenders-table').DataTable({
+                            "ordering": false,
+                            columnDefs: [
+                                { width: 100, targets: 0 },
+                                { width: 350, targets: 1 },
+                                { width: 111, targets: 2 },
+                            ],
+                        });
                     } else {
-                        alert('No data received.');
+                        // If no data is returned, show a placeholder message
+                        $('#tenders-body').html('<tr><td colspan="3">No tenders found for the selected financial year.</td></tr>');
                     }
                 },
                 error: function (xhr, status, error) {
                     console.error('AJAX Error:', status, error);
                     alert('Failed to fetch tenders. Please try again.');
+                    // Restore the table if an error occurs
+                    $('#tenders-body').html('<tr><td colspan="3">Error loading data.</td></tr>');
                 },
             });
         });
