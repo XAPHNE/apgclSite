@@ -204,8 +204,8 @@ Route::middleware('locale')->group(function () {
             Route::get('projects-in-pipeline', [ProjectsInPipelineController::class, 'websiteIndex']);
         });
         Route::prefix('tenders')->group(function () {
-            Route::get('current-financial-year', [FinancialYearController::class, 'websiteIndex']);
-            Route::get('archive', [FinancialYearController::class, 'archivedTenders']);
+            Route::get('current-financial-year', [TenderController::class, 'websiteIndex']);
+            Route::get('archive', [TenderController::class, 'archivedTenders']);
         });
         Route::prefix('career')->group(function () {
             Route::get('internship', [InternshipController::class, 'websiteIndex']);
