@@ -112,27 +112,18 @@
                             </div>
                         </div>
                         <div class="col">
+                            <label for="directoryName" class="form-label">Directory Name</label>
+                            <input id="directoryName" type="text" class="form-control required" name="directory_name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
                             <!-- Archive Checkbox with Hidden Input -->
                             <div class="form-group">
                                 <input type="hidden" name="is_archived" value="0">
                                 <label for="isArchived">Is Archived:</label>
                                 <input type="checkbox" class="form-control visibility-toggle" id="isArchived" name="is_archived" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label class="form-label">Select Existing Folder:</label>
-                            <select class="form-select">
-                                <option selected disabled>Select</option>
-                                @foreach($tenders as $tender)
-                                    <option value="{{ $tender->directory_name }}">{{ $tender->directory_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col">
-                            <label for="directoryName" class="form-label">Directory Name</label>
-                            <input id="directoryName" type="text" class="form-control required" name="directory_name" required>
                         </div>
                     </div>
                 </div>
