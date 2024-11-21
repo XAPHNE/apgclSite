@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FinancialYear;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FinancialYearController extends Controller
 {
@@ -35,6 +36,7 @@ class FinancialYearController extends Controller
             'string',
             'max:9',
             'regex:/^\d{4}-\d{4}$/',
+            Rule::unique('financial_years', 'year'),
         ],
         ]);
     
@@ -74,6 +76,7 @@ class FinancialYearController extends Controller
             'string',
             'max:9',
             'regex:/^\d{4}-\d{4}$/',
+            Rule::unique('financial_years', 'year'),
         ],
         ]);
 
