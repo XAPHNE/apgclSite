@@ -14,21 +14,49 @@ class TenderController extends Controller
     public function websiteIndex(Request $request, $lang)
     {
         App::setLocale($lang);
+        $financialYear = FinancialYear::latest()->first();
         $tenders = Tender::with('tenderFiles')
-            ->where('is_archived', false)
+            ->where('financial_year_id', $financialYear->id)
             ->latest()
             ->get();
-        return view('website.tenders.current-financial-year', compact('tenders'));
+        return view('website.tenders.current-financial-year', compact('tenders', 'financialYear'));
     }
 
     public function archivedTenders(Request $request, $lang)
     {
         App::setLocale($lang);
+
+        // Get the latest financial year and exclude it
+        $latestFinancialYear = FinancialYear::latest()->first();
+        $financialYears = FinancialYear::where('id', '!=', optional($latestFinancialYear)->id)->latest()->get();
+
+        // Determine the selected financial year or default to the first available one
+        $selectedFinancialYearId = $request->query('financial_year_id', $financialYears->first()->id ?? null);
+
+        // If no financial year is selected and none exist, handle gracefully
+        if (!$selectedFinancialYearId) {
+            return view('website.tenders.archive', [
+                'tenders' => collect(), // Empty collection for tenders
+                'financialYears' => $financialYears, // May still be empty
+                'selectedFinancialYearId' => null,
+            ])->with('error', 'No archived financial years found.');
+        }
+
+        // Fetch archived tenders for the selected financial year
         $tenders = Tender::with('tenderFiles')
             ->where('is_archived', true)
+            ->where('financial_year_id', $selectedFinancialYearId)
             ->latest()
             ->get();
-        return view('website.tenders.archive', compact('tenders'));
+
+        // For AJAX requests, return only the table rows
+        if ($request->ajax()) {
+            $html = view('website.tenders.partials.archived-tenders', compact('tenders'))->render();
+            return response()->json(['html' => $html]);
+        }
+
+        // For normal requests, return the full view
+        return view('website.tenders.archive', compact('tenders', 'financialYears', 'selectedFinancialYearId'));
     }
     /**
      * Display a listing of the resource.
@@ -78,10 +106,11 @@ class TenderController extends Controller
      */
     public function show(string $id)
     {
+        $financialYears = FinancialYear::latest()->get();
         $tender = Tender::findOrFail($id);
         $tenderFiles = TenderFile::where('tender_id', $id)->latest()->get();
 
-        return view('admin.tenders.tender-details', compact('tender', 'tenderFiles'));
+        return view('admin.tenders.tender-details', compact('tender', 'tenderFiles', 'financialYears'));
     }
 
     /**
