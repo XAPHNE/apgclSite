@@ -19,6 +19,6 @@ class Tender extends Model
 
     public function tenderFiles()
     {
-        return $this->hasMany(TenderFile::class);
+        return $this->hasMany(TenderFile::class)->orderBy('created_at', 'desc');;
     }
 }
