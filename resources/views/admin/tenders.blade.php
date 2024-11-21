@@ -52,7 +52,7 @@
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $tender->id }}"
-                                        data-financial_year_id="{{ $tender->financialYear->year }}"
+                                        data-financial_year_id="{{ $tender->financial_year_id }}"
                                         data-tender_no="{{ $tender->tender_no }}"
                                         data-description="{{ $tender->description }}"
                                         data-is_archived="{{ $tender->is_archived }}"
@@ -198,7 +198,8 @@
 
             $('#saveButton').text('Save');
             $('#addUpdateForm input[name="_method"]').remove();
-            $('#financialYear').val('');
+            $('#financialYear option:selected').prop('selected', false);
+            $('#financialYear option:first').prop('selected', true);
             $('#tenderNo').val('');
             $('#description').val('');
             $('#directoryName').val('');
