@@ -94,7 +94,7 @@ class TenderController extends Controller
             'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => false,
-            'directory_name' => ucwords($request->directory_name),
+            'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
         ]);
 
         return redirect()->route('tenders.show', $tender->id)->with('success', 'Tender added successfully');
@@ -141,7 +141,7 @@ class TenderController extends Controller
             'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => $request->boolean('is_archived'),
-            'directory_name' => ucwords($request->directory_name),
+            'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
         ]);
 
         return redirect()->back()->with('success', 'Tender updated successfully');
