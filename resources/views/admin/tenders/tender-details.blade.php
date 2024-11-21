@@ -24,8 +24,8 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-9">
-                        <div class="p-3 m-1 card">
+                    <div class="col-8">
+                        <div class="p-3 card">
                             <p>
                                 <strong class="d-inline">Tender No:</strong>
                                 <span class="ms-2">{{ $tender->tender_no }}</span>
@@ -39,16 +39,27 @@
                                 <span class="ms-2">{{ $tender->directory_name }}</span>
                             </p>
                             <p>
-                                <strong>Tender Description:</strong><br>
-                                <span>{{ $tender->description }}</span>
+                                <strong class="d-inline">Tender Description:</strong>
+                                <span class="ms-2">{{ $tender->description }}</span>
                             </p>
+                            <div class="card-footer d-flex justify-content-end">
+                                <button class="btn btn-warning" id="editButton"
+                                        data-id="{{ $tender->id }}"
+                                        data-financial_year_id="{{ $tender->financial_year_id }}"
+                                        data-tender_no="{{ $tender->tender_no }}"
+                                        data-description="{{ $tender->description }}"
+                                        data-directory_name="{{ $tender->directory_name }}"
+                                        data-is_archived="{{ $tender->is_archived }}">
+                                    <i title="Update" class="fas fa-edit"></i> Edit
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-3">
-                        <div class="p-3 m-1 card">
+                    <div class="col-4">
+                        <div class="p-3 card">
                             <h5>Uploaded Files:</h5>
                             @foreach ($tenderFiles as $tenderFile)
-                                <div class="mb-2 row justify-content-between">
+                                <div class="mb-2 row">
                                     <!-- Anchor Tag Column -->
                                     <div class="col">
                                         <a href="{{ url($tenderFile->downloadLink) }}" class="text-decoration-none" target="_blank">
@@ -56,7 +67,7 @@
                                         </a>
                                     </div>
                                     <!-- Buttons Column -->
-                                    <div class="col">
+                                    <div class="col-4">
                                         <button class="btn btn-sm btn-warning update-button"
                                                 data-id="{{ $tenderFile->id }}"
                                                 data-name="{{ $tenderFile->name }}"
@@ -81,7 +92,7 @@
     </div>
 </div>
 
-<!-- Add/Update Modal -->
+<!-- Add/Update Upfoad File Modal -->
 <div class="modal fade" id="addUpdateModal">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -106,6 +117,70 @@
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success" id="saveButton">Save</button>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>
+
+<!-- Add/Update Tender Modal -->
+<div class="modal fade" id="updateModal">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-success">
+                <h5 class="modal-title" id="modalTitle">Update Tender</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="updateForm" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="financialYear" class="form-label">Financial Year:</label>
+                                <select name="financial_year_id" id="financialYear" class="form-select required" required>
+                                    <option selected disabled>Select</option>
+                                    @foreach($financialYears as $financialYear)
+                                        <option value="{{ $financialYear->id }}">{{ $financialYear->year }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="tenderNo" class="form-label">Tender No.:</label>
+                                <input type="text" class="form-control required" id="tenderNo" name="tender_no" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="description" class="form-label">Description:</label>
+                                <textarea class="form-control required" id="description" name="description" required></textarea>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="directoryName" class="form-label">Directory Name</label>
+                            <input id="directoryName" type="text" class="form-control required" name="directory_name" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <!-- Archive Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="is_archived" value="0">
+                                <label for="isArchived">Is Archived:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="isArchived" name="is_archived" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning" id="saveButton">Update</button>
                 </div>
             </form>
             
@@ -180,6 +255,42 @@
             $('#name').val('');
             $('#downloadLink').val('');
             $('#addUpdateModal').modal('show');
+        });
+
+        // Handle Edit Button for Tender Details
+        $('#editButton').on('click', function () {
+            var id = $(this).data('id');
+            var financial_year_id = $(this).data('financial_year_id');
+            var tender_no = $(this).data('tender_no');
+            var description = $(this).data('description');
+            var directory_name = $(this).data('directory_name');
+            var is_archived = $(this).data('is_archived') ? true : false;
+
+            // Debugging logs
+            console.log('Edit button clicked');
+            console.log({ id, financial_year_id, tender_no, description, directory_name, is_archived });
+
+            // Update the modal title and form action
+            $('#modalTitle').text('Update Tender');
+            $('#updateForm').attr('action', `/admin/tenders/${id}`);
+            $('#updateForm').find('input[name="_method"]').remove();
+            $('#updateForm').append('<input type="hidden" name="_method" value="PATCH">');
+
+            // Pre-fill form fields
+            $('#financialYear').val(financial_year_id);
+            $('#tenderNo').val(tender_no);
+            $('#description').val(description);
+            $('#directoryName').val(directory_name);
+
+            // Update modal appearance
+            $('#updateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+            $('#saveButton').removeClass('btn-success').addClass('btn-warning').text('Update');
+
+            // Set toggle states for each checkbox
+            $('#isArchived').prop('checked', is_archived).change();
+
+            // Show the modal
+            $('#updateModal').modal('show');
         });
     
         // Handle Update Button
