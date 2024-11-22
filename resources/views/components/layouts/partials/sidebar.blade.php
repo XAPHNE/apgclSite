@@ -162,6 +162,12 @@
                         <p>CSR</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/gallery') }}" class="nav-link {{ Request::is('admin/gallery*') ? 'active' : '' }}">
+                        <i class="nav-icon fa-regular fa-image text-green me-2"></i>
+                        <p>Gallery</p>
+                    </a>
+                </li>
                 <li class="nav-header">Settings</li>
                 <li class="nav-item">
                     <a href="{{ url('profile') }}" class="nav-link {{ Request::is('profile*') ? 'active' : '' }}">

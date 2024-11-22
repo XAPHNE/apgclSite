@@ -21,6 +21,8 @@ use App\Http\Controllers\DamSafetyController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
+use App\Http\Controllers\GalleryController;
+use App\Http\Controllers\GalleryFileController;
 use App\Http\Controllers\InternshipController;
 use App\Http\Controllers\LKHEPPolicyController;
 use App\Http\Controllers\NewsAndEventController;
@@ -138,6 +140,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('tenders.tender-files', TenderFileController::class)
             ->only(['store', 'update', 'destroy'])
             ->scoped(['tenderFile' => 'id',]);
+        Route::resource('gallery', GalleryController::class);
+        Route::resource('gallery.gallery-files', GalleryFileController::class)
+            ->only(['store', 'update', 'destroy'])
+            ->scoped(['galleryFile' => 'id',]);
     });
 
 
