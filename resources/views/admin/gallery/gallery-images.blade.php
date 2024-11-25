@@ -27,20 +27,25 @@
                 <div class="row">
                     @forelse ($galleryFiles as $galleryFile)
                         <div class="col-md-3 mb-3">
-                            <div class="card">
+                            <div class="card image-card">
                                 <img src="{{ url($galleryFile->downloadLink) }}" class="card-img-top" alt="{{ $galleryFile->name }}">
                                 <div class="card-body">
                                     <h5 class="card-title text-truncate">{{ $galleryFile->name }}</h5>
                                 </div>
-                                <div class="card-footer d-flex justify-content-between">
+                                <div class="card-footer d-flex justify-content-center">
+                                    @if ($galleryFile->is_visible)
+                                        <span class="badge text-bg-success d-inline-flex align-items-center">Visible</span>&nbsp;
+                                    @else
+                                        <span class="badge text-bg-secondary d-inline-flex align-items-center">Hidden</span>&nbsp;
+                                    @endif
                                     <button class="btn btn-sm btn-warning update-button"
                                             data-id="{{ $galleryFile->id }}"
                                             data-name="{{ $galleryFile->name }}"
                                             data-visibility="{{ $galleryFile->is_visible }}">
-                                        <i title="Update" class="fas fa-edit"></i>
-                                    </button>
+                                        <i title="Update" class="fas fa-edit"></i> Edit
+                                    </button>&nbsp;
                                     <button class="btn btn-sm btn-danger delete-button" data-id="{{ $galleryFile->id }}">
-                                        <i title="Delete" class="fas fa-trash-alt"></i>
+                                        <i title="Delete" class="fas fa-trash-alt"></i> Delete
                                     </button>
                                 </div>
                             </div>
@@ -67,6 +72,7 @@
             </div>
             <form id="addUpdateForm" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="gallery_id" value="{{ $gallery->id }}">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col">
@@ -132,11 +138,34 @@
 <style>
     .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
     .toggle.ios .toggle-handle { border-radius: 20px; }
+
+    .toggle.ios .toggle-on,
+    .toggle.ios .toggle-off {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        line-height: normal;
+    }
 </style>
 <style>
     .required:after {
         content: " *";
         color: red;
+    }
+</style>
+<style>
+    .image-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .image-card img {
+        width: 100%;
+        height: 200px; /* Set a fixed height for consistency */
+        object-fit: cover; /* Crop the image while maintaining aspect ratio */
+        object-position: center; /* Center the image within the container */
     }
 </style>
 @endpush
@@ -206,7 +235,7 @@
         // Handle Delete Button
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
-            var galleryId = '{{ $gallery->id }}';
+            var galleryId = '{{ $gallery->id }}'; // Assuming you have the gallery ID available
             var deleteUrl = `/admin/gallery/${galleryId}/gallery-files/${id}`;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');

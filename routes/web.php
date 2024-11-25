@@ -176,6 +176,8 @@ Route::middleware('locale')->group(function () {
             Route::get('board-of-directors', [BoardOfDirectorsController::class, 'websiteIndex']);
             Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex']);
             Route::get('offices', [OfficeController::class, 'websiteIndex']);
+            Route::get('gallery', [GalleryController::class, 'websiteIndex']);
+            Route::get('gallery/{id}', [GalleryController::class, 'websiteShow']);
         });
         Route::prefix('documents')->group(function () {
             Route::get('rosters', [RosterController::class, 'websiteIndex']);

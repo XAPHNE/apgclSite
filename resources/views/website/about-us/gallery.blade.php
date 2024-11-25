@@ -17,49 +17,24 @@
         <div class="container">
             <div class="row">
                 <h4 class="line-vertical">Power Stations</h4>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="galleryitem.php">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
+                @foreach ($galleries as $gallery)
+                    @if ($gallery->gallery_category === 'Power Stations')
+                        <div class="col-md-3">
+                            <div class="mt-1 mb-3">
+                                <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                    <div class="text-center border">
+                                        <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                        <div class="p-2">
+                                            <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                            {{ $gallery->event_description }}
+                                            </p>
+                                    </div>
+                                    </div>
+                                </a>
                             </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb (1).jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumbnail.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+                        </div>
+                    @endif
+                @endforeach
             
             <div class="row">
                 <h4 class="line-vertical">Ministers Visit</h4>

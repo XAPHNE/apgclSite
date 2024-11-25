@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Gallery;
 use App\Models\GalleryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class GalleryFileController extends Controller
 {
@@ -94,7 +95,7 @@ class GalleryFileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, GalleryFile $galleryFile)
+    public function update(Request $request, Gallery $gallery, GalleryFile $galleryFile)
     {
         // Validate the request
         $request->validate([
@@ -144,15 +145,14 @@ class GalleryFileController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(GalleryFile $galleryFile)
+    public function destroy(Gallery $gallery, GalleryFile $galleryFile)
     {
-        // Delete the file from storage
-        if (file_exists(public_path($galleryFile->downloadLink))) {
-            unlink(public_path($galleryFile->downloadLink));
+        $filePath = public_path($galleryFile->downloadLink);
+        if (file_exists($filePath)) {
+            // unlink($filePath); // Remove the physical file
         }
 
-        // Delete the database record
-        $galleryFile->delete();
+        $galleryFile->delete(); // Delete the record
 
         return redirect()->back()->with('success', 'Gallery media deleted successfully');
     }

@@ -4,9 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class GalleryController extends Controller
 {
+    public function websiteIndex(Request $request, $lang)
+    {
+        App::setLocale($lang);
+        $galleries = Gallery::latest()->get();
+        return view('website.about-us.gallery', compact('galleries'));
+    }
+    public function websiteShow(string $id, $lang)
+    {
+        App::setLocale($lang);
+        $gallery = Gallery::findOrFail($id);
+        $galleryFiles = $gallery->galleryFiles;
+
+        return view('website.about-us.gallery.view-gallery', compact('gallery', 'galleryFiles'));
+    }
     /**
      * Display a listing of the resource.
      */

@@ -10,7 +10,7 @@ class GalleryFile extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'downloadLink', 'is_visible'];
+    protected $fillable = ['gallery_id', 'name', 'downloadLink', 'is_visible'];
 
     public function gallery()
     {
