@@ -58,7 +58,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ url('admin/about-us/gallery') }}" class="nav-link {{ Request::is('admin/about-us/gallery*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Gallery</p>
                             </a>
@@ -160,12 +160,6 @@
                     <a href="{{ url('admin/corporate-social-responsibility') }}" class="nav-link {{ Request::is('admin/corporate-social-responsibility*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-hands-helping text-green me-2"></i>
                         <p>CSR</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('admin/gallery') }}" class="nav-link {{ Request::is('admin/gallery*') ? 'active' : '' }}">
-                        <i class="nav-icon fa-regular fa-image text-green me-2"></i>
-                        <p>Gallery</p>
                     </a>
                 </li>
                 <li class="nav-header">Settings</li>

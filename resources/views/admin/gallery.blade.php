@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item">Gallery</li>
+    <li class="breadcrumb-item active">Gallery</li>
 @endsection
 
 @section('content')
@@ -40,13 +40,21 @@
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle">
-                                    <a href="{{ url('admin/gallery/' . $gallery->id) }}">
+                                    <a href="{{ url('admin/about-us/gallery/' . $gallery->id) }}">
                                         <img src="{{ asset($gallery->thumbnail) }}" class="rounded-circle" alt="{{ $gallery->event_name }} Thumbnail" style="max-height: 50px;">
                                     </a>
                                 </td>
                                 <td class="text-center align-middle">{{ $gallery->gallery_category }}</td>
-                                <td class="text-center align-middle">{{ $gallery->event_name }}</td>
-                                <td class="text-center align-middle">{{ $gallery->event_description }}</td>
+                                <td class="text-center align-middle">
+                                    <a href="{{ url('admin/about-us/gallery/' . $gallery->id) }}" class="text-decoration-none">
+                                        {{ $gallery->event_name }}
+                                    </a>
+                                </td>
+                                <td class="text-center align-middle">
+                                    <a href="{{ url('admin/about-us/gallery/' . $gallery->id) }}" class="text-decoration-none">
+                                        {{ $gallery->event_description }}
+                                    </a>
+                                </td>
                                 <td class="text-center align-middle">
                                     @if ($gallery->is_visible)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -227,7 +235,7 @@
             var is_visible = $(this).data('is_visible') ? true : false;
 
             $('#modalTitle').text('Update Gallery');
-            $('#addUpdateForm').attr('action', '/admin/gallery/' + id);
+            $('#addUpdateForm').attr('action', '/admin/about-us/gallery/' + id);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
@@ -251,7 +259,7 @@
         // Handle Delete Button
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
-            var deleteUrl = '/admin/gallery/' + id;
+            var deleteUrl = '/admin/about-us/gallery/' + id;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');
         });

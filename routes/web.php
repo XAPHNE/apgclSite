@@ -99,6 +99,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::prefix('about-us')->group(function () {
             Route::resource('board-of-directors', BoardOfDirectorsController::class);
+            Route::resource('gallery', GalleryController::class);
+            Route::resource('gallery.gallery-files', GalleryFileController::class)
+                ->only(['store', 'update', 'destroy'])
+                ->scoped(['galleryFile' => 'id',]);
         });
         Route::prefix('documents')->group(function () {
             Route::resource('rosters', RosterController::class);
@@ -140,10 +144,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('tenders.tender-files', TenderFileController::class)
             ->only(['store', 'update', 'destroy'])
             ->scoped(['tenderFile' => 'id',]);
-        Route::resource('gallery', GalleryController::class);
-        Route::resource('gallery.gallery-files', GalleryFileController::class)
-            ->only(['store', 'update', 'destroy'])
-            ->scoped(['galleryFile' => 'id',]);
     });
 
 
@@ -177,7 +177,7 @@ Route::middleware('locale')->group(function () {
             Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex']);
             Route::get('offices', [OfficeController::class, 'websiteIndex']);
             Route::get('gallery', [GalleryController::class, 'websiteIndex']);
-            Route::get('gallery/{id}', [GalleryController::class, 'websiteShow']);
+            Route::get('gallery/{gallery}', [GalleryController::class, 'websiteShow']);
         });
         Route::prefix('documents')->group(function () {
             Route::get('rosters', [RosterController::class, 'websiteIndex']);

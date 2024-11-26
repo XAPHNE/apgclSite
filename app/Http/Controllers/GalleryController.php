@@ -14,10 +14,9 @@ class GalleryController extends Controller
         $galleries = Gallery::latest()->get();
         return view('website.about-us.gallery', compact('galleries'));
     }
-    public function websiteShow(string $id, $lang)
+    public function websiteShow($lang, Gallery $gallery)
     {
         App::setLocale($lang);
-        $gallery = Gallery::findOrFail($id);
         $galleryFiles = $gallery->galleryFiles;
 
         return view('website.about-us.gallery.view-gallery', compact('gallery', 'galleryFiles'));

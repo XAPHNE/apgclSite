@@ -19,207 +19,121 @@
                 <h4 class="line-vertical">Power Stations</h4>
                 @foreach ($galleries as $gallery)
                     @if ($gallery->gallery_category === 'Power Stations')
-                        <div class="col-md-3">
-                            <div class="mt-1 mb-3">
-                                <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
-                                    <div class="text-center border">
-                                        <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
-                                        <div class="p-2">
-                                            <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                            {{ $gallery->event_description }}
-                                            </p>
-                                    </div>
-                                    </div>
-                                </a>
+                        @if ($gallery->is_visible)
+                            <div class="col-md-3">
+                                <div class="mt-1 mb-3">
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                        <div class="text-center border">
+                                            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                            <div class="p-2">
+                                                <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                                {{ $gallery->event_description }}
+                                                </p>
+                                        </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endif
                 @endforeach
             
             <div class="row">
                 <h4 class="line-vertical">Ministers Visit</h4>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
+                @foreach ($galleries as $gallery)
+                    @if ($gallery->gallery_category === "Minister's Visit")
+                        @if ($gallery->is_visible)
+                            <div class="col-md-3">
+                                <div class="mt-1 mb-3">
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                        <div class="text-center border">
+                                            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                            <div class="p-2">
+                                                <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                                {{ $gallery->event_description }}
+                                                </p>
+                                        </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb (1).jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumbnail.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                        @endif
+                    @endif
+                @endforeach
             </div>
 
 
             <div class="row">
                 <h4 class="line-vertical">Social Responsibility & Allied Activities</h4>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
+                @foreach ($galleries as $gallery)
+                    @if ($gallery->gallery_category === "Social Responsibility & Allied Activities")
+                        @if ($gallery->is_visible)
+                            <div class="col-md-3">
+                                <div class="mt-1 mb-3">
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                        <div class="text-center border">
+                                            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                            <div class="p-2">
+                                                <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                                {{ $gallery->event_description }}
+                                                </p>
+                                        </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb (1).jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumbnail.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                        @endif
+                    @endif
+                @endforeach
             </div>
 
 
             <div class="row">
                 <h4 class="line-vertical">Industrial Meets, Seminars & Workshops</h4>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
+                @foreach ($galleries as $gallery)
+                    @if ($gallery->gallery_category === "Industrial Meets, Seminars & Workshops")
+                        @if ($gallery->is_visible)
+                            <div class="col-md-3">
+                                <div class="mt-1 mb-3">
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                        <div class="text-center border">
+                                            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                            <div class="p-2">
+                                                <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                                {{ $gallery->event_description }}
+                                                </p>
+                                        </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb (1).jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumbnail.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                        @endif
+                    @endif
+                @endforeach
             </div>
 
             <div class="row">
                 <h4 class="line-vertical">Other Events</h4>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
+                @foreach ($galleries as $gallery)
+                    @if ($gallery->gallery_category === "Other Events")
+                        @if ($gallery->is_visible)
+                            <div class="col-md-3">
+                                <div class="mt-1 mb-3">
+                                    <a href="{{ url('/' . app()->getLocale() . '/about-us/gallery/' . $gallery->id) }}">
+                                        <div class="text-center border">
+                                            <img src="{{ asset($gallery->thumbnail) }}" alt="gallery" width="100%">
+                                            <div class="p-2">
+                                                <p class="mb-0 fw-bold" style="font-size: 14px;">
+                                                {{ $gallery->event_description }}
+                                                </p>
+                                        </div>
+                                        </div>
+                                    </a>
+                                </div>
                             </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumb (1).jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="mt-1 mb-3">
-                        <a href="#">
-                            <div class="text-center border">
-                                <img src="{{ asset('website-assets/images/gallery/powerstation/thumbnail.jpg') }}" alt="gallery" width="100%">
-                                <div class="p-2">
-                                    <p class="mb-0 fw-bold" style="font-size: 14px;">
-                                    Namrup Thermal Power Plant
-                                    </p>
-                            </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                        @endif
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>

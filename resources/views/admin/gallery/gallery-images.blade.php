@@ -9,7 +9,7 @@
 @endsection
 
 @section('breadcrumb')
-    <li class="breadcrumb-item">Gallery</li>
+    <li class="breadcrumb-item"><a href="{{ url('admin/about-us/gallery') }}" class="text-decoration-none">Gallery</a></li>
     <li class="breadcrumb-item active">{{ $gallery->event_name }} Gallery</li>
 @endsection
 
@@ -213,7 +213,7 @@
             var is_visible = $(this).data('visibility') ? true : false;
 
             $('#modalTitle').text('Update Media');
-            $('#addUpdateForm').attr('action', `/admin/gallery/${galleryId}/gallery-files/${id}`);
+            $('#addUpdateForm').attr('action', `/admin/about-us/gallery/${galleryId}/gallery-files/${id}`);
             $('#addUpdateForm').find('input[name="_method"]').remove();
             $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
             $('#saveButton').text('Update');
@@ -236,7 +236,7 @@
         $('.delete-button').on('click', function () {
             var id = $(this).data('id');
             var galleryId = '{{ $gallery->id }}'; // Assuming you have the gallery ID available
-            var deleteUrl = `/admin/gallery/${galleryId}/gallery-files/${id}`;
+            var deleteUrl = `/admin/about-us/gallery/${galleryId}/gallery-files/${id}`;
             $('#deleteForm').attr('action', deleteUrl);
             $('#deleteConfirmationModal').modal('show');
         });
