@@ -3,23 +3,18 @@
 @section('content')
     <!-- banner section start  -->
     <div class="home-banner">
-        <div class="">
-            <div class="banner-slider-area owl-carousel">
-                <div class="single-banner-slide owl-theme" data-dot="01">
-                    <img src="{{ asset('website-assets/images/home/slider-1.jpg') }}" alt="image">
+        <div class="banner-slider-area owl-carousel">
+            @forelse ($sliderFiles as $gallery)
+                @foreach ($gallery->galleryFiles as $file)
+                    <div class="single-banner-slide owl-theme" data-dot="{{ $loop->parent->iteration }}-{{ $loop->iteration }}">
+                        <img src="{{ asset($file->downloadLink) }}" alt="Gallery File">
+                    </div>
+                @endforeach
+            @empty
+                <div class="single-banner-slide">
+                    <p>No slider files available.</p>
                 </div>
-            <div class="single-banner-slide owl-theme" data-dot="02">
-                <img src="{{ asset('website-assets/images/home/slider-2.jpg') }}" alt="image">
-            </div>
-            <div class="single-banner-slide owl-theme" data-dot="03">
-                <img src="{{ asset('website-assets/images/home/slider-3.jpg') }}" alt="image">
-            </div>
-            <div class="single-banner-slide owl-theme" data-dot="04">
-                <img src="{{ asset('website-assets/images/home/slider-4.jpg') }}" alt="image">
-            </div>
-            <div class="single-banner-slide owl-theme" data-dot="05">
-                <img src="{{ asset('website-assets/images/home/slider-5.jpg') }}" alt="image">
-            </div>
+            @endforelse
         </div>
     </div>
     <!-- banner section close  -->

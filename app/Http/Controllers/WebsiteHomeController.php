@@ -11,6 +11,7 @@ use App\Models\Certificate;
 use App\Models\CSR;
 use App\Models\DamSafety;
 use App\Models\DisasterManagement;
+use App\Models\Gallery;
 use App\Models\NewsAndEvent;
 use App\Models\Policy;
 use App\Models\Publication;
@@ -36,6 +37,14 @@ class WebsiteHomeController extends Controller
             $lang = config('app.fallback_locale');
         }
         App::setLocale($lang);
+
+        $sliderFiles = Gallery::where('gallery_category', 'Home Page Slider')
+            ->where('is_visible', true)
+            ->with(['galleryFiles' => function ($query) {
+                $query->where('is_visible', true);
+            }])
+            ->latest()
+            ->get();
 
         $newsAndEvents = NewsAndEvent::latest()->get();
         $rosters = Roster::latest()->get();
@@ -82,7 +91,7 @@ class WebsiteHomeController extends Controller
             ->sortByDesc('created_at')
             ->values();
 
-        return view('welcome', compact('latestEntries'));
+        return view('welcome', compact('latestEntries', 'sliderFiles'));
     }
 
     /**

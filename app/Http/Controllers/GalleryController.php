@@ -11,8 +11,11 @@ class GalleryController extends Controller
     public function websiteIndex(Request $request, $lang)
     {
         App::setLocale($lang);
-        $galleries = Gallery::latest()->get();
-        return view('website.about-us.gallery', compact('galleries'));
+        $galleries = Gallery::where('is_visible', true)->latest()->get();
+        $galleryCategories = array_filter(Gallery::$galleryCategory, function ($galleryCategories) {
+            return $galleryCategories !== 'Home Page Slider';
+        });
+        return view('website.about-us.gallery', compact('galleries', 'galleryCategories'));
     }
     public function websiteShow($lang, Gallery $gallery)
     {
@@ -95,8 +98,6 @@ class GalleryController extends Controller
     {
         // Validate the request
         $request->validate([
-            'gallery_category' => 'required|string',
-            'event_name' => 'required|string',
             'event_description' => 'required|string',
             'thumbnail' => 'nullable|file', // Thumbnail is optional during update
             'is_visible' => 'nullable|boolean',
@@ -120,8 +121,6 @@ class GalleryController extends Controller
 
         // Update the gallery record
         $gallery->update([
-            'gallery_category' => $request->gallery_category,
-            'event_name' => $request->event_name,
             'event_description' => $request->event_description,
             'thumbnail' => $filePath,
             'is_visible' => $request->boolean('is_visible'),
