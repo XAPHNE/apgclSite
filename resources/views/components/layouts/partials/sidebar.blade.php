@@ -8,9 +8,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="pb-3 mt-3 mb-3 user-panel d-flex">
             <div class="image">
-                <i class="fas fa-user-circle fa-2x text-white"></i>
+                <i class="text-white fas fa-user-circle fa-2x"></i>
             </div>
             <div class="info">
                 <a href="#" class="d-block text-decoration-none">{{ Auth::user()->name }}</a>
@@ -25,12 +25,6 @@
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
                         <p>Dashboard</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ url('user-management') }}" class="nav-link {{ Request::is('user-management*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-users text-green me-2"></i>
-                        <p>Users</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -168,6 +162,32 @@
                         <i class="nav-icon fas fa-user text-green me-2"></i>
                         <p>Profile</p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('admin/users') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-users text-green me-2"></i>
+                        <p>Users</p>
+                    </a>
+                </li>
+                <li class="nav-item {{ Request::is('admin/roles-and-permissions*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Request::is('admin/roles-and-permissions*') ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-person-circle-check text-green me-2"></i>
+                        <p>Roles & Permissions<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('admin/roles-and-permissions/roles') }}" class="nav-link {{ Request::is('admin/roles-and-permissions/roles*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Roles</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('admin/roles-and-permissions/permissions') }}" class="nav-link {{ Request::is('admin/roles-and-permissions/permissions*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Permissions</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
