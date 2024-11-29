@@ -95,7 +95,11 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->group(function () {
         Route::middleware('role:Super Admin')->group(function () {
-
+            Route::prefix('roles-and-permissions')->group(function () {
+                Route::resource('roles', RoleController::class);
+                Route::post('roles/{role}/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assign-permissions');
+                Route::resource('permissions', PermissionController::class);
+            });
             Route::prefix('about-us')->group(function () {
                 Route::resource('board-of-directors', BoardOfDirectorsController::class);
                 Route::resource('gallery', GalleryController::class);
@@ -125,9 +129,6 @@ Route::middleware('auth')->group(function () {
                 Route::resource('ongoing-projects', OngoingProjectsController::class);
                 Route::resource('projects-in-pipeline', ProjectsInPipelineController::class);
             });
-            Route::prefix('tenders')->group(function () {
-                Route::resource('financial-years', FinancialYearController::class);
-            });
             Route::prefix('career')->group(function () {
                 Route::resource('apprenticeship', ApprenticeshipController::class);
                 Route::resource('recruitments', RecruitmentController::class);
@@ -139,20 +140,17 @@ Route::middleware('auth')->group(function () {
             Route::resource('daily-generation', DailyGenerationController::class);
             Route::resource('disaster-management', DisasterManagementController::class);
             Route::resource('dam-safety', DamSafetyController::class);
+            Route::resource('users', UserController::class);
+            Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
+        });
+        Route::middleware('role:Super Admin|Tender Uploader')->group(function () {
+            Route::prefix('tenders')->group(function () {
+                Route::resource('financial-years', FinancialYearController::class);
+            });
             Route::resource('tenders', TenderController::class);
             Route::resource('tenders.tender-files', TenderFileController::class)
                 ->only(['store', 'update', 'destroy'])
                 ->scoped(['tenderFile' => 'id',]);
-            Route::resource('users', UserController::class);
-        });
-        Route::middleware('role:Super Admin|Role Manager')->group(function () {
-            Route::prefix('roles-and-permissions')->group(function () {
-                Route::resource('roles', RoleController::class);
-                Route::post('roles/{role}/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assign-permissions');
-                Route::resource('permissions', PermissionController::class);
-
-                Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
-            });
         });
     });
 

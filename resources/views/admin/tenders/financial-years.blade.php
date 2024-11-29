@@ -29,7 +29,9 @@
                         <tr class="table-primary">
                             <th class="text-center align-middle">#</th>
                             <th class="text-center align-middle">Financial Years</th>
-                            <th class="text-center align-middle nosort">Actions</th>
+                            @hasrole('Super Admin')
+                                <th class="text-center align-middle nosort">Actions</th>
+                            @endhasrole
                         </tr>
                     </thead>
                     <tbody>
@@ -37,15 +39,17 @@
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle">{{ $financialYear->year }}</td>
-                                <td class="text-center align-middle" style="white-space: nowrap;">
-                                    <button class="btn btn-warning update-button"
-                                        data-id="{{ $financialYear->id }}"
-                                        data-year="{{ $financialYear->year }}"><i title="Update" class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-danger delete-button"
-                                            data-id="{{ $financialYear->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
+                                @hasrole('Super Admin')
+                                    <td class="text-center align-middle" style="white-space: nowrap;">
+                                        <button class="btn btn-warning update-button"
+                                            data-id="{{ $financialYear->id }}"
+                                            data-year="{{ $financialYear->year }}"><i title="Update" class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn btn-danger delete-button"
+                                                data-id="{{ $financialYear->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                @endhasrole
                             </tr>
                         @endforeach
                     </tbody>

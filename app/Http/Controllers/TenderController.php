@@ -132,16 +132,16 @@ class TenderController extends Controller
             'tender_no' => 'required|string',
             'description' => 'required|string',
             'is_archived' => 'nullable|boolean',
-            'directory_name' => 'required|string',
-            'financial_year_id' => 'required|exists:financial_years,id',
+            // 'directory_name' => 'required|string',
+            // 'financial_year_id' => 'required|exists:financial_years,id',
         ]);
 
         $tender->update([
             'tender_no' => $request->tender_no,
             'description' => strtoupper($request->description),
-            'financial_year_id' => $request->financial_year_id,
+            // 'financial_year_id' => $request->financial_year_id,
             'is_archived' => $request->boolean('is_archived'),
-            'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
+            // 'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
         ]);
 
         return redirect()->back()->with('success', 'Tender updated successfully');

@@ -65,13 +65,15 @@
     <div class="content-wrapper">
         <!-- Content Header -->
         <section class="content-header">
-            <div class="row mb-2">
+            <div class="mb-2 row">
                 <div class="col-sm-6">
                     <h1>@yield('page_title', 'Dashboard')</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('dashboard') }}">Dashboard</a></li>
+                        @hasrole('Super Admin')
+                            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('dashboard') }}">Dashboard</a></li>
+                        @endhasrole
                         @yield('breadcrumb')
                     </ol>
                 </div>

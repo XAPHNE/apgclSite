@@ -21,18 +21,23 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Sidebar menu items -->
+                @hasrole('Super Admin')
                 <li class="nav-item">
                     <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
+                @endhasrole
+                @hasrole('Super Admin|Tender Uploader')
                 <li class="nav-item">
                     <a href="{{ url('admin/tenders') }}" class="nav-link {{ Request::is('admin/tenders*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-fw fa-file-invoice text-green me-2"></i>
                         <p>Tenders</p>
                     </a>
                 </li>
+                @endhasrole
+                @hasrole('Super Admin')
                 <li class="nav-item">
                     <a href="{{ url('admin/news-and-events') }}" class="nav-link {{ Request::is('admin/news-and-events*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell text-green me-2"></i>
@@ -120,12 +125,16 @@
                         </li>
                     </ul>
                 </li>
+                @endhasrole
+                @hasrole('Super Admin|Daily Generation Updater')
                 <li class="nav-item">
                     <a href="{{ url('admin/daily-generation') }}" class="nav-link {{ Request::is('admin/daily-generation*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-lightbulb text-green me-2"></i>
                         <p>Daily Generation</p>
                     </a>
                 </li>
+                @endhasrole
+                @hasrole('Super Admin')
                 <li class="nav-item">
                     <a href="{{ url('admin/calendars') }}" class="nav-link {{ Request::is('admin/calendars*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar text-green me-2"></i>
@@ -189,6 +198,7 @@
                         </li>
                     </ul>
                 </li>
+                @endhasrole
             </ul>
         </nav>
     </div>
