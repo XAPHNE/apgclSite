@@ -50,7 +50,7 @@
                                 <tbody>
                                     <tr>
                                         <td>Total Capacity</td>
-                                        <td colspan="3">64.5 MW (2 X 21 MW + 1 X 22.5 MW)</td>
+                                        <td colspan="3">41 MW (1 X 17 MW + 1 X 15 MW + 1 X 9 MW)</td>
                                     </tr>
                                     <tr>
                                         <td>Location</td>
