@@ -19,12 +19,16 @@
                 <div class="card card-success">
                     <div class="card-header">
                         <h3 class="d-inline">Tender List</h3>
-                        @can('Add Tender')
+                        @canany(['Add Tender', 'Add Financial Year'])
                             <div class="card-tools">
-                                <a href="{{ url('admin/tenders/financial-years') }}" type="button" class="btn btn-danger">Add Financial Years</a>
-                                <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
+                                @can('Add Financial Year')
+                                    <a href="{{ url('admin/tenders/financial-years') }}" type="button" class="btn btn-danger">Add Financial Years</a>
+                                @endcan
+                                @can('Add Tender')
+                                    <button type="button" class="btn btn-light" data-bs-toggle="modal" data-target="#addNewModal" id="addButton"><i class="fas fa-plus"></i></button>
+                                @endcan
                             </div>
-                        @endcan
+                        @endcanany
                     </div>
                     <div class="card-body">
                         <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
@@ -35,7 +39,9 @@
                                     <th class="text-center align-middle">Tender No</th>
                                     <th class="text-center align-middle">Tender Details</th>
                                     <th class="text-center align-middle nosort">Archived</th>
-                                    <th class="text-center align-middle nosort">Actions</th>
+                                    @canany(['Update Tender', 'Delete Tender'])
+                                        <th class="text-center align-middle nosort">Actions</th>
+                                    @endcanany
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,23 +58,25 @@
                                                 <i class="fas fa-times-circle text-danger"></i>
                                             @endif
                                         </td>
-                                        <td class="text-center align-middle" style="white-space: nowrap;">
-                                            @can('Update Tender')
-                                                <button class="btn btn-warning update-button"
-                                                    data-id="{{ $tender->id }}"
-                                                    data-financial_year_id="{{ $tender->financial_year_id }}"
-                                                    data-tender_no="{{ $tender->tender_no }}"
-                                                    data-description="{{ $tender->description }}"
-                                                    data-is_archived="{{ $tender->is_archived }}"
-                                                    data-directory_name="{{ $tender->directory_name }}"><i title="Update" class="fas fa-edit"></i>
-                                                </button>
-                                            @endcan
-                                            @can('Delete Tender')
-                                                <button class="btn btn-danger delete-button"
-                                                        data-id="{{ $tender->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
-                                                </button>
-                                            @endcan
-                                        </td>
+                                        @canany(['Update Tender', 'Delete Tender'])
+                                            <td class="text-center align-middle" style="white-space: nowrap;">
+                                                @can('Update Tender')
+                                                    <button class="btn btn-warning update-button"
+                                                        data-id="{{ $tender->id }}"
+                                                        data-financial_year_id="{{ $tender->financial_year_id }}"
+                                                        data-tender_no="{{ $tender->tender_no }}"
+                                                        data-description="{{ $tender->description }}"
+                                                        data-is_archived="{{ $tender->is_archived }}"
+                                                        data-directory_name="{{ $tender->directory_name }}"><i title="Update" class="fas fa-edit"></i>
+                                                    </button>
+                                                @endcan
+                                                @can('Delete Tender')
+                                                    <button class="btn btn-danger delete-button"
+                                                            data-id="{{ $tender->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                @endcan
+                                            </td>
+                                        @endcanany
                                     </tr>
                                 @endforeach
                             </tbody>
