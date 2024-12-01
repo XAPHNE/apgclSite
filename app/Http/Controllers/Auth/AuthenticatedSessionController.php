@@ -34,6 +34,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->user()->notify(new SendTwoFactorCode());
 
+        $user = $request->user();
+
+        if ($user->hasRole('Tender Uploader')) {
+            return redirect()->route('tenders.index'); // Redirect to Financial Years
+        } elseif ($user->hasRole('Daily Generation Updater')) {
+            return redirect()->route('daily-generation.index'); // Redirect to Daily Generation
+        }
+
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

@@ -74,10 +74,6 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'twofactor'])->name('dashboard');
@@ -86,15 +82,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
 
     Route::prefix('admin')->group(function () {
         Route::middleware('role:Super Admin')->group(function () {
+            Route::get('dashboard', function () { return view('dashboard'); })->name('dashboard');
             Route::prefix('roles-and-permissions')->group(function () {
                 Route::resource('roles', RoleController::class);
                 Route::post('roles/{role}/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assign-permissions');
@@ -137,7 +134,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('contact-us', ContactController::class);
             Route::resource('calendars', CalendarController::class);
             Route::resource('corporate-social-responsibility', CSRController::class);
-            Route::resource('daily-generation', DailyGenerationController::class);
             Route::resource('disaster-management', DisasterManagementController::class);
             Route::resource('dam-safety', DamSafetyController::class);
             Route::resource('users', UserController::class);
@@ -152,6 +148,9 @@ Route::middleware('auth')->group(function () {
                 ->only(['store', 'update', 'destroy'])
                 ->scoped(['tenderFile' => 'id',]);
         });
+        Route::middleware('role:Super Admin|Daily Generation Updater')->group(function () {
+            Route::resource('daily-generation', DailyGenerationController::class);
+        });
     });
 
 
@@ -162,7 +161,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/editUser/{id}', [AdminController::class, 'editUser']);
     // Route::post('/update-user', [AdminController::class, 'updateUser']);
     // Route::post('/deleteUser', [AdminController::class, 'deleteUser']);
-    
+
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
