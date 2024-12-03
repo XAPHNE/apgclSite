@@ -23,7 +23,7 @@
                 <!-- Sidebar menu items -->
                 @hasrole('Super Admin')
                 <li class="nav-item">
-                    <a href="{{ url('dashboard') }}" class="nav-link {{ Request::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ Route::is('dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
                         <p>Dashboard</p>
                     </a>
@@ -31,7 +31,7 @@
                 @endhasrole
                 @hasrole('Super Admin|Tender Uploader')
                 <li class="nav-item">
-                    <a href="{{ url('admin/tenders') }}" class="nav-link {{ Request::is('admin/tenders*') ? 'active' : '' }}">
+                    <a href="{{ route('tenders.index') }}" class="nav-link {{ Request::is('admin/tenders*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-fw fa-file-invoice text-green me-2"></i>
                         <p>Tenders</p>
                     </a>
@@ -39,45 +39,45 @@
                 @endhasrole
                 @hasrole('Super Admin')
                 <li class="nav-item">
-                    <a href="{{ url('admin/news-and-events') }}" class="nav-link {{ Request::is('admin/news-and-events*') ? 'active' : '' }}">
+                    <a href="{{ route('news-and-events.index') }}" class="nav-link {{ Route::is('news-and-events.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-bell text-green me-2"></i>
                         <p>News & Events</p>
                     </a>
                 </li>
-                <li class="nav-item {{ Request::is('admin/about-us*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('admin/about-us*') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('board-of-directors.*', 'gallery.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('board-of-directors.*', 'gallery.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-id-badge text-green me-2"></i>
                         <p>About Us<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('admin/about-us/board-of-directors') }}" class="nav-link {{ Request::is('admin/about-us/board-of-directors*') ? 'active' : '' }}">
+                            <a href="{{ route('board-of-directors.index') }}" class="nav-link {{ Route::is('board-of-directors.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Board of Directors</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/about-us/gallery') }}" class="nav-link {{ Request::is('admin/about-us/gallery*') ? 'active' : '' }}">
+                            <a href="{{ route('gallery.index') }}" class="nav-link {{ Route::is('gallery.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Gallery</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item {{ Request::is('admin/career*') ? 'menu-open' : '' }}">
+                <li class="nav-item {{ Route::is('apprenticeship.*', 'recruitments.*') ? 'menu-open' : '' }}">
                     <a href="#" class="nav-link {{ Request::is('admin/career*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-id-card-alt text-green me-2"></i>
                         <p>Career<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('admin/career/apprenticeship') }}" class="nav-link {{ Request::is('admin/career/apprenticeship*') ? 'active' : '' }}">
+                            <a href="{{ route('apprenticeship.index') }}" class="nav-link {{ Route::is('apprenticeship.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Apprenticeship</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/career/recruitments') }}" class="nav-link {{ Request::is('admin/career/recruitments*') ? 'active' : '' }}">
+                            <a href="{{ route('recruitments.index') }}" class="nav-link {{ Route::is('recruitments.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Recruitment</p>
                             </a>
@@ -90,35 +90,35 @@
                         <p>Documents<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item"><a href="{{ url('admin/documents/rosters') }}" class="nav-link {{ Request::is('admin/documents/rosters*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Roster</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/acts') }}" class="nav-link {{ Request::is('admin/documents/acts*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Acts</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/policies') }}" class="nav-link {{ Request::is('admin/documents/policies*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Policies</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/service-rules') }}" class="nav-link {{ Request::is('admin/documents/service-rules*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Service Rules</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/certificates') }}" class="nav-link {{ Request::is('admin/documents/certificates*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Certificates</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/tariff-order') }}" class="nav-link {{ Request::is('admin/documents/tariff-order*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Order</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/tariff-petition') }}" class="nav-link {{ Request::is('admin/documents/tariff-petition*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Petition</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/right-to-information') }}" class="nav-link {{ Request::is('admin/documents/right-to-information*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Right to Information</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/annual-statements') }}" class="nav-link {{ Request::is('admin/documents/annual-statements*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Annual Statement</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/annual-returns') }}" class="nav-link {{ Request::is('admin/documents/annual-returns*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Annual Returns</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/reports') }}" class="nav-link {{ Request::is('admin/documents/reports*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Reports</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/publications') }}" class="nav-link {{ Request::is('admin/documents/publications*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Publications</p></a></li>
-                        <li class="nav-item"><a href="{{ url('admin/documents/standard-forms') }}" class="nav-link {{ Request::is('admin/documents/standard-forms*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Standard Forms</p></a></li>
+                        <li class="nav-item"><a href="{{ route('rosters.index') }}" class="nav-link {{ Route::is('rosters.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Roster</p></a></li>
+                        <li class="nav-item"><a href="{{ route('acts.index') }}" class="nav-link {{ Route::is('acts.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Acts</p></a></li>
+                        <li class="nav-item"><a href="{{ route('policies.index') }}" class="nav-link {{ Route::is('policies.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Policies</p></a></li>
+                        <li class="nav-item"><a href="{{ route('service-rules.index') }}" class="nav-link {{ Route::is('service-rules.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Service Rules</p></a></li>
+                        <li class="nav-item"><a href="{{ route('certificates.index') }}" class="nav-link {{ Route::is('certificates.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Certificates</p></a></li>
+                        <li class="nav-item"><a href="{{ route('tariff-order.index') }}" class="nav-link {{ Route::is('tariff-order.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Order</p></a></li>
+                        <li class="nav-item"><a href="{{ route('tariff-petition.index') }}" class="nav-link {{ Route::is('tariff-petition.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Tariff Petition</p></a></li>
+                        <li class="nav-item"><a href="{{ route('right-to-information.index') }}" class="nav-link {{ Route::is('right-to-information.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Right to Information</p></a></li>
+                        <li class="nav-item"><a href="{{ route('annual-statements.index') }}" class="nav-link {{ Route::is('annual-statements.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Annual Statement</p></a></li>
+                        <li class="nav-item"><a href="{{ route('annual-returns.index') }}" class="nav-link {{ Route::is('annual-returns.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Annual Returns</p></a></li>
+                        <li class="nav-item"><a href="{{ route('reports.index') }}" class="nav-link {{ Route::is('reports.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Reports</p></a></li>
+                        <li class="nav-item"><a href="{{ route('publications.index') }}" class="nav-link {{ Route::is('publications.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Publications</p></a></li>
+                        <li class="nav-item"><a href="{{ route('standard-forms.index') }}" class="nav-link {{ Route::is('standard-forms.*') ? 'active' : '' }}"><i class="far fa-circle nav-icon"></i><p>Standard Forms</p></a></li>
                     </ul>
                 </li>
-                <li class="nav-item {{ Request::is('admin/projects*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('admin/projects*') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('ongoing-projects.*', 'projects-in-pipeline.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('ongoing-projects.*', 'projects-in-pipeline.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-id-badge text-green me-2"></i>
                         <p>Projects<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('admin/projects/ongoing-projects') }}" class="nav-link {{ Request::is('admin/projects/ongoing-projects*') ? 'active' : '' }}">
+                            <a href="{{ route('ongoing-projects.index') }}" class="nav-link {{ Route::is('ongoing-projects.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>On going</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/projects/projects-in-pipeline') }}" class="nav-link {{ Request::is('admin/projects/projects-in-pipeline*') ? 'active' : '' }}">
+                            <a href="{{ route('projects-in-pipeline.index') }}" class="nav-link {{ Route::is('projects-in-pipeline.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>In Pipeline</p>
                             </a>
@@ -128,7 +128,7 @@
                 @endhasrole
                 @hasrole('Super Admin|Daily Generation Updater')
                 <li class="nav-item">
-                    <a href="{{ url('admin/daily-generation') }}" class="nav-link {{ Request::is('admin/daily-generation*') ? 'active' : '' }}">
+                    <a href="{{ route('daily-generation.index') }}" class="nav-link {{ Route::is('daily-generation.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-lightbulb text-green me-2"></i>
                         <p>Daily Generation</p>
                     </a>
@@ -136,31 +136,31 @@
                 @endhasrole
                 @hasrole('Super Admin')
                 <li class="nav-item">
-                    <a href="{{ url('admin/calendars') }}" class="nav-link {{ Request::is('admin/calendars*') ? 'active' : '' }}">
+                    <a href="{{ route('calendars.index') }}" class="nav-link {{ Route::is('calendars.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-calendar text-green me-2"></i>
                         <p>Calendar</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/disaster-management') }}" class="nav-link {{ Request::is('admin/disaster-management*') ? 'active' : '' }}">
+                    <a href="{{ route('disaster-management.index') }}" class="nav-link {{ Route::is('disaster-management.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-exclamation-triangle text-green me-2"></i>
                         <p>Disaster Management</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/dam-safety') }}" class="nav-link {{ Request::is('admin/admin/dam-safety*') ? 'active' : '' }}">
+                    <a href="{{ route('dam-safety.index') }}" class="nav-link {{ Route::is('dam-safety.*') ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-building-shield text-green me-2"></i>
                         <p>Dam Safety</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/contact-us') }}" class="nav-link {{ Request::is('admin/contact-us*') ? 'active' : '' }}">
+                    <a href="{{ route('contact-us.index') }}" class="nav-link {{ Route::is('contact-us.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-address-book text-green me-2"></i>
                         <p>Contacts</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/corporate-social-responsibility') }}" class="nav-link {{ Request::is('admin/corporate-social-responsibility*') ? 'active' : '' }}">
+                    <a href="{{ route('corporate-social-responsibility.index') }}" class="nav-link {{ Route::is('corporate-social-responsibility.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-hands-helping text-green me-2"></i>
                         <p>CSR</p>
                     </a>
@@ -173,25 +173,25 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url('admin/users') }}" class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}">
+                    <a href="{{ route('users.index') }}" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users text-green me-2"></i>
                         <p>Users</p>
                     </a>
                 </li>
-                <li class="nav-item {{ Request::is('admin/roles-and-permissions*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Request::is('admin/roles-and-permissions*') ? 'active' : '' }}">
+                <li class="nav-item {{ Route::is('roles.*', 'permissions.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('roles.*', 'permissions.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-person-circle-check text-green me-2"></i>
                         <p>Roles & Permissions<i class="right fas fa-angle-left"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ url('admin/roles-and-permissions/roles') }}" class="nav-link {{ Request::is('admin/roles-and-permissions/roles*') ? 'active' : '' }}">
+                            <a href="{{ route('roles.index') }}" class="nav-link {{ Route::is('roles.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Roles</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ url('admin/roles-and-permissions/permissions') }}" class="nav-link {{ Request::is('admin/roles-and-permissions/permissions*') ? 'active' : '' }}">
+                            <a href="{{ route('permissions.index') }}" class="nav-link {{ Route::is('permissions.*') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Permissions</p>
                             </a>

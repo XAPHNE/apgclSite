@@ -38,7 +38,7 @@
                                         <span class="ms-2">{{ $tender->financialYear->year }}</span>
                                     </p>
                                     <p>
-                                        <strong class="d-inline">Directory Name:</strong>
+                                        <strong class="d-inline">Tender Name:</strong>
                                         <span class="ms-2">{{ $tender->directory_name }}</span>
                                     </p>
                                     <p>
@@ -184,7 +184,7 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label for="directoryName" class="form-label">Directory Name</label>
+                                        <label for="directoryName" class="form-label">Tender Name</label>
                                         <input id="directoryName" type="text" class="form-control required" name="directory_name" required disabled>
                                     </div>
                                 </div>

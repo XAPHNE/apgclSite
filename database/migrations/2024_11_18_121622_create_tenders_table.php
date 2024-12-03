@@ -15,11 +15,15 @@ return new class extends Migration
     {
         Schema::create('tenders', function (Blueprint $table) {
             $table->id();
+            $table->string('department');
             $table->string('tender_no');
             $table->longText('description');
             $table->boolean('is_archived');
             $table->string('directory_name');
             $table->foreignIdFor(FinancialYear::class)->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

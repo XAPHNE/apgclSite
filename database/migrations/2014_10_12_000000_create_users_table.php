@@ -22,6 +22,11 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('two_factor_code')->nullable();
             $table->dateTime('two_factor_expires_at')->nullable();
+            $table->string('department');
+            $table->boolean('must_change_passwd')->default(false);
+            $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

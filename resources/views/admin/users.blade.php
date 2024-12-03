@@ -30,6 +30,7 @@
                             <th class="text-center align-middle">Name</th>
                             <th class="text-center align-middle">Email</th>
                             <th class="text-center align-middle">Roles</th>
+                            <th class="text-center align-middle">Department</th>
                             <th class="text-center align-middle nosort">Actions</th>
                         </tr>
                     </thead>
@@ -44,14 +45,20 @@
                                         <span class="badge bg-secondary">{{ $role->name }}</span>
                                     @endforeach
                                 </td>
+                                <td class="text-center align-middle">{{ $user->department }}</td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
-                                    <button class="btn btn-info assign-roles-button" data-user-id="{{ $user->id }}">
+                                    <button 
+                                        class="btn btn-info assign-roles-button" 
+                                        data-user-id="{{ $user->id }}" 
+                                        data-user-roles="{{ $user->roles->pluck('name')->toJson() }}">
                                         Assign Roles
                                     </button>
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $user->id }}"
                                         data-name="{{ $user->name }}"
-                                        data-email="{{ $user->email }}"><i title="Update" class="fas fa-edit"></i>
+                                        data-email="{{ $user->email }}"
+                                        data-department="{{ $user->department }}"
+                                        data-must_change_passwd="{{ $user->must_change_passwd }}"><i title="Update" class="fas fa-edit"></i>
                                     </button>
                                     <button class="btn btn-danger delete-button"
                                             data-id="{{ $user->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
@@ -74,18 +81,28 @@
         <div class="modal-content">
             <form id="assignRolesForm" method="POST">
                 @csrf
-                <div class="modal-header">
+                <div class="modal-header bg-success">
                     <h5 class="modal-title">Assign Roles to User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="roles">Roles</label>
-                        <select name="roles[]" id="roles" class="form-select" multiple>
+                        <div id="roles">
                             @foreach ($roles as $role)
-                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                                <div class="form-check">
+                                    <input 
+                                        class="form-check-input" 
+                                        type="checkbox" 
+                                        name="roles[]" 
+                                        value="{{ $role->name }}" 
+                                        id="role-{{ $role->id }}">
+                                    <label class="form-check-label" for="role-{{ $role->id }}">
+                                        {{ $role->name }}
+                                    </label>
+                                </div>
                             @endforeach
-                        </select>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -146,6 +163,27 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="department" class="required">Department:</label>
+                                <select id="department" name="department" class="form-select" required>
+                                    <option value="" disabled selected>Select</option>
+                                    @foreach ($departments as $department)
+                                        <option value="{{ $department }}">{{ $department }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!-- Visibility Checkbox with Hidden Input -->
+                            <div class="form-group">
+                                <input type="hidden" name="must_change_passwd" value="0">
+                                <label for="mustChangePassword">Must Change Password:</label>
+                                <input type="checkbox" class="form-control visibility-toggle" id="mustChangePassword" name="must_change_passwd" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             
                 <div class="modal-footer justify-content-between">
@@ -200,7 +238,23 @@
     document.querySelectorAll('.assign-roles-button').forEach(button => {
         button.addEventListener('click', function () {
             const userId = this.getAttribute('data-user-id');
+            const userRoles = JSON.parse(this.getAttribute('data-user-roles')); // Get assigned roles from the button
+
+            // Reset checkboxes
+            document.querySelectorAll('#assignRolesModal .form-check-input').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Check roles for the selected user
+            userRoles.forEach(role => {
+                const checkbox = document.querySelector(`#assignRolesModal .form-check-input[value="${role}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+
+            // Update form action dynamically
             document.getElementById('assignRolesForm').setAttribute('action', `/admin/users/${userId}/assign-roles`);
+
+            // Show the modal
             $('#assignRolesModal').modal('show');
         });
     });
@@ -239,6 +293,7 @@
             $('#email').val('');
             $('#password').val('');
             $('#password_confirmation').val('');
+            $('#mustChangePassword').bootstrapToggle('on');
             $('#addUpdateModal').modal('show');
         });
     
@@ -246,6 +301,8 @@
             var id = $(this).data('id');
             var name = $(this).data('name');
             var email = $(this).data('email');
+            var department = $(this).data('department');
+            var must_change_passwd = $(this).data('must_change_passwd');
 
             $('#modalTitle').text('Update User');
             $('#addUpdateForm').attr('action', '/admin/users/' + id);
@@ -258,6 +315,8 @@
             $('#email').val(email);
             $('#password').val('');
             $('#password_confirmation').val('');
+            $('#department').val(department);
+            $('#mustChangePassword').val(must_change_passwd);
 
             // Remove 'required' attribute for password fields in update mode
             $('#password').removeAttr('required');

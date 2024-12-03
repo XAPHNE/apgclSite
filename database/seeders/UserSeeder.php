@@ -23,6 +23,9 @@ class UserSeeder extends Seeder
         ], [
             'name' => 'Admin',
             'password' => bcrypt('secret'),
+            'department' => 'IT',
+            'created_by' => 1,
+            'updated_by' => 1,
         ]);
 
         // Assign role to the admin user

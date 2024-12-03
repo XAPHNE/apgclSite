@@ -68,6 +68,8 @@ class TenderFileController extends Controller
             'tender_id' => $tender->id,
             'name' => $request->name,
             'downloadLink' => $fullFilePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         // Redirect back with success message
@@ -128,6 +130,8 @@ class TenderFileController extends Controller
         $tenderFile->update([
             'name' => $request->name,
             'downloadLink' => $fullFilePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
     
         return redirect()->route('tenders.show', $tender->id)->with('success', 'Tender File updated successfully');
@@ -144,6 +148,9 @@ class TenderFileController extends Controller
         if (File::exists(public_path($tenderFile->downloadLink))) {
             // File::delete(public_path($tenderFile->downloadLink));
         }
+
+        $tender->deleted_by = auth()->id();
+        $tender->save();
     
         // Delete the tender file record from the database
         $tenderFile->delete();

@@ -25,6 +25,11 @@ class User extends Authenticatable
         'password',
         'two_factor_code',
         'two_factor_expires_at',
+        'department',
+        'must_change_passwd',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     /**
@@ -76,5 +81,45 @@ class User extends Authenticatable
     public function adminlte_profile_url()
     {
         return 'profile/username';
+    }
+
+    public static $departments = [
+        'F&A',
+        'Generation',
+        'H&C',
+        'HR',
+        'IT',
+        'Procurement', 
+        'TRC',
+    ];
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function deleter()
+    {
+        return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+    public function createdUsers()
+    {
+        return $this->hasMany(User::class, 'created_by');
+    }
+
+    public function updatedUsers()
+    {
+        return $this->hasMany(User::class, 'updated_by');
+    }
+
+    public function deletedUsers()
+    {
+        return $this->hasMany(User::class, 'deleted_by');
     }
 }

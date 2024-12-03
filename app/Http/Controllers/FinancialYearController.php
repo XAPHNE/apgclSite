@@ -42,6 +42,8 @@ class FinancialYearController extends Controller
     
         FinancialYear::create([
             'year' => $request->year,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Financial Year added successfully');
@@ -82,6 +84,8 @@ class FinancialYearController extends Controller
 
         $financialYear->update([
             'year' => $request->year,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Financial Year updated successfully');
@@ -93,6 +97,9 @@ class FinancialYearController extends Controller
     public function destroy(string $id)
     {
         $financialYear = FinancialYear::findOrFail($id);
+
+        $financialYear->deleted_by = auth()->id();
+        $financialYear->save();
 
         $financialYear->delete();
 

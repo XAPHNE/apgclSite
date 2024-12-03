@@ -17,6 +17,9 @@ return new class extends Migration
             $table->foreignIdFor(Tender::class)->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->string('name');
             $table->string('downloadLink');
+            $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes();
         });

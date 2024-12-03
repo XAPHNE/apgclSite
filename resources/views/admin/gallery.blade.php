@@ -102,8 +102,8 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="galleryCategory" class="required">Gallery Category:</label>
-                                <select id="galleryCategory" name="gallery_category" class="form-select">
-                                    <option required disabled>Select</option>
+                                <select id="galleryCategory" name="gallery_category" class="form-select" required>
+                                    <option value="" disabled selected>Select</option>
                                     @foreach ($galleryCategories as $galleryCategory)
                                     <option value="{{ $galleryCategory }}">{{ $galleryCategory }}</option>
                                     @endforeach

@@ -26,7 +26,8 @@ class UserController extends Controller
     {
         $users = User::with('roles')->latest()->get();
         $roles = Role::latest()->get();
-        return view('admin.users', compact('users', 'roles'));
+        $departments = User::$departments;
+        return view('admin.users', compact('users', 'roles', 'departments'));
     }
 
     /**
@@ -55,12 +56,16 @@ class UserController extends Controller
                 'regex:/[0-9]/',
                 'regex:/[@$!%*?&]/',
             ],
+            'department' => 'required|string|in:' . implode(',', User::$departments),
         ]);
 
         User::create([
             'name' => ucwords(strtolower($request->name)),
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'department' => $request->department,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'User added successfully');
@@ -102,12 +107,16 @@ class UserController extends Controller
                 'regex:/[0-9]/',
                 'regex:/[@$!%*?&]/',
             ],
+            'department' => 'required|string|in:' . implode(',', User::$departments),
         ]);
 
         $user->update([
             'name' => ucwords(strtolower($request->name)),
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'department' => $request->department,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'User updated successfully');
@@ -119,6 +128,9 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        $user->deleted_by = auth()->id();
+        $user->save();
 
         $user->delete();
 

@@ -10,7 +10,7 @@ class FinancialYear extends Model
 {
     use HasFactory, SoftDeletes;
     
-    protected $fillable = ['year'];
+    protected $fillable = ['year', 'created_by', 'updated_by', 'deleted_by'];
 
     public function tenders()
     {
