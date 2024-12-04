@@ -165,6 +165,7 @@
                         <p>CSR</p>
                     </a>
                 </li>
+                @endhasrole
                 <li class="nav-header">Settings</li>
                 <li class="nav-item">
                     <a href="{{ route('profile.index') }}" class="nav-link {{ Route::is('profile.*') ? 'active' : '' }}">
@@ -172,6 +173,7 @@
                         <p>Profile</p>
                     </a>
                 </li>
+                @hasrole('Super Admin')
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users text-green me-2"></i>
