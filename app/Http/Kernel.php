@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    
     /**
      * The application's global HTTP middleware stack.
      *
@@ -72,11 +73,5 @@ class Kernel extends HttpKernel
         'password.change' => \App\Http\Middleware\EnsurePasswordChange::class, // Enforces password change
         'locale' => \App\Http\Middleware\LocaleMiddleware::class, // For localized routes
         'twofactor' => \App\Http\Middleware\TwoFactorMiddleware::class, // For 2FA
-    ];
-
-    protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'locale' => \App\Http\Middleware\LocaleMiddleware::class,
-        'twofactor' => \App\Http\Middleware\TwoFactorMiddleware::class,
     ];
 }
