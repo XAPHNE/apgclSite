@@ -76,12 +76,13 @@
     </div>
 </div>
 
+<!-- Assign Role Modal -->
 <div class="modal fade" id="assignRolesModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form id="assignRolesForm" method="POST">
                 @csrf
-                <div class="modal-header bg-success">
+                <div class="modal-header bg-info">
                     <h5 class="modal-title">Assign Roles to User</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -105,9 +106,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
+                    <button type="submit" class="btn btn-info">Assign</button>
                 </div>
             </form>
         </div>
