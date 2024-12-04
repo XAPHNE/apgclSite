@@ -57,6 +57,7 @@ class UserController extends Controller
                 'regex:/[@$!%*?&]/',
             ],
             'department' => 'required|string|in:' . implode(',', User::$departments),
+            'must_change_passwd' => 'nullable|boolean',
         ]);
 
         User::create([
@@ -64,6 +65,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'department' => $request->department,
+            'must_change_passwd' => $request->boolean('must_change_passwd'),
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
@@ -96,7 +98,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,' . $id,
             'password' => [
                 'nullable',
                 'string',
@@ -108,13 +110,15 @@ class UserController extends Controller
                 'regex:/[@$!%*?&]/',
             ],
             'department' => 'required|string|in:' . implode(',', User::$departments),
+            'must_change_passwd' => 'required|boolean',
         ]);
 
         $user->update([
             'name' => ucwords(strtolower($request->name)),
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => $request->filled('password') ? bcrypt($request->password) : $user->password,
             'department' => $request->department,
+            'must_change_passwd' => $request->boolean('must_change_passwd'),
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
