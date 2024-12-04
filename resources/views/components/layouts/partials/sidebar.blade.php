@@ -13,7 +13,7 @@
                 <i class="text-white fas fa-user-circle fa-2x"></i>
             </div>
             <div class="info">
-                <a href="#" class="d-block text-decoration-none">{{ Auth::user()->name }}</a>
+                <a href="{{ route('profile.index') }}" class="d-block text-decoration-none">{{ Auth::user()->name }}</a>
             </div>
         </div>
 
@@ -167,7 +167,7 @@
                 </li>
                 <li class="nav-header">Settings</li>
                 <li class="nav-item">
-                    <a href="{{ url('profile') }}" class="nav-link {{ Request::is('profile*') ? 'active' : '' }}">
+                    <a href="{{ route('profile.index') }}" class="nav-link {{ Route::is('profile.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user text-green me-2"></i>
                         <p>Profile</p>
                     </a>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
@@ -12,13 +13,12 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Display the user's profile form.
+     * Display the user's profile page.
      */
-    public function edit(Request $request): View
+    public function index(): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = Auth::user();
+        return view('admin.profile', compact('user'));
     }
 
     /**
@@ -26,35 +26,32 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
-
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
         $user = $request->user();
 
-        Auth::logout();
+        // Validate current password if provided
+        if ($request->filled('current_password')) {
+            if (!Hash::check($request->input('current_password'), $user->password)) {
+                return back()->withErrors(['current_password' => 'The provided password does not match your current password.']);
+            }
+        }
 
-        $user->delete();
+        // Update user fields (name, email)
+        $user->fill($request->only('name', 'email'));
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Update password if provided
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
 
-        return Redirect::to('/');
+            // Reset the must_change_passwd flag when the password is updated
+            $user->must_change_passwd = false;
+        }
+
+        // Update the updated_by field
+        $user->updated_by = auth()->id();
+
+        // Save changes
+        $user->save();
+
+        return Redirect::route('profile.index')->with('success', 'Profile updated successfully.');
     }
 }

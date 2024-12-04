@@ -69,6 +69,9 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middleware\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
+        'password.change' => \App\Http\Middleware\EnsurePasswordChange::class, // Enforces password change
+        'locale' => \App\Http\Middleware\LocaleMiddleware::class, // For localized routes
+        'twofactor' => \App\Http\Middleware\TwoFactorMiddleware::class, // For 2FA
     ];
 
     protected $routeMiddleware = [

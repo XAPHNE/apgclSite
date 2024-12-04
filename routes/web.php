@@ -78,18 +78,9 @@ Route::middleware('guest')->group(function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'twofactor'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-
-
-
-
-
+Route::middleware(['auth', 'password.change'])->group(function () {
     Route::prefix('admin')->group(function () {
+        Route::resource('profile', ProfileController::class)->only(['index', 'update']);
         Route::middleware('role:Super Admin')->group(function () {
             Route::get('dashboard', function () { return view('dashboard'); })->name('dashboard');
             Route::prefix('roles-and-permissions')->group(function () {
@@ -152,16 +143,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('daily-generation', DailyGenerationController::class);
         });
     });
-
-
-
-    // Route::get('/addUser', [AdminController::class, 'index'])->name('add-user');
-    // Route::post('/register-user', [AdminController::class, 'registerUser'])->name('register-user');
-    // Route::post('/update-role', [AdminController::class, 'check']);
-    // Route::get('/editUser/{id}', [AdminController::class, 'editUser']);
-    // Route::post('/update-user', [AdminController::class, 'updateUser']);
-    // Route::post('/deleteUser', [AdminController::class, 'deleteUser']);
-
 });
 
 Route::middleware(['auth', 'twofactor'])->group(function () {
