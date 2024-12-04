@@ -24,6 +24,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'password' => bcrypt('secret'),
             'department' => 'IT',
+            'must_change_passwd' => 0,
             'created_by' => 1,
             'updated_by' => 1,
         ]);
