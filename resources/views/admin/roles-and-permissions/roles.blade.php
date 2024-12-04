@@ -44,7 +44,9 @@
                                     @endforeach
                                 </td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
-                                    <button class="btn btn-info assign-permissions-button" data-role-id="{{ $role->id }}">
+                                    <button class="btn btn-info assign-permissions-button" 
+                                        data-role-id="{{ $role->id }}" 
+                                        data-role-permissions="{{ $role->permissions->pluck('name')->toJson() }}">
                                         Assign Permissions
                                     </button>
                                     <button class="btn btn-warning update-button"
@@ -67,28 +69,48 @@
     </div>
 </div>
 
+<!-- Assign Permission Modal -->
 <div class="modal fade" id="assignPermissionsModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
             <form id="assignPermissionsForm" method="POST">
                 @csrf
-                <div class="modal-header">
+                <div class="modal-header bg-info">
                     <h5 class="modal-title">Assign Permissions to Role</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="permissions">Permissions</label>
-                        <select name="permissions[]" id="permissions" class="form-select" multiple>
-                            @foreach ($permissions as $permission)
-                                <option value="{{ $permission->name }}">{{ $permission->name }}</option>
-                            @endforeach
-                        </select>
+                        <div id="permissions">
+                            <div class="row">
+                                @foreach ($permissions as $index => $permission)
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                name="permissions[]" 
+                                                value="{{ $permission->name }}" 
+                                                id="permission-{{ $permission->id }}">
+                                            <label class="form-check-label" for="permission-{{ $permission->id }}">
+                                                {{ $permission->name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                
+                                    <!-- Close and start a new row after every 4 columns -->
+                                    @if (($index + 1) % 4 === 0 && $index + 1 < count($permissions))
+                                        </div><div class="row">
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
+                </div>                
+                <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Assign</button>
+                    <button type="submit" class="btn btn-info">Assign</button>
                 </div>
             </form>
         </div>
@@ -164,7 +186,23 @@
     document.querySelectorAll('.assign-permissions-button').forEach(button => {
         button.addEventListener('click', function () {
             const roleId = this.getAttribute('data-role-id');
+            const rolePermissions = JSON.parse(this.getAttribute('data-role-permissions')); // Updated attribute
+
+            // Reset all checkboxes
+            document.querySelectorAll('#assignPermissionsModal .form-check-input').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+
+            // Check the boxes for permissions already assigned
+            rolePermissions.forEach(permission => {
+                const checkbox = document.querySelector(`#assignPermissionsModal .form-check-input[value="${permission}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+
+            // Set the form's action dynamically
             document.getElementById('assignPermissionsForm').setAttribute('action', `/admin/roles-and-permissions/roles/${roleId}/assign-permissions`);
+
+            // Show the modal
             $('#assignPermissionsModal').modal('show');
         });
     });
