@@ -19,33 +19,32 @@
             <a class="nav-link" data-bs-toggle="dropdown" href="#"> <!-- Updated 'data-toggle' to 'data-bs-toggle' -->
                 <i class="fas fa-user-circle fa-lg"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-end p-0" style="width: 250px; background-color: transparent; border: 0; box-shadow: none;">
+            <div class="p-0 dropdown-menu dropdown-menu-end" style="width: 250px; background-color: transparent; border: 0; box-shadow: none;">
                 <div class="card card-widget widget-user">
                     <div class="widget-user-header bg-info">
                         <h3 class="widget-user-username">{{ Auth::user()->name }}</h3>
                         <h5 class="widget-user-desc">
-                            @if(Auth::user()->isAdmin)
-                                Admin
-                            @elseif(Auth::user()->isVendor)
-                                Vendor
-                            @elseif(Auth::user()->isEmployee)
-                                Employee
+                            Role: 
+                            @if (Auth::user()->roles->isNotEmpty())
+                                @foreach (Auth::user()->roles as $role)
+                                    <span class="badge badge-primary">{{ $role->name }}</span>
+                                @endforeach
                             @else
-                                User
+                                <span class="text-muted">N/A</span>
                             @endif
                         </h5>
                     </div>
                     <div class="widget-user-image">
-                        <i class="fas fa-user-circle fa-5x text-white"></i>
+                        <i class="text-white fas fa-user-circle fa-5x"></i>
                     </div>
                     <div class="card-footer">
-                        <a href="profile" class="dropdown-item">
-                            <i class="fas fa-user mr-2"></i> Profile
+                        <a href="{{ route('profile.index') }}" class="dropdown-item">
+                            <i class="mr-2 fas fa-user"></i> Profile
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item text-danger"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt mr-2"></i> Logout
+                            <i class="mr-2 fas fa-sign-out-alt"></i> Logout
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
