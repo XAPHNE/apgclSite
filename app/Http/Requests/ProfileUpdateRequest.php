@@ -17,9 +17,17 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $this->user()->id,
-            'current_password' => 'nullable|string',
-            'password' => 'nullable|string|min:8|confirmed',
+            'current_password' => 'required_with:password|string',
+            'password' => [
+                'nullable',
+                'string',
+                'min:10',
+                'confirmed',
+                'regex:/[a-z]/',
+                'regex:/[A-Z]/',
+                'regex:/[0-9]/',
+                'regex:/[@$!%*?&]/',
+            ],
         ];
     }
 }
