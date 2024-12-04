@@ -67,6 +67,8 @@ class GalleryController extends Controller
             'event_description' => $request->event_description,
             'thumbnail' => $filePath,
             'is_visible' => $request->boolean('is_visible'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Gallery added successfully');
@@ -124,6 +126,7 @@ class GalleryController extends Controller
             'event_description' => $request->event_description,
             'thumbnail' => $filePath,
             'is_visible' => $request->boolean('is_visible'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Gallery updated successfully');
@@ -138,6 +141,9 @@ class GalleryController extends Controller
         if ($gallery->thumbnail && file_exists(public_path($gallery->thumbnail))) {
             // unlink(public_path($gallery->thumbnail));
         }
+
+        $gallery->deleted_by = auth()->id();
+        $gallery->save();
 
         // Delete the gallery record
         $gallery->delete();

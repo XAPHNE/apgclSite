@@ -10,7 +10,7 @@ class Gallery extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['gallery_category', 'event_name', 'event_description', 'thumbnail', 'is_visible'];
+    protected $fillable = ['gallery_category', 'event_name', 'event_description', 'thumbnail', 'is_visible', 'created_by', 'updated_by', 'deleted_by'];
 
     public static $galleryCategory = [
         'Home Page Slider',
