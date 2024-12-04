@@ -80,7 +80,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware(['auth', 'password.change'])->group(function () {
     Route::prefix('admin')->group(function () {
-        Route::resource('profile', ProfileController::class)->only(['index', 'update']);
+        Route::resource('profile', ProfileController::class)->only('index', 'update');
         Route::middleware('role:Super Admin')->group(function () {
             Route::get('dashboard', function () { return view('dashboard'); })->name('dashboard');
             Route::prefix('roles-and-permissions')->group(function () {
