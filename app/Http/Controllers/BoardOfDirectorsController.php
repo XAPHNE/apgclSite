@@ -63,6 +63,8 @@ class BoardOfDirectorsController extends Controller
             'is_md' => $request->boolean('is_md'),
             'is_gov_rep' => $request->boolean('is_gov_rep'),
             'is_indi_ditr' => $request->boolean('is_indi_ditr'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Board of Director added successfully');
@@ -124,6 +126,7 @@ class BoardOfDirectorsController extends Controller
             'is_md' => $request->boolean('is_md'),
             'is_gov_rep' => $request->boolean('is_gov_rep'),
             'is_indi_ditr' => $request->boolean('is_indi_ditr'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Board of Director updated successfully');
@@ -140,6 +143,9 @@ class BoardOfDirectorsController extends Controller
         if (File::exists(public_path($boardOfDirector->downloadLink))) {
             // File::delete(public_path($boardOfDirector->downloadLink));
         }
+
+        $boardOfDirector->deleted_by = auth()->id();
+        $boardOfDirector->save();
 
         $boardOfDirector->delete();
 

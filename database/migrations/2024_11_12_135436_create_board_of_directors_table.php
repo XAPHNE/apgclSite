@@ -21,6 +21,9 @@ return new class extends Migration
             $table->boolean('is_md');
             $table->boolean('is_gov_rep');
             $table->boolean('is_indi_ditr');
+            $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->timestamps();
             $table->softDeletes(); 
         });
