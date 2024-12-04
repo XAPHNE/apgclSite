@@ -302,7 +302,7 @@
             var name = $(this).data('name');
             var email = $(this).data('email');
             var department = $(this).data('department');
-            var must_change_passwd = $(this).data('must_change_passwd');
+            var must_change_passwd = $(this).data('must_change_passwd') ? true : false;
 
             $('#modalTitle').text('Update User');
             $('#addUpdateForm').attr('action', '/admin/users/' + id);
@@ -316,7 +316,6 @@
             $('#password').val('');
             $('#password_confirmation').val('');
             $('#department').val(department);
-            $('#mustChangePassword').val(must_change_passwd);
 
             // Remove 'required' attribute for password fields in update mode
             $('#password').removeAttr('required');
@@ -329,6 +328,9 @@
             // Update modal styling for update mode
             $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
             $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+            // Set toggle states for each checkbox
+            $('#mustChangePassword').prop('checked', must_change_passwd).change();
 
             $('#addUpdateModal').modal('show');
         });
