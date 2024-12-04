@@ -45,6 +45,8 @@ class DailyGenerationController extends Controller
         DailyGeneration::create([
             'description' => $request->description,
             'downloadLink' => $filePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Daily Generation added successfully');
@@ -94,6 +96,8 @@ class DailyGenerationController extends Controller
         $dailyGeneration->update([
             'description' => $request->description,
             'downloadLink' => $filePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Daily Generation updated successfully');
@@ -110,6 +114,9 @@ class DailyGenerationController extends Controller
         if (File::exists(public_path($dailyGeneration->downloadLink))) {
             // File::delete(public_path($dailyGeneration->downloadLink));
         }
+
+        $dailyGeneration->deleted_by = auth()->id();
+        $dailyGeneration->save();
 
         $dailyGeneration->delete();
 

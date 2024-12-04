@@ -31,6 +31,8 @@
                                 <tr class="table-primary">
                                     <th class="text-center align-middle">#</th>
                                     <th class="text-center align-middle">Description</th>
+                                    <th class="text-center align-middle">Updated By</th>
+                                    <th class="text-center align-middle">Updated At</th>
                                     <th class="text-center align-middle nosort">Actions</th>
                                 </tr>
                             </thead>
@@ -39,6 +41,8 @@
                                     <tr>
                                         <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                         <td class="text-center align-middle">{{ $dailyGeneration->description }}</td>
+                                        <td class="text-center align-middle">{{ $dailyGeneration->updater->name }}</td>
+                                        <td class="text-center align-middle">{{ $dailyGeneration->updated_at->format('M d Y, h:i A') }}</td>
                                             <td class="text-center align-middle" style="white-space: nowrap;">
                                                 <a class="btn btn-info" href="{{ url($dailyGeneration->downloadLink) }}" target="_blank"><i title="View/Download" class="fas fa-eye"></i></a>
                                                 @can('Update Daily Generation')
@@ -48,7 +52,7 @@
                                                         data-downloadlink="{{ $dailyGeneration->downloadLink }}"><i title="Update" class="fas fa-edit"></i>
                                                     </button>
                                                 @endcan
-                                                @can()
+                                                @can('Delete Daily Generation')
                                                     <button class="btn btn-danger delete-button"
                                                             data-id="{{ $dailyGeneration->id }}"><i title="Delete" class="fas fa-trash-alt"></i>
                                                     </button>
