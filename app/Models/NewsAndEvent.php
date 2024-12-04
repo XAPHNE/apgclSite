@@ -10,5 +10,5 @@ class NewsAndEvent extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['description', 'downloadLink', 'news_n_events', 'new_badge'];
+    protected $fillable = ['description', 'downloadLink', 'news_n_events', 'new_badge', 'created_by', 'updated_by', 'deleted_by'];
 }

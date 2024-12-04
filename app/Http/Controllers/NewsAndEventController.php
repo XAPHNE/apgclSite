@@ -49,6 +49,8 @@ class NewsAndEventController extends Controller
             'downloadLink' => $filePath,
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'News and Event item added successfully');
@@ -102,6 +104,8 @@ class NewsAndEventController extends Controller
             'downloadLink' => $filePath,
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'News and Event item updated successfully');
@@ -118,6 +122,9 @@ class NewsAndEventController extends Controller
         if (File::exists(public_path($newsAndEvent->downloadLink))) {
             // File::delete(public_path($newsAndEvent->downloadLink));
         }
+
+        $newsAndEvent->deleted_by = auth()->id();
+        $newsAndEvent->save();
 
         $newsAndEvent->delete();
 
