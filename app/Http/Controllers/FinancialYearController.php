@@ -84,7 +84,6 @@ class FinancialYearController extends Controller
 
         $financialYear->update([
             'year' => $request->year,
-            'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
 

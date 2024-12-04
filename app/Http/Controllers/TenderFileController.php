@@ -130,7 +130,6 @@ class TenderFileController extends Controller
         $tenderFile->update([
             'name' => $request->name,
             'downloadLink' => $fullFilePath,
-            'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
     

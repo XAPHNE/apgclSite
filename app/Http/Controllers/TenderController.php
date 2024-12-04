@@ -160,7 +160,6 @@ class TenderController extends Controller
             'tender_no' => $request->tender_no,
             'description' => strtoupper($request->description),
             'is_archived' => $request->boolean('is_archived'),
-            'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
 

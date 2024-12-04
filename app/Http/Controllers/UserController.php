@@ -119,7 +119,6 @@ class UserController extends Controller
             'password' => $request->filled('password') ? bcrypt($request->password) : $user->password,
             'department' => $request->department,
             'must_change_passwd' => $request->boolean('must_change_passwd'),
-            'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
 

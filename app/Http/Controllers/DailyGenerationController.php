@@ -96,7 +96,6 @@ class DailyGenerationController extends Controller
         $dailyGeneration->update([
             'description' => $request->description,
             'downloadLink' => $filePath,
-            'created_by' => auth()->id(),
             'updated_by' => auth()->id(),
         ]);
 
