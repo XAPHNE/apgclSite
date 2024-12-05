@@ -85,12 +85,12 @@ class User extends Authenticatable
 
     public static $departments = [
         'F&A',
-        'Generation',
-        'H&C',
+        'Gen',
         'HR',
+        'H&C',
         'IT',
-        'Procurement', 
-        'TRC',
+        'NRE',
+        'PP&I',
     ];
 
     public function creator()
