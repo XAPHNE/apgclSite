@@ -61,6 +61,8 @@ class RosterController extends Controller
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
             'is_header' => $request->boolean('is_header'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Roster added successfully');
@@ -120,6 +122,7 @@ class RosterController extends Controller
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
             'is_header' => $request->boolean('is_header'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Roster updated successfully');
@@ -136,6 +139,9 @@ class RosterController extends Controller
         if (File::exists(public_path($roster->downloadLink))) {
             // File::delete(public_path($roster->downloadLink));
         }
+
+        $roster->deleted_by = auth()->id();
+        $roster->save();
 
         $roster->delete();
 

@@ -10,5 +10,5 @@ class Roster extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge', 'is_header'];
+    protected $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge', 'is_header', 'created_by', 'updated_by', 'deleted_by'];
 }
