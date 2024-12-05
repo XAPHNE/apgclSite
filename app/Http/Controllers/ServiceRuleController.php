@@ -52,6 +52,8 @@ class ServiceRuleController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Service rule added successfully');
@@ -109,6 +111,7 @@ class ServiceRuleController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Service rule updated successfully');
@@ -125,6 +128,9 @@ class ServiceRuleController extends Controller
         if (File::exists(public_path($serviceRule->downloadLink))) {
             // File::delete(public_path($serviceRule->downloadLink));
         }
+
+        $serviceRule->deleted_by = auth()->id();
+        $serviceRule->save();
 
         $serviceRule->delete();
 
