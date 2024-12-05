@@ -59,6 +59,8 @@ class ApprenticeshipController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Apprenticeship added successfully');
@@ -116,6 +118,7 @@ class ApprenticeshipController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Apprenticeship updated successfully');
@@ -132,6 +135,9 @@ class ApprenticeshipController extends Controller
         if (File::exists(public_path($apprenticeship->downloadLink))) {
             // File::delete(public_path($apprenticeship->downloadLink));
         }
+
+        $apprenticeship->deleted_by = auth()->id();
+        $apprenticeship->save();
 
         $apprenticeship->delete();
 
