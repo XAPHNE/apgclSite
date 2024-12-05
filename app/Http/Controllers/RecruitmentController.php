@@ -59,6 +59,8 @@ class RecruitmentController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Recruitment added successfully');
@@ -116,6 +118,7 @@ class RecruitmentController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Recruitment updated successfully');
@@ -132,6 +135,9 @@ class RecruitmentController extends Controller
         if (File::exists(public_path($recruitment->downloadLink))) {
             // File::delete(public_path($recruitment->downloadLink));
         }
+
+        $recruitment->deleted_by = auth()->id();
+        $recruitment->save();
 
         $recruitment->delete();
 
