@@ -70,6 +70,8 @@ class GalleryFileController extends Controller
             'name' => $request->name,
             'is_visible' => $request->boolean('is_visible'),
             'downloadLink' => $fullFilePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         // Redirect back with success message
@@ -137,6 +139,7 @@ class GalleryFileController extends Controller
         $galleryFile->update([
             'name' => $request->name,
             'is_visible' => $request->boolean('is_visible'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Gallery media updated successfully');
@@ -151,6 +154,9 @@ class GalleryFileController extends Controller
         if (file_exists($filePath)) {
             // unlink($filePath); // Remove the physical file
         }
+
+        $galleryFile->deleted_by = auth()->id();
+        $galleryFile->save();
 
         $galleryFile->delete(); // Delete the record
 
