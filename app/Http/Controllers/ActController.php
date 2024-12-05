@@ -52,6 +52,8 @@ class ActController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Act added successfully');
@@ -109,6 +111,7 @@ class ActController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Act updated successfully');
@@ -125,6 +128,9 @@ class ActController extends Controller
         if (File::exists(public_path($act->downloadLink))) {
             // File::delete(public_path($act->downloadLink));
         }
+
+        $act->deleted_by = auth()->id();
+        $act->save();
 
         $act->delete();
 
