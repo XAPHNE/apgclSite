@@ -59,6 +59,8 @@ class CalendarController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Calendar added successfully');
@@ -116,6 +118,7 @@ class CalendarController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Calendar updated successfully');
@@ -132,6 +135,9 @@ class CalendarController extends Controller
         if (File::exists(public_path($calendar->downloadLink))) {
             // File::delete(public_path($calendar->downloadLink));
         }
+
+        $calendar->deleted_by = auth()->id();
+        $calendar->save();
 
         $calendar->delete();
 
