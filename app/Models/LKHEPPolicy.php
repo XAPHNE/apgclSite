@@ -10,5 +10,5 @@ class LKHEPPolicy extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'downloadLink'];
+    protected $fillable = ['name', 'description', 'downloadLink', 'created_by', 'updated_by', 'deleted_by'];
 }

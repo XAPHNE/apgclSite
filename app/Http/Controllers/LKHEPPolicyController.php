@@ -53,6 +53,8 @@ class LKHEPPolicyController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'downloadLink' => $filePath,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'LKHEP policy added successfully');
@@ -104,6 +106,7 @@ class LKHEPPolicyController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'downloadLink' => $filePath,
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'LKHEP policy updated successfully');
@@ -120,6 +123,9 @@ class LKHEPPolicyController extends Controller
         if (File::exists(public_path($lkhepPolicy->downloadLink))) {
             // File::delete(public_path($lkhepPolicy->downloadLink));
         }
+
+        $lkhepPolicy->deleted_by = auth()->id();
+        $lkhepPolicy->save();
 
         $lkhepPolicy->delete();
 
