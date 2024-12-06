@@ -59,6 +59,8 @@ class ReportController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Report added successfully');
@@ -116,6 +118,7 @@ class ReportController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Report updated successfully');
@@ -132,6 +135,9 @@ class ReportController extends Controller
         if (File::exists(public_path($report->downloadLink))) {
             // File::delete(public_path($report->downloadLink));
         }
+
+        $report->deleted_by = auth()->id();
+        $report->save();
 
         $report->delete();
 
