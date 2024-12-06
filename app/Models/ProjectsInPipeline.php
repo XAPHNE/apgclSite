@@ -10,5 +10,5 @@ class ProjectsInPipeline extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'capacity'];
+    protected $fillable = ['name', 'capacity', 'created_by', 'updated_by', 'deleted_by'];
 }

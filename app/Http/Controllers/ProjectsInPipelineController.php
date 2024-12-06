@@ -44,6 +44,8 @@ class ProjectsInPipelineController extends Controller
         ProjectsInPipeline::create([
             'name' => $request->name,
             'capacity' => $request->capacity,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Project in pipeline added successfully');
@@ -81,6 +83,7 @@ class ProjectsInPipelineController extends Controller
         $projectsInPipeline->update([
             'name' => $request->name,
             'capacity' => $request->capacity,
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Project in pipeline updated successfully');
@@ -93,6 +96,9 @@ class ProjectsInPipelineController extends Controller
     public function destroy(string $id)
     {
         $projectsInPipeline = ProjectsInPipeline::findOrFail($id);
+
+        $projectsInPipeline->deleted_by = auth()->id();
+        $projectsInPipeline->save();
 
         $projectsInPipeline->delete();
 
