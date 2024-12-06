@@ -37,7 +37,7 @@ use App\Http\Controllers\TenderFileController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth', 'password.change'])->group(function () {
+Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::resource('profile', ProfileController::class)->only('index', 'update');
         Route::middleware('role:Super Admin')->group(function () {
