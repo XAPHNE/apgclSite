@@ -59,6 +59,8 @@ class CertificateController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Certificate added successfully');
@@ -116,6 +118,7 @@ class CertificateController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Certificate updated successfully');
@@ -132,6 +135,9 @@ class CertificateController extends Controller
         if (File::exists(public_path($certificate->downloadLink))) {
             // File::delete(public_path($certificate->downloadLink));
         }
+
+        $certificate->deleted_by = auth()->id();
+        $certificate->save();
 
         $certificate->delete();
 
