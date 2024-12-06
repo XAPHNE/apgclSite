@@ -59,11 +59,11 @@
         -o-transform: scale(1.2);
         transform: scale(1.2);
     }
-        .modal-header {
+    .modal-header {
     
         border-bottom: none;
     }
-        .modal-title {
+    .modal-title {
             color:# 000;
     }
     .modal - footer {
