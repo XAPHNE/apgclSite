@@ -59,6 +59,8 @@ class DisasterManagementController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Disaster Management added successfully');
@@ -116,6 +118,7 @@ class DisasterManagementController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Disaster Management updated successfully');
@@ -132,6 +135,9 @@ class DisasterManagementController extends Controller
         if (File::exists(public_path($disasterManagement->downloadLink))) {
             // File::delete(public_path($disasterManagement->downloadLink));
         }
+
+        $disasterManagement->deleted_by = auth()->id();
+        $disasterManagement->save();
 
         $disasterManagement->delete();
 
