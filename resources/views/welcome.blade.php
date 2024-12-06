@@ -46,7 +46,7 @@
                             </div>
                             <div class="grid-text p-4">
                                 <p>
-                                    @lang('companyProfile.about_us_description') <span><a href="#">[ + @lang('homePage.view_more') ]</a></span>
+                                    @lang('companyProfile.about_us_description') <span><a href="{{ route('company-profile.websiteIndex', ['lang' => app()->getLocale()]) }}">[ + @lang('homePage.view_more') ]</a></span>
                                 </p>
                             </div>
                         </div>

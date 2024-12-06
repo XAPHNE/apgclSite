@@ -28,22 +28,22 @@ use App\Http\Controllers\TariffOrderController;
 use App\Http\Controllers\TariffPetitionController;
 use App\Http\Controllers\TenderController;
 use App\Http\Controllers\WebsiteHomeController;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 // Routes that require localization
 Route::middleware('locale')->group(function () {
     Route::get('/{lang?}', [WebsiteHomeController::class, 'index'])->name('welcome');
 
-    Route::get('/{lang}/about-us/gallery', function ($lang) {
-        App::setLocale($lang);
-        return view('website.aboutUs.gallery');
-    });
+    // Route::get('/{lang}/about-us/gallery', function ($lang) {
+    //     App::setLocale($lang);
+    //     return view('website.aboutUs.gallery');
+    // });
 
     Route::prefix('{lang}')->group(function () {
+        Route::view('about-us', '');
         Route::prefix('about-us')->group(function () {
             Route::get('board-of-directors', [BoardOfDirectorsController::class, 'websiteIndex']);
-            Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex']);
+            Route::get('company-profile', [CompanyProfileController::class, 'websiteIndex'])->name('company-profile.websiteIndex');
             Route::get('offices', [OfficeController::class, 'websiteIndex']);
             Route::get('gallery', [GalleryController::class, 'websiteIndex']);
             Route::get('gallery/{gallery}', [GalleryController::class, 'websiteShow']);
