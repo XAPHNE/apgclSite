@@ -59,6 +59,8 @@ class TariffOrderController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Tariff order added successfully');
@@ -116,6 +118,7 @@ class TariffOrderController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Tariff order updated successfully');
@@ -132,6 +135,9 @@ class TariffOrderController extends Controller
         if (File::exists(public_path($tariffOrder->downloadLink))) {
             // File::delete(public_path($tariffOrder->downloadLink));
         }
+
+        $tariffOrder->deleted_by = auth()->id();
+        $tariffOrder->save();
 
         $tariffOrder->delete();
 
