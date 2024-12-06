@@ -29,8 +29,8 @@
                         <div class="col-md-3 mb-3">
                             <div class="card image-card">
                                 <img src="{{ url($galleryFile->downloadLink) }}" class="card-img-top" alt="{{ $galleryFile->name }}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-truncate">{{ $galleryFile->name }}</h5>
+                                <div class="card-body d-flex justify-content-center">
+                                    <h5 class="card-title text-center">{{ $galleryFile->name }}</h5>
                                 </div>
                                 <div class="card-footer d-flex justify-content-center">
                                     @if ($galleryFile->is_visible)
