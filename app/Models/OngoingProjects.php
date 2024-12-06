@@ -10,5 +10,5 @@ class OngoingProjects extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'location', 'capacity', 'link'];
+    protected $fillable = ['name', 'location', 'capacity', 'link', 'created_by', 'updated_by', 'deleted_by'];
 }

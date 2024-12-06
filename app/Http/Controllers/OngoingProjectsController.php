@@ -48,6 +48,8 @@ class OngoingProjectsController extends Controller
             'capacity' => $request->capacity,
             'location' => $request->location,
             'link' => $request->link,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Ongoing project added successfully');
@@ -89,6 +91,7 @@ class OngoingProjectsController extends Controller
             'capacity' => $request->capacity,
             'location' => $request->location,
             'link' => $request->link,
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Ongoing project updated successfully');
@@ -101,6 +104,9 @@ class OngoingProjectsController extends Controller
     public function destroy(string $id)
     {
         $ongoingProject = OngoingProjects::findOrFail($id);
+
+        $ongoingProject->deleted_by = auth()->id();
+        $ongoingProject->save();
 
         $ongoingProject->delete();
 
