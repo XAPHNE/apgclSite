@@ -59,6 +59,8 @@ class RightToInformationController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'RTI added successfully');
@@ -116,6 +118,7 @@ class RightToInformationController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'RTI updated successfully');
@@ -132,6 +135,9 @@ class RightToInformationController extends Controller
         if (File::exists(public_path($rti->downloadLink))) {
             // File::delete(public_path($rti->downloadLink));
         }
+
+        $rti->deleted_by = auth()->id();
+        $rti->save();
 
         $rti->delete();
 
