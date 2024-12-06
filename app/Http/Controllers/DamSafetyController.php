@@ -59,6 +59,8 @@ class DamSafetyController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Dam Safety added successfully');
@@ -116,6 +118,7 @@ class DamSafetyController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Dam Safety updated successfully');
@@ -132,6 +135,9 @@ class DamSafetyController extends Controller
         if (File::exists(public_path($damSafety->downloadLink))) {
             // File::delete(public_path($damSafety->downloadLink));
         }
+
+        $damSafety->deleted_by = auth()->id();
+        $damSafety->save();
 
         $damSafety->delete();
 
