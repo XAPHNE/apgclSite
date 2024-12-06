@@ -64,6 +64,8 @@ class ContactController extends Controller
             'office_category' => $request->input('office_category'),
             'office_name' => $request->office_name,
             'office_address' => $request->office_address,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
     
         return redirect()->back()->with('success', 'Contact added successfully');
@@ -132,6 +134,7 @@ class ContactController extends Controller
             'office_category' => $request->input('office_category'),
             'office_name' => $request->office_name,
             'office_address' => $request->office_address,
+            'updated_by' => auth()->id(),
         ]);
     
         return redirect()->back()->with('success', 'Contact updated successfully');
@@ -143,6 +146,9 @@ class ContactController extends Controller
     public function destroy(string $id)
     {
         $contact = Contact::findOrFail($id);
+
+        $contact->deleted_by = auth()->id();
+        $contact->save();
 
         $contact->delete();
 

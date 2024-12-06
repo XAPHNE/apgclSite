@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('office_category')->nullable();
             $table->string('office_name')->nullable();
             $table->string('office_address')->nullable();
+            $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->softDeletes();
             $table->timestamps();
         });

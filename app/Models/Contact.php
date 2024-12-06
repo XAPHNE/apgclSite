@@ -10,7 +10,7 @@ class Contact extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public $fillable = ['name', 'designation', 'priority', 'phone', 'email', 'is_office_bearer', 'office_category', 'office_name', 'office_address'];
+    public $fillable = ['name', 'designation', 'priority', 'phone', 'email', 'is_office_bearer', 'office_category', 'office_name', 'office_address', 'created_by', 'updated_by', 'deleted_by'];
 
     public static function officeCategories()
     {
