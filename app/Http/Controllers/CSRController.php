@@ -60,6 +60,8 @@ class CSRController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'CSR added successfully');
@@ -117,6 +119,7 @@ class CSRController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'CSR updated successfully');
@@ -133,6 +136,9 @@ class CSRController extends Controller
         if (File::exists(public_path($csr->downloadLink))) {
             // File::delete(public_path($csr->downloadLink));
         }
+
+        $csr->deleted_by = auth()->id();
+        $csr->save();
 
         $csr->delete();
 

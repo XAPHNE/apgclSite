@@ -10,5 +10,5 @@ class CSR extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['name', 'description', 'downloadLink', 'visibility', 'news_n_events', 'new_badge'];
+    protected $fillable = ['name', 'description', 'downloadLink', 'visibility', 'news_n_events', 'new_badge', 'created_by', 'updated_by', 'deleted_by'];
 }
