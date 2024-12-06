@@ -50,7 +50,7 @@
                                 </li>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="{{ url('/' . app()->getLocale() . '/calendars-and-holidays') }}" target="_blank">@lang('footer.calender_&_holiday')</a>
+                                    <a href="{{ url('/' . app()->getLocale() . '/calendars-and-holidays') }}">@lang('footer.calender_&_holiday')</a>
                                 </li>
                             </ul>
                         </div>
@@ -84,19 +84,19 @@
                             <ul>
                                 <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="hyperlink_policies.php" target="_blank">@lang('footer.hyperlink_policies')</a>
+                                    <a href="{{ route('hyperlink-policies.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('footer.hyperlink_policies')</a>
                                 </li>
                                  <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="copyright_policies.php" target="_blank">@lang('footer.copyright_policies')</a>
+                                    <a href="{{ route('copyright-policies.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('footer.copyright_policies')</a>
                                 </li>
                                  <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="privacy_policies.php" target="_blank">@lang('footer.privacy_policies')</a>
+                                    <a href="{{ route('privacy-policies.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('footer.privacy_policies')</a>
                                 </li>
                                  <li>
                                     <i class="fas fa-angle-double-right" aria-hidden="true"></i>
-                                    <a href="disclaimer.php" target="_blank">@lang('footer.disclaimer')</a>
+                                    <a href="{{ route('disclaimer.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('footer.disclaimer')</a>
                                 </li>
                             </ul>
                         </div>
