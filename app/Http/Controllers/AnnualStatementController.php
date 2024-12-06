@@ -59,6 +59,8 @@ class AnnualStatementController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Annual statement added successfully');
@@ -116,6 +118,7 @@ class AnnualStatementController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Annual statement updated successfully');
@@ -132,6 +135,9 @@ class AnnualStatementController extends Controller
         if (File::exists(public_path($annualStatement->downloadLink))) {
             // File::delete(public_path($annualStatement->downloadLink));
         }
+
+        $annualStatement->deleted_by = auth()->id();
+        $annualStatement->save();
 
         $annualStatement->delete();
 
