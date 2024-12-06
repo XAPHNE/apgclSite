@@ -59,6 +59,8 @@ class AnnualReturnController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Annual return added successfully');
@@ -116,6 +118,7 @@ class AnnualReturnController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Annual return updated successfully');
@@ -132,6 +135,9 @@ class AnnualReturnController extends Controller
         if (File::exists(public_path($annualReturn->downloadLink))) {
             // File::delete(public_path($annualReturn->downloadLink));
         }
+
+        $annualReturn->deleted_by = auth()->id();
+        $annualReturn->save();
 
         $annualReturn->delete();
 
