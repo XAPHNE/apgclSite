@@ -62,6 +62,8 @@ class StandardFormController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Standard form added successfully');
@@ -119,6 +121,7 @@ class StandardFormController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Standard Form updated successfully');
@@ -135,6 +138,9 @@ class StandardFormController extends Controller
         if (File::exists(public_path($standardForm->downloadLink))) {
             // File::delete(public_path($standardForm->downloadLink));
         }
+
+        $standardForm->deleted_by = auth()->id();
+        $standardForm->save();
 
         $standardForm->delete();
 
