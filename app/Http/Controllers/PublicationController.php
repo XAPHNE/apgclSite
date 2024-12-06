@@ -59,6 +59,8 @@ class PublicationController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Publication added successfully');
@@ -116,6 +118,7 @@ class PublicationController extends Controller
             'visibility' => $request->boolean('visibility'),
             'news_n_events' => $request->boolean('news_n_events'),
             'new_badge' => $request->boolean('new_badge'),
+            'updated_by' => auth()->id(),
         ]);
 
         return redirect()->back()->with('success', 'Publication updated successfully');
@@ -132,6 +135,9 @@ class PublicationController extends Controller
         if (File::exists(public_path($publication->downloadLink))) {
             // File::delete(public_path($publication->downloadLink));
         }
+
+        $publication->deleted_by = auth()->id();
+        $publication->save();
 
         $publication->delete();
 

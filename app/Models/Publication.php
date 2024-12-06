@@ -11,5 +11,5 @@ class Publication extends Model
     use HasFactory;
     use SoftDeletes;
 
-    public $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge'];
+    public $fillable = ['name', 'description','downloadLink', 'visibility', 'news_n_events', 'new_badge', 'created_by', 'updated_by', 'deleted_by'];
 }
