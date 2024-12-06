@@ -89,6 +89,12 @@ Route::middleware('locale')->group(function () {
             Route::get('apprenticeship', [ApprenticeshipController::class, 'websiteIndex']);
             Route::get('recruitments', [RecruitmentController::class, 'websiteIndex']);
         });
+        Route::view('site-map', 'website.site-map')->name('site-map.websiteIndex');
+        Route::view('screen-reader', 'website.screen-reader')->name('screen-reader.websiteIndex');
+        Route::view('hyperlink-policies', 'website.hyperlink-policies')->name('hyperlink-policies.websiteIndex');
+        Route::view('copyright-policies', 'website.copyright-policies')->name('copyright-policies.websiteIndex');
+        Route::view('privacy-policies', 'website.privacy-policies')->name('privacy-policies.websiteIndex');
+        Route::view('disclaimer', 'website.disclaimer')->name('disclaimer.websiteIndex');
         Route::get('contact-us', [ContactController::class, 'websiteIndex']);
         Route::get('corporate-social-responsibility', [CSRController::class, 'websiteIndex']);
         Route::get('disaster-management', [DisasterManagementController::class, 'websiteIndex']);
