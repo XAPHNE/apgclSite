@@ -34,10 +34,10 @@
                                 <a href="#stmc">@lang('header.skip_to_main_content') |</a>
                             </li>
                             <li>
-                                <a href="site_map.php">@lang('header.site_map') |</a>
+                                <a href="{{ route('site-map.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('header.site_map') |</a>
                             </li>
                             <li>
-                                <a href="screen_reader.php">@lang('header.screen_reader') |</a>
+                                <a href="{{ route('screen-reader.websiteIndex', ['lang' => app()->getLocale()]) }}">@lang('header.screen_reader') |</a>
                             </li>
                             <li>
                                 <span class="me-1" style="cursor:pointer;" onclick="setFontSize(14)">-@lang('header.font_size')</span>
