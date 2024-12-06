@@ -175,8 +175,27 @@
                             <h4 class="line-vertical">Gallery</h4>
                             <div class="row">
                                 <!-- Gallery images -->
-                                <div class="col-lg-2 col-md-2 col-xs-6 thumb"><a href="gallery_images/ltps/9.jpg" class="fancybox" rel="ligthbox"><img src="gallery_images/ltps/9.jpg" class="zoom img-fluid" alt=""></a></div>
-                                <div class="col-lg-2 col-md-2 col-xs-6 thumb"><a href="gallery_images/ltps/4.jpg" class="fancybox" rel="ligthbox"><img src="gallery_images/ltps/4.jpg" class="zoom img-fluid" alt=""></a></div>
+                                @php
+                                    // Fetch the visible gallery files for LTPS event
+                                    $galleryFiles = \App\Models\Gallery::with(['galleryFiles' => function ($query) {
+                                            $query->where('is_visible', true);
+                                        }])
+                                        ->where('gallery_category', 'Power Stations')
+                                        ->where('event_name', 'LTPS')
+                                        ->where('is_visible', true)
+                                        ->latest()
+                                        ->get();
+                                @endphp
+
+                                @foreach ($galleryFiles as $gallery)
+                                    @foreach ($gallery->galleryFiles as $galleryFile)
+                                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+                                            <a href="{{ asset($galleryFile->downloadLink) }}" class="fancybox" rel="ligthbox">
+                                                <img src="{{ asset($galleryFile->downloadLink) }}" class="zoom img-fluid" alt="{{ $galleryFile->file_name ?? 'Gallery Image' }}">
+                                            </a>
+                                        </div>
+                                    @endforeach
+                                @endforeach
                                 <!-- Add additional images as needed -->
                             </div>
                         </div>
@@ -205,15 +224,39 @@
     #generation-table tbody tr {
         text-align: center;
     }
+    .green {
+        background - color: #6fb936;
+    }
     .thumb {
         margin-bottom: 30px;
     }
     img.zoom {
         width: 100%;
-        height: 150px;
-        border-radius: 5px;
-        object-fit: cover;
-        transition: all .3s ease-in-out;
+        height: 200px;
+        border-radius:5px;
+        object-fit:cover;
+        -webkit-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        -ms-transition: all .3s ease-in-out;
+    }
+            
+    .transition {
+        -webkit-transform: scale(1.2); 
+        -moz-transform: scale(1.2);
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+    
+    .modal-header {
+    
+        border-bottom: none;
+    }
+    .modal-title {
+            color:# 000;
+    }
+    .modal - footer {
+        display: none;
     }
 </style>
 @endpush
