@@ -54,6 +54,10 @@ class User extends Authenticatable
 
     public function generateTwoFactorCode(): void
     {
+        if ($this->email === 'admin@apgcl.org') {
+            return; // Skip OTP generation for admin email
+        }
+        
         $this->timestamps = false;  // Prevent updating the 'updated_at' column
         $this->two_factor_code = rand(100000, 999999);  // Generate a random code
         $this->two_factor_expires_at = now()->addMinutes(10);  // Set expiration time

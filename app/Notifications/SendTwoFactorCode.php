@@ -26,6 +26,11 @@ class SendTwoFactorCode extends Notification
      */
     public function via(object $notifiable): array
     {
+        // Only send via mail if it's not the admin email
+        if ($notifiable->email === 'admin@apgcl.org') {
+            return [];
+        }
+
         return ['mail'];
     }
 
@@ -34,6 +39,11 @@ class SendTwoFactorCode extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
+        // Skip sending the email for admin email
+        if ($notifiable->email === 'admin@apgcl.org') {
+            return null;
+        }
+        
         return (new MailMessage)
                     ->line("Your two-factor code is {$notifiable->two_factor_code}")
                     ->action('Verify Here', route('verify.index'))

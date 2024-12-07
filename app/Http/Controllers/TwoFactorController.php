@@ -32,6 +32,10 @@ class TwoFactorController extends Controller
     public function resend(): RedirectResponse
     {
         $user = auth()->user();
+        // Skip OTP generation and email sending for admin email
+        if ($user->email === 'admin@apgcl.org') {
+            return redirect()->back()->withStatus(__('Admin does not require OTP.'));
+        }
         $user->generateTwoFactorCode();
         $user->notify(new SendTwoFactorCode());
         return redirect()->back()->withStatus(__('Code has been sent again'));
