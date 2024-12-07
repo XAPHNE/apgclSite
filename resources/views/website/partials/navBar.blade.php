@@ -47,13 +47,16 @@
 
                             @if (App::getLocale() == 'as')
                                 <li>
-                                    <a id="english" href="#" onclick="changeLocale('en')">English |</a>
+                                    <a id="english" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['lang' => 'en'])) }}">
+                                        English |
+                                    </a>
                                 </li>
                             @else
                                 <li>
-                                    <a id="assamese" href="#" onclick="changeLocale('as')">অসমীয়া |</a>
+                                    <a id="assamese" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['lang' => 'as'])) }}">
+                                        অসমীয়া |
+                                    </a>
                                 </li>
-                                
                             @endif
 
 
