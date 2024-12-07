@@ -22,6 +22,7 @@ use App\Models\ServiceRule;
 use App\Models\StandardForm;
 use App\Models\TariffOrder;
 use App\Models\TariffPetition;
+use App\Models\Tender;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -33,148 +34,82 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $totalNAECount = Cache::remember('totalNAECount', now()->addMinutes(5), function () {
-            return NewsAndEvent::where('news_n_events', true)->count()
-                + Act::where('news_n_events', true)->count()
-                + Policy::where('news_n_events', true)->count()
-                + ServiceRule::where('news_n_events', true)->count()
-                + Certificate::where('news_n_events', true)->count()
-                + TariffOrder::where('news_n_events', true)->count()
-                + TariffPetition::where('news_n_events', true)->count()
-                + RightToInformation::where('news_n_events', true)->count()
-                + AnnualStatement::where('news_n_events', true)->count()
-                + AnnualReturn::where('news_n_events', true)->count()
-                + Report::where('news_n_events', true)->count()
-                + Publication::where('news_n_events', true)->count()
-                + StandardForm::where('news_n_events', true)->count()
-                + CSR::where('news_n_events', true)->count()
-                + Calendar::where('news_n_events', true)->count()
-                + DisasterManagement::where('news_n_events', true)->count()
-                + DamSafety::where('news_n_events', true)->count()
-                + Recruitment::where('news_n_events', true)->count()
-                + Apprenticeship::where('news_n_events', true)->count();
+        $models = [
+            NewsAndEvent::class,
+            Act::class,
+            Policy::class,
+            ServiceRule::class,
+            Certificate::class,
+            TariffOrder::class,
+            TariffPetition::class,
+            RightToInformation::class,
+            AnnualStatement::class,
+            AnnualReturn::class,
+            Report::class,
+            Publication::class,
+            StandardForm::class,
+            CSR::class,
+            Calendar::class,
+            DisasterManagement::class,
+            DamSafety::class,
+            Recruitment::class,
+            Apprenticeship::class,
+        ];
+
+        // Total count of News & Events
+        $totalNAECount = Cache::remember('totalNAECount', now()->addMinutes(5), function () use ($models) {
+            return collect($models)->sum(function ($model) {
+                return $model::where('news_n_events', true)->count();
+            });
         });
 
-        $totalNAEisNewCount = Cache::remember('totalNAECount', now()->addMinutes(5), function () {
-            return NewsAndEvent::where('news_n_events', true)->where('new_badge', true)->count()
-                + Act::where('news_n_events', true)->where('new_badge', true)->count()
-                + Policy::where('news_n_events', true)->where('new_badge', true)->count()
-                + ServiceRule::where('news_n_events', true)->where('new_badge', true)->count()
-                + Certificate::where('news_n_events', true)->where('new_badge', true)->count()
-                + TariffOrder::where('news_n_events', true)->where('new_badge', true)->count()
-                + TariffPetition::where('news_n_events', true)->where('new_badge', true)->count()
-                + RightToInformation::where('news_n_events', true)->where('new_badge', true)->count()
-                + AnnualStatement::where('news_n_events', true)->where('new_badge', true)->count()
-                + AnnualReturn::where('news_n_events', true)->where('new_badge', true)->count()
-                + Report::where('news_n_events', true)->where('new_badge', true)->count()
-                + Publication::where('news_n_events', true)->where('new_badge', true)->count()
-                + StandardForm::where('news_n_events', true)->where('new_badge', true)->count()
-                + CSR::where('news_n_events', true)->where('new_badge', true)->count()
-                + Calendar::where('news_n_events', true)->where('new_badge', true)->count()
-                + DisasterManagement::where('news_n_events', true)->where('new_badge', true)->count()
-                + DamSafety::where('news_n_events', true)->where('new_badge', true)->count()
-                + Recruitment::where('news_n_events', true)->where('new_badge', true)->count()
-                + Apprenticeship::where('news_n_events', true)->where('new_badge', true)->count();
+        // Total count of "new" News & Events
+        $totalNAEisNewCount = Cache::remember('totalNAEisNewCount', now()->addMinutes(5), function () use ($models) {
+            return collect($models)->sum(function ($model) {
+                return $model::where('news_n_events', true)->where('new_badge', true)->count();
+            });
         });
 
-        $newNewsAndEvents = NewsAndEvent::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newActs = Act::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newPolicies = Policy::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newServiceRules = ServiceRule::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newCertificates = Certificate::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newTariffOrders = TariffOrder::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newTariffPetition = TariffPetition::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newRtis = RightToInformation::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newAnnualStatements = AnnualStatement::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newAnnualReturns = AnnualReturn::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newReports = Report::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newPublications = Publication::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newStandardForms = StandardForm::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newCsrs = CSR::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newCalendars = Calendar::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newDisasterManagements = DisasterManagement::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newDamSafeties = DamSafety::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newRecruitments = Recruitment::where('news_n_events', true)->where('new_badge', true)->latest()->get();
-        $newApprenticeships = Apprenticeship::where('news_n_events', true)->where('new_badge', true)->latest()->get();
+        // Latest "new" entries
+        $latestEntriesNewNAE = Cache::remember('latestEntriesNewNAE', now()->addMinutes(5), function () use ($models) {
+            return collect($models)->flatMap(function ($model) {
+                return $model::where('news_n_events', true)
+                    ->where('new_badge', true)
+                    ->latest()
+                    ->get();
+            })->sortByDesc('created_at')->values();
+        });
 
-        $latestEntriesNewNAE = collect($newNewsAndEvents)
-            ->merge($newActs)
-            ->merge($newPolicies)
-            ->merge($newServiceRules)
-            ->merge($newCertificates)
-            ->merge($newTariffOrders)
-            ->merge($newTariffPetition)
-            ->merge($newRtis)
-            ->merge($newAnnualStatements)
-            ->merge($newAnnualReturns)
-            ->merge($newReports)
-            ->merge($newPublications)
-            ->merge($newStandardForms)
-            ->merge($newCsrs)
-            ->merge($newCalendars)
-            ->merge($newDisasterManagements)
-            ->merge($newDamSafeties)
-            ->merge($newRecruitments)
-            ->merge($newApprenticeships)
-            ->sortByDesc('created_at')
-            ->values();
+        // Latest all entries
+        $latestEntriesNAE = Cache::remember('latestEntriesNAE', now()->addMinutes(5), function () use ($models) {
+            return collect($models)->flatMap(function ($model) {
+                return $model::where('news_n_events', true)
+                    ->latest()
+                    ->get();
+            })->sortByDesc('created_at')->values();
+        });
 
-        
-
-        $newsAndEvents = NewsAndEvent::where('news_n_events', true)->latest()->get();
-        $acts = Act::where('news_n_events', true)->latest()->get();
-        $policies = Policy::where('news_n_events', true)->latest()->get();
-        $serviceRules = ServiceRule::where('news_n_events', true)->latest()->get();
-        $certificates = Certificate::where('news_n_events', true)->latest()->get();
-        $tariffOrders = TariffOrder::where('news_n_events', true)->latest()->get();
-        $tariffPetition = TariffPetition::where('news_n_events', true)->latest()->get();
-        $rtis = RightToInformation::where('news_n_events', true)->latest()->get();
-        $annualStatements = AnnualStatement::where('news_n_events', true)->latest()->get();
-        $annualReturns = AnnualReturn::where('news_n_events', true)->latest()->get();
-        $reports = Report::where('news_n_events', true)->latest()->get();
-        $publications = Publication::where('news_n_events', true)->latest()->get();
-        $standardForms = StandardForm::where('news_n_events', true)->latest()->get();
-        $csrs = CSR::where('news_n_events', true)->latest()->get();
-        $calendars = Calendar::where('news_n_events', true)->latest()->get();
-        $disasterManagements = DisasterManagement::where('news_n_events', true)->latest()->get();
-        $damSafeties = DamSafety::where('news_n_events', true)->latest()->get();
-        $recruitments = Recruitment::where('news_n_events', true)->latest()->get();
-        $apprenticeships = Apprenticeship::where('news_n_events', true)->latest()->get();
-
-        $latestEntriesNAE = collect($newsAndEvents)
-            ->merge($acts)
-            ->merge($policies)
-            ->merge($serviceRules)
-            ->merge($certificates)
-            ->merge($tariffOrders)
-            ->merge($tariffPetition)
-            ->merge($rtis)
-            ->merge($annualStatements)
-            ->merge($annualReturns)
-            ->merge($reports)
-            ->merge($publications)
-            ->merge($standardForms)
-            ->merge($csrs)
-            ->merge($calendars)
-            ->merge($disasterManagements)
-            ->merge($damSafeties)
-            ->merge($recruitments)
-            ->merge($apprenticeships)
-            ->sortByDesc('created_at')
-            ->values();
-    
         $currentFY = FinancialYear::latest()->first();
         $tenderCount = $currentFY ? $currentFY->tenders()->count() : 0;
-    
-        $registeredUsersCount = User::all()->count();
+
+        $tenders = $currentFY ? Tender::with('tenderFiles')->where('financial_year_id', $currentFY->id)->latest()->get() : collect();
+
+        $registeredUsersCount = Cache::remember('registeredUsersCount', now()->addMinutes(5), function () {
+            return User::count();
+        });
+
+        $users = User::latest()->get();
+
         return view('dashboard', compact(
-            'totalNAECount', 
-            'totalNAEisNewCount', 
-            'currentFY', 
-            'tenderCount', 
-            'registeredUsersCount', 
+            'totalNAECount',
+            'totalNAEisNewCount',
+            'currentFY',
+            'tenderCount',
+            'registeredUsersCount',
             'latestEntriesNewNAE',
-            'latestEntriesNAE'
+            'latestEntriesNAE',
+            'tenders',
+            'users'
         ));
     }
 
