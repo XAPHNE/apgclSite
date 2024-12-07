@@ -23,7 +23,7 @@
                 <!-- Sidebar menu items -->
                 @hasrole('Super Admin')
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link {{ Route::is('dashboard*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard.index') }}" class="nav-link {{ Route::is('dashboard*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt text-green me-2"></i>
                         <p>Dashboard</p>
                     </a>

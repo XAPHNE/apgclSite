@@ -11,6 +11,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\CSRController;
 use App\Http\Controllers\DailyGenerationController;
 use App\Http\Controllers\DamSafetyController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DisasterManagementController;
 use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\GalleryController;
@@ -41,7 +42,7 @@ Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
     Route::prefix('admin')->group(function () {
         Route::resource('profile', ProfileController::class)->only('index', 'update');
         Route::middleware('role:Super Admin')->group(function () {
-            Route::get('dashboard', function () { return view('dashboard'); })->name('dashboard');
+            Route::resource('dashboard', DashboardController::class)->only('index');
             Route::prefix('roles-and-permissions')->group(function () {
                 Route::resource('roles', RoleController::class);
                 Route::post('roles/{role}/assign-permissions', [RoleController::class, 'assignPermissions'])->name('roles.assign-permissions');

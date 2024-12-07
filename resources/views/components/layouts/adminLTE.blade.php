@@ -72,7 +72,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         @hasrole('Super Admin')
-                            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ url('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a class="text-decoration-none" href="{{ route('dashboard.index') }}">Dashboard</a></li>
                         @endhasrole
                         @yield('breadcrumb')
                     </ol>
