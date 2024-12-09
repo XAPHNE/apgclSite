@@ -45,20 +45,19 @@
                                 <span  style="cursor:pointer;" onclick="setFontSize(18)">@lang('header.font_size')+ |</span>
                             </li>
 
-                            @if (App::getLocale() == 'as')
-                                <li>
-                                    <a id="english" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['lang' => 'en'])) }}">
-                                        English |
-                                    </a>
-                                </li>
-                            @else
-                                <li>
-                                    <a id="assamese" href="{{ route(Route::currentRouteName(), array_merge(Route::current()->parameters(), ['lang' => 'as'])) }}">
-                                        অসমীয়া |
-                                    </a>
-                                </li>
-                            @endif
+                            @php
+                                $currentLang = app()->getLocale();
+                                $alternateLang = $currentLang === 'as' ? 'en' : 'as';
+                                $updatedPath = $currentLang === 'as' 
+                                    ? str_replace('/as/', '/en/', request()->fullUrl())
+                                    : str_replace('/en/', '/as/', request()->fullUrl());
+                            @endphp
 
+                            <li>
+                                <a id="{{ $alternateLang }}" href="{{ $updatedPath }}">
+                                    {{ $currentLang === 'as' ? 'English' : 'অসমীয়া' }} |
+                                </a>
+                            </li>
 
                             <li>
                             <div class="dropdown account-details">
