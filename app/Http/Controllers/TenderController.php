@@ -50,6 +50,14 @@ class TenderController extends Controller
             ->latest()
             ->get();
 
+        // If no tenders are found, pass an empty collection
+        if ($tenders->isEmpty()) {
+            return view('website.tenders.archive', [
+                'tenders' => collect(), // Empty collection for tenders
+                'financialYears' => $financialYears,
+                'selectedFinancialYearId' => $selectedFinancialYearId,
+            ])->with('warning', 'No tenders found for the selected financial year.');
+        }
         // For AJAX requests, return only the table rows
         if ($request->ajax()) {
             $html = view('website.tenders.partials.archived-tenders', compact('tenders'))->render();
