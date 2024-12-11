@@ -53,7 +53,9 @@
                 <div class="icon">
                   <i class="ion ion-document-text"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="javascript:void(0);" class="small-box-footer" onclick="showSection('tenders')">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
               </div>
             </div>
             <!-- ./col -->
@@ -67,7 +69,9 @@
                 <div class="icon">
                   <i class="ion ion-person-add"></i>
                 </div>
-                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                <a href="javascript:void(0);" class="small-box-footer" onclick="showSection('users')">
+                    More info <i class="fas fa-arrow-circle-right"></i>
+                </a>
               </div>
             </div>
             <!-- ./col -->
@@ -85,19 +89,19 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
-                                <tr class="bg-primary">
-                                    <th>#</th>
-                                    <th>Description</th>
-                                    <th class="nosort">Action</th>
+                                <tr class="table-primary">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center nosort">Description</th>
+                                    <th class="text-center nosort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($latestEntriesNewNAE as $item)
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-start">{{ $item->description }}</td>
-                                        <td>
-                                            <a class="btn btn-info" href="{{ asset($item->link) }}" target="_blank">
+                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="text-start align-middle">{{ $item->description }}</td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-info" href="{{ asset($item->downloadLink) }}" target="_blank">
                                                 <i title="View/Download" class="fas fa-eye"></i>
                                             </a>
                                         </td>
@@ -120,22 +124,107 @@
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
-                                <tr class="bg-primary">
-                                    <th>#</th>
-                                    <th>Description</th>
-                                    <th class="nosort">Action</th>
+                                <tr class="table-primary">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center nosort">Description</th>
+                                    <th class="text-center nosort">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($latestEntriesNAE as $item)
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-start">{{ $item->description }}</td>
-                                        <td>
-                                            <a class="btn btn-info" href="{{ asset($item->link) }}" target="_blank">
+                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="text-start align-middle">{{ $item->description }}</td>
+                                        <td class="text-center align-middle">
+                                            <a class="btn btn-info" href="{{ asset($item->downloadLink) }}" target="_blank">
                                                 <i title="View/Download" class="fas fa-eye"></i>
                                             </a>
                                         </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tenders -->
+        <div id="tenders" class="table-section" style="display: none;">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title">Tenders @if($currentFY)({{ $currentFY->year }})@endif</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped dataTable" style="width:100%">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center nosort">Tender No.</th>
+                                    <th class="text-center nosort">Description</th>
+                                    <th class="text-center nosort">Files</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($tenders as $tender)
+                                    <tr>
+                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="text-start align-middle">
+                                            <a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">
+                                                {{ $tender->tender_no }}
+                                            </a>
+                                        </td>
+                                        <td class="text-start align-middle">{{ $tender->description }}</td>
+                                        <td class="text-start align-middle">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @foreach ($tender->tenderFiles as $tenderFile)
+                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none">
+                                                        <i class="fas fa-file-download" aria-hidden="true"></i>
+                                                        {{ $tenderFile->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users -->
+        <div id="users" class="table-section" style="display: none;">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h5 class="card-title">Registered Users</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped dataTable" style="width:100%">
+                            <thead>
+                                <tr class="table-primary">
+                                    <th class="text-center">#</th>
+                                    <th class="text-center align-middle">Name</th>
+                                    <th class="text-center align-middle">Email</th>
+                                    <th class="text-center align-middle">Roles</th>
+                                    <th class="text-center align-middle">Department</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($users as $user)
+                                    <tr>
+                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle text-start">{{ $user->name }}</td>
+                                        <td class="align-middle text-start">{{ $user->email }}</td>
+                                        <td class="align-middle text-start">
+                                            @foreach ($user->roles as $role)
+                                                <span class="badge bg-secondary">{{ $role->name }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center align-middle">{{ $user->department }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -148,33 +237,51 @@
 @endsection
 
 @push('styles')
-
+    <style>
+        .dataTable th {
+            white-space: nowrap;
+            text-align: center;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script>
-    function showSection(sectionId) {
-        // Hide all sections
-        document.querySelectorAll('.table-section').forEach(section => {
-            section.style.display = 'none';
-        });
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.table-section').forEach(section => {
+                section.style.display = 'none';
+            });
 
-        // Show the selected section
-        document.getElementById(sectionId).style.display = 'block';
-    }
-</script>
-<script>
-    $(document).ready(function () {
-        var table = new DataTable('.dataTable', {
-            columnDefs: [
-                {
-                    targets: 'nosort',
-                    orderable: false,
-                    searchable: false,
-                }
-            ],
-            scrollX: true,
-        });
-    });
-</script>
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.table-section').forEach(section => {
+                section.style.display = 'none';
+            });
+
+            // Show the selected section
+            const sectionToShow = document.getElementById(sectionId);
+            sectionToShow.style.display = 'block';
+
+            // Reinitialize the DataTable
+            const table = sectionToShow.querySelector('.dataTable');
+            if (!$.fn.DataTable.isDataTable(table)) {
+                $(table).DataTable({
+                    columnDefs: [
+                        {
+                            targets: 'nosort',
+                            orderable: false,
+                        }
+                    ],
+                    scrollX: true,
+                    autoWidth: false,
+                });
+            }
+        }
+    </script>
 @endpush
