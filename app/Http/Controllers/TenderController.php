@@ -129,8 +129,9 @@ class TenderController extends Controller
         $financialYears = FinancialYear::latest()->get();
         $tender = Tender::findOrFail($id);
         $tenderFiles = TenderFile::where('tender_id', $id)->latest()->get();
+        $departments = User::$departments;
 
-        return view('admin.tenders.tender-details', compact('tender', 'tenderFiles', 'financialYears'));
+        return view('admin.tenders.tender-details', compact('tender', 'tenderFiles', 'financialYears', 'departments'));
     }
 
     /**

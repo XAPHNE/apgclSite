@@ -67,7 +67,8 @@
                                                         data-tender_no="{{ $tender->tender_no }}"
                                                         data-description="{{ $tender->description }}"
                                                         data-is_archived="{{ $tender->is_archived }}"
-                                                        data-directory_name="{{ $tender->directory_name }}"><i title="Update" class="fas fa-edit"></i>
+                                                        data-directory_name="{{ $tender->directory_name }}"
+                                                        data-department="{{ $tender->department }}"><i title="Update" class="fas fa-edit"></i>
                                                     </button>
                                                 @endcan
                                                 @can('Delete Tender')
@@ -128,7 +129,7 @@
                                                 <option value="" disabled>Select</option>
                                                 @foreach ($departments as $department)
                                                     <option value="{{ $department }}" 
-                                                        @if (auth()->user()->department === $department) 
+                                                        @if (auth()->user()->department === $department || old('department') === $department) 
                                                             selected 
                                                         @endif>
                                                         {{ $department }}
@@ -269,6 +270,7 @@
                     var description = $(this).data('description');
                     var directory_name = $(this).data('directory_name');
                     var is_archived = $(this).data('is_archived') ? true : false;
+                    var department = $(this).data('department');
 
                     $('#modalTitle').text('Update Tender');
                     $('#addUpdateForm').attr('action', '/admin/tenders/' + id);
@@ -281,6 +283,8 @@
                     $('#directoryName').val(directory_name).attr('disabled', true);
                     $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
                     $('#saveButton').removeClass('btn-success').addClass('btn-warning');
+
+                    $('#department').val(department);
 
                     // Set toggle states for each checkbox
                     $('#isArchived').prop('checked', is_archived).change();

@@ -34,6 +34,10 @@
                                         <span class="ms-2">{{ $tender->tender_no }}</span>
                                     </p>
                                     <p>
+                                        <strong class="d-inline">Department:</strong>
+                                        <span class="ms-2">{{ $tender->department }}</span>
+                                    </p>
+                                    <p>
                                         <strong class="d-inline">Financial Year:</strong>
                                         <span class="ms-2">{{ $tender->financialYear->year }}</span>
                                     </p>
@@ -53,7 +57,8 @@
                                                     data-tender_no="{{ $tender->tender_no }}"
                                                     data-description="{{ $tender->description }}"
                                                     data-directory_name="{{ $tender->directory_name }}"
-                                                    data-is_archived="{{ $tender->is_archived }}">
+                                                    data-is_archived="{{ $tender->is_archived }}"
+                                                    data-department="{{ $tender->department }}">
                                                 <i title="Update" class="fas fa-edit"></i> Edit
                                             </button>
                                         </div>
@@ -160,7 +165,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="financialYear" class="form-label">Financial Year:</label>
+                                            <label for="financialYear" class="form-label required">Financial Year:</label>
                                             <select name="financial_year_id" id="financialYear" class="form-select required" required disabled>
                                                 <option selected disabled>Select</option>
                                                 @foreach($financialYears as $financialYear)
@@ -171,24 +176,43 @@
                                     </div>
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="tenderNo" class="form-label">Tender No.:</label>
-                                            <input type="text" class="form-control required" id="tenderNo" name="tender_no" required>
+                                            <label for="department" class="required">Department:</label>
+                                            <select id="department" name="department" class="form-select" required @unlessrole('Super Admin') disabled @endunlessrole>
+                                                <option value="" disabled>Select</option>
+                                                @foreach ($departments as $department)
+                                                    <option value="{{ $department }}" 
+                                                        @if (auth()->user()->department === $department || old('department') === $department) 
+                                                            selected 
+                                                        @endif>
+                                                        {{ $department }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @unlessrole('Super Admin')
+                                                <input type="hidden" name="department" value="{{ auth()->user()->department }}">
+                                            @endunlessrole
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="description" class="form-label">Description:</label>
-                                            <textarea class="form-control required" id="description" name="description" required></textarea>
+                                            <label for="tenderNo" class="form-label required">Tender No.:</label>
+                                            <input type="text" class="form-control required" id="tenderNo" name="tender_no" required>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label for="directoryName" class="form-label">Tender Name</label>
+                                        <label for="directoryName" class="form-label required">Tender Name:</label>
                                         <input id="directoryName" type="text" class="form-control required" name="directory_name" required disabled>
                                     </div>
                                 </div>
                                 <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="description" class="form-label required">Description:</label>
+                                            <textarea class="form-control required" id="description" name="description" required></textarea>
+                                        </div>
+                                    </div>
                                     <div class="col">
                                         <!-- Archive Checkbox with Hidden Input -->
                                         <div class="form-group">
@@ -291,6 +315,7 @@
                     var description = $(this).data('description');
                     var directory_name = $(this).data('directory_name');
                     var is_archived = $(this).data('is_archived') ? true : false;
+                    var department = $(this).data('department');
 
                     // Debugging logs
                     console.log('Edit button clicked');
@@ -307,6 +332,7 @@
                     $('#tenderNo').val(tender_no);
                     $('#description').val(description);
                     $('#directoryName').val(directory_name);
+                    $('#department').val(department);
 
                     // Update modal appearance
                     $('#updateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
