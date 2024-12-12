@@ -94,7 +94,10 @@ class User extends Authenticatable
         'H&C',
         'INV',
         'IT',
+        'LKHEP',
+        'LTPS',
         'NRE',
+        'NTPS',
         'PP&I',
     ];
 
