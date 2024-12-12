@@ -92,6 +92,7 @@ class User extends Authenticatable
         'Gen',
         'HR',
         'H&C',
+        'INV',
         'IT',
         'NRE',
         'PP&I',
