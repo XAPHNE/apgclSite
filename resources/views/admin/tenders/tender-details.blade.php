@@ -29,6 +29,15 @@
                         <div class="row">
                             <div class="col-8">
                                 <div class="p-3 card">
+                                    @if ($tender->is_archived)
+                                        <p>
+                                            <span class="badge bg-success">Archived</span>
+                                        </p>
+                                    @else
+                                        <p>
+                                            <span class="badge bg-secondary">Not Archived</span>
+                                        </p>
+                                    @endif
                                     <p>
                                         <strong class="d-inline">Tender No:</strong>
                                         <span class="ms-2">{{ $tender->tender_no }}</span>
