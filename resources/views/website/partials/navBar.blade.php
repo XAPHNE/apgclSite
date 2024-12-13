@@ -48,9 +48,15 @@
                             @php
                                 $currentLang = app()->getLocale();
                                 $alternateLang = $currentLang === 'as' ? 'en' : 'as';
-                                $updatedPath = $currentLang === 'as' 
-                                    ? str_replace('/as/', '/en/', request()->fullUrl())
-                                    : str_replace('/en/', '/as/', request()->fullUrl());
+
+                                // Check if the current URL is the root URL (welcome page)
+                                if (request()->path() === '/' || request()->path() === 'en' || request()->path() === 'as') {
+                                    $updatedPath = url($alternateLang); // Construct the root URL with the alternate language
+                                } else {
+                                    $updatedPath = $currentLang === 'as' 
+                                        ? str_replace('/as/', '/en/', request()->fullUrl())
+                                        : str_replace('/en/', '/as/', request()->fullUrl());
+                                }
                             @endphp
 
                             <li>
