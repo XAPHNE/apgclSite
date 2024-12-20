@@ -9,7 +9,7 @@
                     <li class="breadcrumb-item"><a href="{{ url('/') }}" class="bread-text"><i class="fas fa-home" style="color:#3ca369;" aria-hidden="true"></i> @lang('navigationMenu.home') </a>/</li>
                     <li class="breadcrumb-item"><a href="#" class="bread-text">@lang('navigationMenu.about_us') </a>/</li>
                     <li class="breadcrumb-item"><a href="{{ url('/' . app()->getLocale() . '/about-us/gallery') }}" class="bread-text">@lang('navigationMenu.gallery') </a>/</li>
-                    <li class="breadcrumb-item active bread-text" aria-current="page">{{ $gallery->event_name }} @lang('navigationMenu.gallery')</li>
+                    <li class="breadcrumb-item active bread-text text-uppercase" aria-current="page">{{ $gallery->event_name }} @lang('navigationMenu.gallery')</li>
                 </ol>
             </nav>
         </div>
