@@ -185,7 +185,7 @@
         });
         // Handle Add Button
         $('#addButton').on('click', function () {
-            $('#modalTitle').text('Add New Certificate');
+            $('#modalTitle').text('Add New News and Event');
             $('#addUpdateForm').attr('action', '{{ route('news-and-events.store') }}');
             $('#addUpdateForm').attr('method', 'POST');
             $('#downloadLink').attr('required', true);
