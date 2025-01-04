@@ -16,7 +16,7 @@
         <div class="row">
             <h4 class="line-vertical">@lang('navigationMenu.contact_us')</h4>
             <div class="table-responsive">
-                <table class="table-bordered table table-striped dataTable" style="width:100%">
+                <table id="contactTable" class="table-bordered table table-striped" style="width:100%">
                     <thead>
                         <tr class="bg-primary">
                             <th>@lang('table.serial_num')</th>
@@ -60,5 +60,21 @@
 @endpush
 
 @push('scripts')
-    
+    <script>
+        $(document).ready(function() {
+            $('#contactTable').DataTable({
+                lengthMenu: [
+                    [25, 50, -1],
+                    [25, 50, 'All']
+                ],
+                columnDefs: [
+                    {
+                        targets: 'nosort',
+                        orderable: false,
+                        searchable: false,
+                    }
+                ],
+            });
+        });
+    </script>
 @endpush
