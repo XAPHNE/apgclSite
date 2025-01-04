@@ -61,14 +61,16 @@
                     <tbody id="tenders-body">
                         @foreach ($tenders as $tender)
                             <tr>
-                                <td class="text-center">{{ $tender->tender_no }}</td>
+                                <td class="text-start">{{ $tender->tender_no }}</td>
                                 <td class="text-start">{{ $tender->description }}</td>
-                                <td>
+                                <td class="text-start">
                                     @foreach ($tender->tenderFiles as $tenderFile)
-                                        <a href="{{ url($tenderFile->downloadLink) }}" target="_blank">
-                                            <i class="fas fa-file-download" aria-hidden="true"></i>
-                                            {{ $tenderFile->name }}
-                                        </a>
+                                        <p>
+                                            <a href="{{ url($tenderFile->downloadLink) }}" target="_blank">
+                                                <i class="fas fa-file-download" aria-hidden="true"></i>
+                                                {{ $tenderFile->name }}
+                                            </a>
+                                        </p>
                                     @endforeach
                                 </td>
                             </tr>

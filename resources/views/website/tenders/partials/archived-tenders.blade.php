@@ -1,6 +1,6 @@
 @forelse ($tenders as $tender)
     <tr>
-        <td class="text-center">{{ $tender->tender_no }}</td>
+        <td class="text-start">{{ $tender->tender_no }}</td>
         <td class="text-start">{{ $tender->description }}</td>
         <td>
             @foreach ($tender->tenderFiles as $tenderFile)
