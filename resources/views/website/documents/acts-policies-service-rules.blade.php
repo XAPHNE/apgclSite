@@ -89,7 +89,7 @@
             </div>
         </div>
         <br><br>
-        <div class="row">
+        {{-- <div class="row">
             <h4 class="line-vertical">@lang('navigationMenu.service_rules')</h4>
             <div class="table-responsive">
                 <table class="table-bordered table table-striped dataTable" style="width:100%">
@@ -125,7 +125,7 @@
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div> --}}
     </div>
 </section>
 @endsection
