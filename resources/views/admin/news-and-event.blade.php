@@ -205,7 +205,7 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var description = $(this).data('description');
             var news_n_events = $(this).data('news_n_events') ? true : false;
@@ -233,7 +233,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/news-and-events/' + id;
             $('#deleteForm').attr('action', deleteUrl);

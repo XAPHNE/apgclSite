@@ -188,7 +188,7 @@
         
             @can('Update Daily Generation')
                 // Handle Update Button
-                $('.update-button').on('click', function () {
+                $(document).on('click', '.update-button', function () {
                     var id = $(this).data('id');
                     var description = $(this).data('description');
 
@@ -212,7 +212,7 @@
         
             @can('Delete Daily Generation')
                 // Handle Delete Button
-                $('.delete-button').on('click', function () {
+                $(document).on('click', '.delete-button', function () {
                     var id = $(this).data('id');
                     var deleteUrl = '/admin/daily-generation/' + id;
                     $('#deleteForm').attr('action', deleteUrl);

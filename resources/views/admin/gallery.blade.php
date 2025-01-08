@@ -227,7 +227,7 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var gallery_category = $(this).data('gallery_category');
             var event_name = $(this).data('event_name');
@@ -257,7 +257,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/about-us/gallery/' + id;
             $('#deleteForm').attr('action', deleteUrl);

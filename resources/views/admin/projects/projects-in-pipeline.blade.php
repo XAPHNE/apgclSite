@@ -158,7 +158,7 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
             var capacity = $(this).data('capacity');
@@ -177,7 +177,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/projects/projects-in-pipeline/' + id;
             $('#deleteForm').attr('action', deleteUrl);

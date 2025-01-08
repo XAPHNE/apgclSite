@@ -150,7 +150,7 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
 
@@ -167,7 +167,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/roles-and-permissions/permissions/' + id;
             $('#deleteForm').attr('action', deleteUrl);

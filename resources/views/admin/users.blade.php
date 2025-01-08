@@ -298,7 +298,7 @@
             $('#addUpdateModal').modal('show');
         });
     
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
             var email = $(this).data('email');
@@ -337,7 +337,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/users/' + id;
             $('#deleteForm').attr('action', deleteUrl);

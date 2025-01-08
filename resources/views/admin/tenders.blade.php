@@ -263,7 +263,7 @@
         
             @can('Update Tender')
                 // Handle Update Button
-                $('.update-button').on('click', function () {
+                $(document).on('click', '.update-button', function () {
                     var id = $(this).data('id');
                     var financial_year_id = $(this).data('financial_year_id');
                     var tender_no = $(this).data('tender_no');
@@ -295,7 +295,7 @@
         
             @can('Delete Tender')
                 // Handle Delete Button
-                $('.delete-button').on('click', function () {
+                $(document).on('click', '.delete-button', function () {
                     var id = $(this).data('id');
                     var deleteUrl = '/admin/tenders/' + id;
                     $('#deleteForm').attr('action', deleteUrl);

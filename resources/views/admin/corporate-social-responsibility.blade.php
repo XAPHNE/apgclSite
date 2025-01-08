@@ -235,7 +235,7 @@
         });
     
         // Handle Update Button
-        $('.update-button').on('click', function () {
+        $(document).on('click', '.update-button', function () {
             var id = $(this).data('id');
             var name = $(this).data('name');
             var description = $(this).data('description');
@@ -267,7 +267,7 @@
         });
     
         // Handle Delete Button
-        $('.delete-button').on('click', function () {
+        $(document).on('click', '.delete-button', function () {
             var id = $(this).data('id');
             var deleteUrl = '/admin/corporate-social-responsibility/' + id;
             $('#deleteForm').attr('action', deleteUrl);
