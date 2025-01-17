@@ -78,6 +78,9 @@
                                 <li>
                                     <a class="dropdown-item" href="https://epragati.apgcl.org:44900/irj/portal" target="_blank">@lang('header.apgcl_ess/mss_portal')</a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="https://support.apgcl.org" target="_blank">APGCL Ticketing Tool Portal</a>
+                                </li>
                             </ul>
                         </div>
                             </li>
