@@ -19,52 +19,72 @@
                 <div class="mt-4 stt-3">
                     <div>
                         <ul>
-                            <li><a href="index.php">HOME</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) }}">HOME</a></li>
                             <li>ABOUT US
                                 <ul>
-                                    <li><a href="company_profile.php">COMPANY PROFILE</a></li>
-                                    <li><a href="board.php">BOARD OF DIRECTOR</a></li>
-                                    <li><a href="offices.php">OFFICES</a></li>
-                                    <li><a href="gallery.php">GALLERY</a></li>
+                                    <li><a href="{{ route('company-profile.websiteIndex', ['lang' => app()->getLocale()]) }}">COMPANY PROFILE</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/about-us/board-of-directors' }}">BOARD OF DIRECTOR</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/about-us/offices' }}">OFFICES</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/about-us/gallery' }}">GALLERY</a></li>
                                 </ul>
                             </li>
                             <li>DOCUMENTS
                                 <ul>
-                                    <li><a href="acts.php">ACTS/POLICIES/GUIDELINES</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/rosters' }}">ROSTER</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/acts-policies-service-rules' }}">ACTS/POLICIES/GUIDELINES</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/certificates' }}">CERTIFICATES</a></li>
                                     <li>TARRIFS</li>
                                     <ul>
-                                        <li><a href="tarrif_orders.php">TARRIF ORDER</a></li>
-                                        <li><a href="tarrif_petition.php">TARRIF PETITION</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/documents/tariff-order' }}">TARRIF ORDER</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/documents/tariff-petition' }}">TARRIF PETITION</a></li>
                                     </ul>
-                                    <li><a href="rti.php">RIGHT TO INFORMATION</a></li>
-                                    <li><a href="finance.php">FINANCE</a></li>
-                                    <li><a href="reports.php">REPORTS</a></li>
-                                    <li><a href="publication.php">PUBLICATIONS</a></li>
-                                    <li><a href="standard-forms.php">STANDARD FORMS</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/right-to-information' }}">RIGHT TO INFORMATION</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/annual-statements' }}">ANNUAL STATEMENT</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/annual-returns' }}">ANNUAL RETURN</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/reports' }}">REPORTS</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/publications' }}">PUBLICATIONS</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/documents/standard-forms' }}">STANDARD FORMS</a></li>
                                 </ul>
                             </li>
                             <li>PROJECTS
                                 <ul>
-                                    <li><a href="hydro.php">HYDRO PLANTS</a></li>
-                                    <li><a href="thermal.php">THERMAL PLANTS</a></li>
-                                    <li><a href="ongoing.php">ONGOING PROJECT</a></li>
-                                    <li><a href="pipeline.php">PROJECTS IN PIPELINE</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/projects/hydro-plants' }}">HYDRO PLANTS</a></li>
+                                    <ul>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/hydro-plants/klhep' }}">KARBI LANGPI HYDRO ELECTRIC PROJECT</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/hydro-plants/mshep' }}">MYNTRIANG SMALL HYDRO ELECTRIC PROJECT</a></li>
+                                    </ul>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/projects/thermal-plants' }}">THERMAL PLANTS</a></li>
+                                    <ul>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/thermal-plants/ntps' }}">NAMRUP THERMAL POWER STATION</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/thermal-plants/nrpp' }}">NAMRUP REPLACEMENT POWER PROJECT</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/thermal-plants/ltps' }}">LAKWA THERMAL POWER STATION</a></li>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/thermal-plants/lrpp' }}">LAKWA REPLACEMENT POWER PROJECT</a></li>
+                                    </ul>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/projects/ongoing-projects' }}">ONGOING PROJECT</a></li>
+                                    <ul>
+                                        <li><a href="{{ url('/' . app()->getLocale()) . '/projects/ongoing-projects/lkhep' }}">LOWER KOPILI HYDRO ELECTRIC PROJECT</a></li>
+                                    </ul>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/projects/projects-in-pipeline' }}">PROJECTS IN PIPELINE</a></li>
                                 </ul>
                             </li>
                             <li>TENDERS
                                 <ul>
-                                    <li><a href="tenders.php">CURRENT F.Y.</a></li>
-                                    <li><a href="archive.php">ARCHIVE</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/tenders/current-financial-year' }}">CURRENT FINANCIAL YEAR</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/tenders/archive' }}">ARCHIVE</a></li>
                                 </ul>
                             </li>
                             <li>CAREER
                                 <ul>
-                                    <li><a href="apprenticeship.php">APPRENTICESHIP</a></li>
-                                    <li><a href="recruitment.php">RECRUITMENT</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/career/internship' }}">INTERNSHIP</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/career/apprenticeship' }}">APPRENTICESHIP</a></li>
+                                    <li><a href="{{ url('/' . app()->getLocale()) . '/career/recruitments' }}">RECRUITMENT</a></li>
                                 </ul>
                             </li>
-                            <li><a href="disaster_management.php">DISASTER MANAGEMENT</a></li>
-                            <li><a href="contact-us.php">CONTACT US</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) . '/disaster-management' }}">DISASTER MANAGEMENT</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) . '/dam-safety' }}">DAM SAFETY</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) . '/contact-us' }}">CONTACT US</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) . '/corporate-social-responsibility' }}">CORPORATE SOCIAL RESPONSIBILITY</a></li>
+                            <li><a href="{{ url('/' . app()->getLocale()) . '/calendars-and-holidays' }}">CALENDAR & HOLIDAY</a></li>
                         </ul>
                     </div>
                 </div>
