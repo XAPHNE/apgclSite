@@ -16,7 +16,7 @@
         <div class="row">
             <h4 class="line-vertical">@lang('navigationMenu.roster')</h4>
             <div class="table-responsive">
-                <table class="table-bordered table table-striped dataTable" style="width:100%">
+                <table class="table-bordered table table-striped" style="width:100%">
                     <thead>
                         <tr class="bg-primary">
                             <th width="85%">@lang('table.particulars')</th>
@@ -46,7 +46,7 @@
             </div>
             &nbsp;
             <div class="table-responsive">
-                <table class="table-bordered table table-striped dataTable" style="width:100%">
+                <table class="table-bordered table table-striped" style="width:100%">
                     <thead>
                         <tr class="bg-primary">
                             <th>@lang('table.name_of_wings')</th>
@@ -55,26 +55,34 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($rosters as $roster)
-                            @if ($roster->visibility && !$roster->is_header)
+                        @php
+                            // Group rosters by name_of_wings
+                            $groupedRosters = $rosters->where('visibility', true)->where('is_header', false)->groupBy('name');
+                        @endphp
+                
+                        @foreach ($groupedRosters as $name => $rosterGroup)
+                            @foreach ($rosterGroup as $index => $roster)
                                 <tr>
-                                    <td class="text-center">{{ $roster->name }}</td>
-                                    <td class="text-start">{{ $roster->description }}</td>
-                                    <td>
+                                    {{-- Name of Wings (Grouped using rowspan) --}}
+                                    @if ($index === 0)
+                                        <td class="text-center align-middle" rowspan="{{ $rosterGroup->count() }}">{{ $name }}</td>
+                                    @endif
+                
+                                    {{-- Particulars --}}
+                                    <td class="text-start align-middle">{{ $roster->description }}</td>
+                
+                                    {{-- Download Column --}}
+                                    <td class="text-center align-middle">
                                         <a href="{{ url($roster->downloadLink) }}" target="_blank">
                                             <i class="fas fa-file-download" aria-hidden="true"></i>
                                             @lang('table.download_view')
-                                    </a>
+                                        </a>
                                     </td>
                                 </tr>
-                            @endif
-                            
-                            
+                            @endforeach
                         @endforeach
-                            
-                        <!-- Add more rows as needed -->
                     </tbody>
-                </table>
+                </table>                
             </div>
         </div>
     </div>
