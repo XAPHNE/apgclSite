@@ -10,6 +10,12 @@
                         <img src="{{ asset($file->downloadLink) }}" alt="Gallery File">
                     </div>
                 @endforeach
+                <div class="single-banner-slide owl-theme" data-dot="06">
+                    <video width="720" controls>
+                        <source src="admin-assets/Gallery/Home Page Slider/Carousel/2024/1738218440_APGCL _720P_VIDEO_FINAL.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             @empty
                 <div class="single-banner-slide">
                     <p>No slider files available.</p>
@@ -194,6 +200,35 @@
     }
     .brands-slider .brand-single-img{
         padding: 0px !important;
+    }
+    .banner-slider-area {
+        position: relative;
+    }
+    .single-banner-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 400px; /* Example height, adjust as needed */
+        background: #f4f4f4; /* Optional background */
+    }
+    .video-container {
+        width: 100%;
+        max-width: 80%; /* Limits the video width */
+        height: 100%; /* Matches the height of the slider */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .fb-video {
+        max-height: 100%; /* Ensures it fits the container */
+        max-width: 100%;
+        margin: auto;
+    }
+    video {
+        max-width: 100%; /* Ensures video fits within the container */
+        max-height: 100%; /* Ensures video respects the slider's height */
+        border: 1px solid #ccc; /* Optional: Adds a border for better appearance */
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Optional: Adds a subtle shadow */
     }
 </style>
 @endpush
