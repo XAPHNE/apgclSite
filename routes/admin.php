@@ -13,6 +13,9 @@ use App\Http\Controllers\DailyGenerationController;
 use App\Http\Controllers\DamSafetyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DisasterManagementController;
+use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\EmployeeDetailController;
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\FinancialYearController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GalleryFileController;
@@ -89,6 +92,9 @@ Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
             Route::resource('dam-safety', DamSafetyController::class);
             Route::resource('users', UserController::class);
             Route::post('users/{user}/assign-roles', [UserController::class, 'assignRoles'])->name('users.assign-roles');
+            Route::resource('employee-details', EmployeeDetailController::class);
+            Route::resource('events', EventController::class);
+            Route::resource('email-templates', EmailTemplateController::class);
         });
         Route::middleware('role:Super Admin|Tender Uploader')->group(function () {
             Route::prefix('tenders')->group(function () {
