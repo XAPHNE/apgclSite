@@ -174,6 +174,33 @@
                     </a>
                 </li>
                 @hasrole('Super Admin')
+                <li class="nav-item {{ Route::is('employee-details.*', 'events.*', 'email-templates.*') ? 'menu-open' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('employee-details.*') ? 'active' : '' }}">
+                        <i class="nav-icon fa-solid fa-cake-candles text-green me-2"></i>
+                        <p>Greetings<i class="right fas fa-angle-left"></i></p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('employee-details.index') }}" class="nav-link {{ Route::is('employee-details.*') ? 'active' : '' }}">
+                                {{-- <i class="nav-icon fa-solid fa-person-circle-exclamation text-green me-2"></i> --}}
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Employees</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('events.index') }}" class="nav-link {{ Route::is('events.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Events</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('email-templates.index') }}" class="nav-link {{ Route::is('email-templates.*') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Email Templates</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('users.index') }}" class="nav-link {{ Route::is('users.*') ? 'active' : '' }}">
                         <i class="nav-icon fas fa-users text-green me-2"></i>
