@@ -12,7 +12,10 @@ class EventController extends Controller
      */
     public function index()
     {
-        return view('admin.events');
+        $events = Event::latest()->get();
+        $months = Event::$month;
+        $days = Event::$day;
+        return view('admin.events', compact('events', 'months', 'days'));
     }
 
     /**
@@ -28,7 +31,23 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'month' => 'required|string',
+            'date' => 'required|date',
+            'day' => 'required|string',
+            'public_holidays' => 'required|string',
+        ]);
+
+        Event::create([
+            'month' => $request->month,
+            'date' => $request->date,
+            'day' => $request->day,
+            'public_holidays' => $request->public_holidays,
+            'created_by' => auth()->id(),
+            'updated_by' => auth()->id()
+        ]);
+
+        return redirect()->back()->with('success', 'Event added successfully');
     }
 
     /**
@@ -52,7 +71,22 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $request->validate([
+            'month' => 'required|string',
+            'date' => 'required|date',
+            'day' => 'required|string',
+            'public_holidays' => 'required|string',
+        ]);
+
+        $event->update([
+            'month' => $request->month,
+            'date' => $request->date,
+            'day' => $request->day,
+            'public_holidays' => $request->public_holidays,
+            'updated_by' => auth()->id()
+        ]);
+
+        return redirect()->back()->with('success', 'Event updated successfully');
     }
 
     /**
@@ -60,6 +94,11 @@ class EventController extends Controller
      */
     public function destroy(Event $event)
     {
-        //
+        $event->deleted_by = auth()->id();
+        $event->save();
+
+        $event->delete();
+
+        return redirect()->back()->with('success', 'Event deleted successfully');
     }
 }
