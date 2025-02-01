@@ -175,7 +175,7 @@
                 </li>
                 @hasrole('Super Admin')
                 <li class="nav-item {{ Route::is('employee-details.*', 'events.*', 'email-templates.*') ? 'menu-open' : '' }}">
-                    <a href="#" class="nav-link {{ Route::is('employee-details.*') ? 'active' : '' }}">
+                    <a href="#" class="nav-link {{ Route::is('employee-details.*', 'events.*', 'email-templates.*') ? 'active' : '' }}">
                         <i class="nav-icon fa-solid fa-cake-candles text-green me-2"></i>
                         <p>Greetings<i class="right fas fa-angle-left"></i></p>
                     </a>
