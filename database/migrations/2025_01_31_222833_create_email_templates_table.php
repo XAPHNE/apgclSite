@@ -16,6 +16,11 @@ return new class extends Migration
             $table->string('subject');
             $table->string('email_body');
             $table->string('signature');
+            $table->boolean('is_birthday');
+            $table->boolean('is_joining_aniversery');
+            $table->boolean('is_retirement');
+            $table->boolean('is_holiday');
+            $table->foreignId('event_id')->constrained('events')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('created_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('updated_by')->constrained('users')->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('deleted_by')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('restrict');

@@ -37,6 +37,11 @@
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle">{{ $emailTemplate->subject }}</td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
+                                    <button class="btn btn-info view-button"
+                                        data-subject="{{ $emailTemplate->subject }}"
+                                        data-email_body="{{ $emailTemplate->email_body }}"
+                                        data-signature="{{ $emailTemplate->signature }}"><i title="View" class="fas fa-eye"></i>
+                                    </button>
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $emailTemplate->id }}"
                                         data-subject="{{ $emailTemplate->subject }}"
@@ -61,7 +66,7 @@
 
 <!-- Add/Update Modal -->
 <div class="modal fade" id="addUpdateModal">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header bg-success">
                 <h5 class="modal-title" id="modalTitle">Add New Email Template</h5>
@@ -154,11 +159,26 @@
                 $('#saveButton').removeClass('btn-warning').addClass('btn-success');
                 $('#saveButton').text('Save');
                 $('#addUpdateForm input[name="_method"]').remove();
-                $('#subject').val('');
-                $('#email_body').val('');
-                $('#signature').val('');
+                $('#subject').val('').prop('readonly', false);
+                $('#email_body').val('').prop('readonly', false);
+                $('#signature').val('').prop('readonly', false);
+                $('#saveButton').show();
                 $('#addUpdateModal').modal('show');
             });
+
+            // Handle View Button
+            $(document).on('click', '.view-button', function () {
+                var subject = $(this).data('subject');
+                var email_body = $(this).data('email_body');
+                var signature = $(this).data('signature');
+                $('#modalTitle').text('View Email Template');
+                $('#subject').val(subject).prop('readonly', true);
+                $('#email_body').val(email_body).prop('readonly', true);
+                $('#signature').val(signature).prop('readonly', true);
+                $('#addUpdateModal .modal-header').removeClass('bg-success bg-warning').addClass('bg-info');
+                $('#saveButton').hide();
+                $('#addUpdateModal').modal('show');
+            })
         
             // Handle Update Button
             $(document).on('click', '.update-button', function () {
@@ -172,10 +192,10 @@
                 $('#addUpdateForm').find('input[name="_method"]').remove();
                 $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
                 $('#saveButton').text('Update');
-                $('#subject').val(subject);
-                $('#email_body').val(email_body);
-                $('#signature').val(signature);
-                $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
+                $('#subject').val(subject).prop('readonly', false);
+                $('#email_body').val(email_body).prop('readonly', false);
+                $('#signature').val(signature).prop('readonly', false);
+                $('#addUpdateModal .modal-header').removeClass('bg-success bg-info').addClass('bg-warning');
                 $('#saveButton').removeClass('btn-success').addClass('btn-warning');
                 $('#addUpdateModal').modal('show');
             });
@@ -187,7 +207,12 @@
                 $('#deleteForm').attr('action', deleteUrl);
                 $('#deleteConfirmationModal').modal('show');
             });
-        
+            
+            // Reset modal when closed
+            $('#addUpdateModal').on('hidden.bs.modal', function () {
+                $('#addUpdateForm')[0].reset();
+                $('#saveButton').show();
+            });
         });
     </script>
     <script>

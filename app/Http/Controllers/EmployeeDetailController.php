@@ -13,7 +13,8 @@ class EmployeeDetailController extends Controller
     public function index()
     {
         $employeeDetails = EmployeeDetail::latest()->get();
-        return view('admin.employee-details', compact('employeeDetails'));
+        $titles = EmployeeDetail::$title;
+        return view('admin.employee-details', compact('employeeDetails', 'titles'));
     }
 
     /**
@@ -30,7 +31,9 @@ class EmployeeDetailController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'title' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'dob' => 'nullable|date',
             'doj' => 'nullable|date',
             'dor' => 'nullable|date',
@@ -40,7 +43,9 @@ class EmployeeDetailController extends Controller
         ]);
 
         EmployeeDetail::create([
-            'name' => $request->name,
+            'title' => $request->title,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'dob' => $request->dob,
             'doj' => $request->doj,
             'dor' => $request->dor,
@@ -57,7 +62,7 @@ class EmployeeDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(EmployeeDetail $employeeDetail)
     {
         //
     }
@@ -65,7 +70,7 @@ class EmployeeDetailController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(EmployeeDetail $employeeDetail)
     {
         //
     }
@@ -73,12 +78,12 @@ class EmployeeDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, EmployeeDetail $employeeDetail)
     {
-        $employeeDetail = EmployeeDetail::findOrFail($id);
-
         $request->validate([
-            'name' => 'required|string',
+            'title' => 'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
             'dob' => 'nullable|date',
             'doj' => 'nullable|date',
             'dor' => 'nullable|date',
@@ -88,7 +93,9 @@ class EmployeeDetailController extends Controller
         ]);
 
         $employeeDetail->update([
-            'name' => $request->name,
+            'title' => $request->title,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'dob' => $request->dob,
             'doj' => $request->doj,
             'dor' => $request->dor,
@@ -104,9 +111,8 @@ class EmployeeDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(EmployeeDetail $employeeDetail)
     {
-        $employeeDetail = EmployeeDetail::findOrFail($id);
         $employeeDetail->deleted_by = auth()->id();
         $employeeDetail->save();
 

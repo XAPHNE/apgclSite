@@ -41,7 +41,7 @@
                         @foreach ($employeeDetails as $employeeDetail)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $employeeDetail->name }}</td>
+                                <td class="text-center align-middle">{{ $employeeDetail->title . ' ' . $employeeDetail->first_name . ' ' . $employeeDetail->last_name }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->dob ? $employeeDetail->dob->format('M d, Y') : 'N/A' }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->doj ? $employeeDetail->doj->format('M d, Y') : 'N/A' }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->dor ? $employeeDetail->dor->format('M d, Y') : 'N/A' }}</td>
@@ -51,7 +51,9 @@
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $employeeDetail->id }}"
-                                        data-name="{{ $employeeDetail->name }}"
+                                        data-title="{{ $employeeDetail->title }}"
+                                        data-first_name="{{ $employeeDetail->first_name }}"
+                                        data-last_name="{{ $employeeDetail->last_name }}"
                                         data-dob="{{ $employeeDetail->dob ? $employeeDetail->dob->format('Y-m-d') : '' }}"
                                         data-doj="{{ $employeeDetail->doj ? $employeeDetail->doj->format('Y-m-d') : '' }}"
                                         data-dor="{{ $employeeDetail->dor ? $employeeDetail->dor->format('Y-m-d') : '' }}"
@@ -89,8 +91,27 @@
                     <div class="row">
                         <div class="col">
                             <div class="form-group">
-                                <label for="name" class="required">Name:</label>
-                                <input type="text" class="form-control" id="name" name="name" required>
+                                <label for="title" class="required">Title:</label>
+                                <select class="form-control" id="title" name="title" required>
+                                    <option value="" disabled selected>Select</option>
+                                    @foreach ($titles as $title)
+                                    <option value="{{ $title }}">{{ $title }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="first_name" class="required">First Name:</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="last_name" class="required">Last Name:</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
                             </div>
                         </div>
                         <div class="col">
@@ -222,7 +243,9 @@
                 $('#saveButton').removeClass('btn-warning').addClass('btn-success');
                 $('#saveButton').text('Save');
                 $('#addUpdateForm input[name="_method"]').remove();
-                $('#name').val('');
+                $('#title').val('');
+                $('#first_name').val('');
+                $('#last_name').val('');
                 $('#dob').val('');
                 $('#doj').val('');
                 $('#dor').val('');
@@ -235,7 +258,9 @@
             // Handle Update Button
             $(document).on('click', '.update-button', function () {
                 var id = $(this).data('id');
-                var name = $(this).data('name');
+                var title = $(this).data('title');
+                var first_name = $(this).data('first_name');
+                var last_name = $(this).data('last_name');
                 var dob = $(this).data('dob');
                 var doj = $(this).data('doj');
                 var dor = $(this).data('dor');
@@ -248,7 +273,9 @@
                 $('#addUpdateForm').find('input[name="_method"]').remove();
                 $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
                 $('#saveButton').text('Update');
-                $('#name').val(name);
+                $('#title').val(title);
+                $('#first_name').val(first_name);
+                $('#last_name').val(last_name);
                 $('#dob').val(dob);
                 $('#doj').val(doj);
                 $('#dor').val(dor);

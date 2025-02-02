@@ -40,4 +40,9 @@ class Event extends Model
         'Saturday',
         'Sunday'
     ];
+
+    public function emailTemplates()
+    {
+        return $this->hasMany(EmailTemplate::class, 'event_id');
+    }
 }
