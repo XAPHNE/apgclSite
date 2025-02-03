@@ -10,7 +10,7 @@ class EmailTemplate extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['subject', 'email_body', 'signature', 'created_by', 'updated_by', 'deleted_by'];
+    protected $fillable = ['subject', 'email_body', 'signature', 'is_birthday', 'is_joining_aniversery', 'is_retirement', 'is_holiday', 'event_id', 'created_by', 'updated_by', 'deleted_by'];
 
     public function event()
     {
