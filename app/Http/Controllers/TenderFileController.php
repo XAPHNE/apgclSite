@@ -34,7 +34,7 @@ class TenderFileController extends Controller
         $request->validate([
             'tender_id' => 'required|exists:tenders,id', // Ensure tender exists
             'name' => 'required|string|max:255',
-            'downloadLink' => 'required|file|max:10240', // Optional: Limit file size to 10MB
+            'downloadLink' => 'required|file|max:61440', // Optional: Limit file size to 60MB
         ]);
 
         // Find the tender
