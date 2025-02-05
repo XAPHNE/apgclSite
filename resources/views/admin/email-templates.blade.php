@@ -91,7 +91,8 @@
                     </div>
                     <div class="form-group">
                         <label for="email_body" class="required">Email Body:</label>
-                        <textarea class="form-control" id="email_body" name="email_body" rows="10" required></textarea>
+                        {{-- <textarea class="form-control" id="email_body" name="email_body" rows="10" required></textarea> --}}
+                        <x-trix-input id="email_body" name="email_body" />
                     </div>
                     <div class="form-group">
                         <label for="signature" class="required">Signature:</label>
@@ -107,21 +108,21 @@
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input type="hidden" name="is_birthday" value="0">
+                                <input type="hidden" name="is_joining_aniversery" value="0">
                                 <label for="is_joining_aniversery" class="required">Is Joining Aniversery:</label>
                                 <input type="checkbox" class="form-control visibility-toggle" id="is_joining_aniversery" name="is_joining_aniversery" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input type="hidden" name="is_birthday" value="0">
+                                <input type="hidden" name="is_retirement" value="0">
                                 <label for="is_retirement" class="required">Is Retirement:</label>
                                 <input type="checkbox" class="form-control visibility-toggle" id="is_retirement" name="is_retirement" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
-                                <input type="hidden" name="is_birthday" value="0">
+                                <input type="hidden" name="is_holiday" value="0">
                                 <label for="is_holiday" class="required">Is Holiday:</label>
                                 <input type="checkbox" class="form-control visibility-toggle" id="is_holiday" name="is_holiday" value="1" data-toggle="toggle" data-on="Yes" data-off="No" data-style="ios" data-onstyle="success" data-offstyle="danger">
                             </div>
@@ -177,6 +178,7 @@
 @endsection
 
 @push('styles')
+<x-rich-text::styles />
 <style>
     .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
     .toggle.ios .toggle-handle { border-radius: 20px; }
