@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('subject');
             $table->string('email_body');
             $table->string('signature');
+            $table->string('attachment')->nullable();
             $table->boolean('is_birthday');
             $table->boolean('is_joining_aniversery');
             $table->boolean('is_retirement');
