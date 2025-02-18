@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('email_templates', function (Blueprint $table) {
             $table->id();
             $table->string('subject');
-            $table->string('email_body');
-            $table->string('signature');
+            $table->longText('email_body');
+            $table->longText('signature');
             $table->string('attachment')->nullable();
             $table->boolean('is_birthday');
             $table->boolean('is_joining_aniversery');

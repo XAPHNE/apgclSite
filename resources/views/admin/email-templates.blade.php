@@ -91,8 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email_body" class="required">Email Body:</label>
-                        {{-- <textarea class="form-control" id="email_body" name="email_body" rows="10" required></textarea> --}}
-                        <x-trix-input id="email_body" name="email_body" />
+                        <textarea class="form-control" id="email_body" name="email_body" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="signature" class="required">Signature:</label>
@@ -178,7 +177,6 @@
 @endsection
 
 @push('styles')
-<x-rich-text::styles />
 <style>
     .toggle.ios, .toggle-on.ios, .toggle-off.ios { border-radius: 20px; }
     .toggle.ios .toggle-handle { border-radius: 20px; }
@@ -240,8 +238,14 @@
                 $('#saveButton').text('Save');
                 $('#addUpdateForm input[name="_method"]').remove();
                 $('#subject').val('').prop('readonly', false);
-                $('#email_body').val('').prop('readonly', false);
-                $('#signature').val('').prop('readonly', false);
+                if ($('#email_body').hasClass('note-editor')) {
+                    $('#email_body').summernote('destroy');
+                }
+                if ($('#signature').hasClass('note-editor')) {
+                    $('#signature').summernote('destroy');
+                }
+                $('#email_body').summernote('reset');
+                $('#signature').summernote('reset');
                 $('#event_id').val('').prop('disabled', false);
                 $('.visibility-toggle').each(function () {
                     $(this).bootstrapToggle('off');
@@ -262,8 +266,16 @@
                 var event_id = $(this).data('event_id');
                 $('#modalTitle').text('View Email Template');
                 $('#subject').val(subject).prop('readonly', true);
-                $('#email_body').val(email_body).prop('readonly', true);
-                $('#signature').val(signature).prop('readonly', true);
+                if ($('#email_body').hasClass('note-editor')) {
+                    $('#email_body').summernote('destroy');
+                }
+                if ($('#signature').hasClass('note-editor')) {
+                    $('#signature').summernote('destroy');
+                }
+                $('#email_body').summernote('code', email_body);
+                $('#signature').summernote('code', signature);
+                $('#email_body').summernote('disable');
+                $('#signature').summernote('disable');
                 $('#is_birthday').bootstrapToggle(is_birthday ? 'on' : 'off').prop('disabled', true);
                 $('#is_joining_aniversery').bootstrapToggle(is_joining_aniversery ? 'on' : 'off').prop('disabled', true);
                 $('#is_retirement').bootstrapToggle(is_retirement ? 'on' : 'off').prop('disabled', true);
@@ -298,12 +310,20 @@
                 $('#addUpdateForm').append('<input type="hidden" name="_method" value="PATCH">');
                 $('#saveButton').text('Update');
                 $('#subject').val(subject).prop('readonly', false);
-                $('#email_body').val(email_body).prop('readonly', false);
-                $('#signature').val(signature).prop('readonly', false);
+                if ($('#email_body').hasClass('note-editor')) {
+                    $('#email_body').summernote('destroy');
+                }
+                if ($('#signature').hasClass('note-editor')) {
+                    $('#signature').summernote('destroy');
+                }
+                $('#email_body').summernote('code', email_body);
+                $('#signature').summernote('code', signature);
+                $('#email_body').summernote('enable'); 
+                $('#signature').summernote('enable');
                 $('#event_id').prop('disabled', false);
-                $('#is_birthday').bootstrapToggle(is_birthday ? true : false).prop('disabled', false);
-                $('#is_joining_aniversery').bootstrapToggle(is_joining_aniversery  ? true : false).prop('disabled', false);
-                $('#is_retirement').bootstrapToggle(is_retirement  ? true : false).prop('disabled', false);
+                $('#is_birthday').bootstrapToggle(is_birthday ? 'on' : 'off').prop('disabled', false);
+                $('#is_joining_aniversery').bootstrapToggle(is_joining_aniversery  ? 'on' : 'off').prop('disabled', false);
+                $('#is_retirement').bootstrapToggle(is_retirement  ? 'on' : 'off').prop('disabled', false);
                 $('#is_holiday').bootstrapToggle(is_holiday ? 'on' : 'off').prop('disabled', false);
                 if (is_holiday) {
                     $('#eventDropdownContainer').show();

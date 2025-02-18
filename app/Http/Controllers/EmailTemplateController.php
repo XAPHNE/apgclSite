@@ -33,8 +33,8 @@ class EmailTemplateController extends Controller
     {
         $request->validate([
             'subject' => 'required|string',
-            'email_body' => 'required|string',
-            'signature' => 'required|string',
+            'email_body' => 'required',
+            'signature' => 'required',
             'is_birthday' => 'nullable|boolean',
             'is_joining_aniversery' => 'nullable|boolean',
             'is_retirement' => 'nullable|boolean',
