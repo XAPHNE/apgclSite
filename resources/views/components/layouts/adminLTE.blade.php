@@ -25,7 +25,8 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="{{ asset('admin-assets/plugins/daterangepicker/daterangepicker.css') }}">
     <!-- Summernote -->
-    <link rel="stylesheet" href="{{ asset('admin-assets/plugins/summernote/summernote-bs5.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('admin-assets/plugins/summernote/summernote-bs5.min.css') }}"> --}}
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     
     <!-- DataTable CSS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.min.css">
@@ -122,7 +123,8 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('admin-assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
 <!-- Summernote -->
-<script src="{{ asset('admin-assets/plugins/summernote/summernote-bs5.min.js') }}"></script>
+{{-- <script src="{{ asset('admin-assets/plugins/summernote/summernote-bs5.min.js') }}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
 <!-- overlayScrollbars -->
 <script src="{{ asset('admin-assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
 <!-- AdminLTE App -->
