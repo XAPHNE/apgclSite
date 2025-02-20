@@ -4,9 +4,9 @@
     <title>{{ $subject }}</title>
 </head>
 <body>
-    {!! $body !!}
+    <p>Dear {{ $employeeName }},</p>
+    {!! nl2br($body) !!}
     <br><br>
-    <hr>
-    {!! $signature !!}
+    {!! nl2br($signature) !!}
 </body>
 </html>

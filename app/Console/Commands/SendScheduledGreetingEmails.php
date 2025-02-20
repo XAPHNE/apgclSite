@@ -65,12 +65,16 @@ class SendScheduledGreetingEmails extends Command
         foreach ($employees as $employee) {
             $emails = array_filter([$employee->email_official, $employee->email_personal]);
 
-            if (!empty($emails)) {
-                Mail::to($emails)->send(new SendGreetingEmail(
-                    $emailTemplate->subject,
-                    $emailTemplate->email_body,
-                    $emailTemplate->signature
-                ));
+            foreach ($emails as $email) {
+                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    Mail::to($email, "{$employee->first_name} {$employee->last_name}")
+                        ->send(new SendGreetingEmail(
+                            $emailTemplate->subject,
+                            "{$employee->title} {$employee->last_name}",
+                            $emailTemplate->email_body,
+                            $emailTemplate->signature
+                        ));
+                }
             }
         }
     }

@@ -13,14 +13,15 @@ class SendGreetingEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject, $body, $signature;
+    public $subject, $employeeName, $body, $signature;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($subject, $body, $signature)
+    public function __construct($subject, $employeeName, $body, $signature)
     {
         $this->subject = $subject;
+        $this->employeeName = $employeeName;
         $this->body = $body;
         $this->signature = $signature;
     }
