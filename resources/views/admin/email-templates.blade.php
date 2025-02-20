@@ -238,14 +238,16 @@
                 $('#saveButton').text('Save');
                 $('#addUpdateForm input[name="_method"]').remove();
                 $('#subject').val('').prop('readonly', false);
+                $('#email_body').summernote('reset');
+                $('#signature').summernote('reset');
                 if ($('#email_body').hasClass('note-editor')) {
                     $('#email_body').summernote('destroy');
                 }
                 if ($('#signature').hasClass('note-editor')) {
                     $('#signature').summernote('destroy');
                 }
-                $('#email_body').summernote('reset');
-                $('#signature').summernote('reset');
+                $('#email_body').summernote('enable');
+                $('#signature').summernote('enable');
                 $('#event_id').val('').prop('disabled', false);
                 $('.visibility-toggle').each(function () {
                     $(this).bootstrapToggle('off');
