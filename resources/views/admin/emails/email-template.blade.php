@@ -78,8 +78,7 @@
     <div class="email-footer">
         <small>This is a system-generated email. Please do not reply.</small>
         <small>
-            Copyright &copy;
-            <script>document.write(new Date().getFullYear())</script> 
+            Copyright &copy; {{ date('Y') }}
             <a href="{{ url('/') }}">Assam Power Generation Corporation Limited</a>. All Rights Reserved.
         </small>
     </div>
