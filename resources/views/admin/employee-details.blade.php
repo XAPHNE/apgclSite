@@ -220,6 +220,7 @@
                     }
                 ],
                 scrollX: true,
+                stateSave: true,
             });
             
             var input = document.querySelector("#phone");
@@ -281,7 +282,7 @@
                 $('#dor').val(dor);
                 $('#email_official').val(email_official);
                 $('#email_personal').val(email_personal);
-                iti.setNumber(phone);
+                iti.setNumber(phone ? String(phone) : '');
                 $('#addUpdateModal .modal-header').removeClass('bg-success').addClass('bg-warning');
                 $('#saveButton').removeClass('btn-success').addClass('btn-warning');
                 $('#addUpdateModal').modal('show');
