@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\SendGreetingEmailJob;
 use App\Mail\SendGreetingEmail;
 use App\Models\EmailTemplate;
 use App\Models\EmployeeDetail;
@@ -44,50 +45,80 @@ class SendScheduledGreetingEmails extends Command
         foreach ($emailTemplates as $emailTemplate) {
             if ($emailTemplate->is_birthday) {
                 $employees = EmployeeDetail::whereRaw("DATE_FORMAT(dob, '%m-%d') = ?", [$todayMonthDay])->get();
-                $this->sendEmails($employees, $emailTemplate);
+                $this->processEmployees($employees, $emailTemplate);
             }
             if ($emailTemplate->is_joining_aniversery) {
                 $employees = EmployeeDetail::whereRaw("DATE_FORMAT(doj, '%m-%d') = ?", [$todayMonthDay])->get();
-                $this->sendEmails($employees, $emailTemplate);
+                $this->processEmployees($employees, $emailTemplate);
             }
             if ($emailTemplate->is_retirement) {
                 $employees = EmployeeDetail::whereRaw("DATE_FORMAT(dor, '%Y-%m-%d') = ?", [$todayFullDate])->get();
-                $this->sendEmails($employees, $emailTemplate);
+                $this->processEmployees($employees, $emailTemplate);
             }
             if ($emailTemplate->is_holiday && $emailTemplate->event_id) {
-                $this->sendHolidayEmails($emailTemplate, $todayFullDate);
+                $this->processHolidayEmails($emailTemplate, $todayFullDate);
             }
         }
-        $this->info("Scheduled greeting emails sent successfully.");
+        $this->info("Scheduled greeting emails have been queued successfully.");
     }
 
-    private function sendEmails($employees, $emailTemplate) {
+    private function processEmployees($employees, $emailTemplate)
+    {
         foreach ($employees as $employee) {
             $emails = array_filter([$employee->email_official, $employee->email_personal]);
 
             foreach ($emails as $email) {
                 if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                    Mail::to($email, "{$employee->first_name} {$employee->last_name}")
-                        ->send(new SendGreetingEmail(
-                            $emailTemplate->subject,
-                            "{$employee->title} {$employee->last_name}",
-                            $emailTemplate->email_body,
-                            $emailTemplate->signature
-                        ));
+                    SendGreetingEmailJob::dispatch(
+                        $email,
+                        "{$employee->title} {$employee->last_name}",
+                        $emailTemplate->subject,
+                        $emailTemplate->email_body,
+                        $emailTemplate->signature
+                    );
                 }
             }
         }
     }
 
-    private function sendHolidayEmails($emailTemplate, $todayFullDate)
+    private function processHolidayEmails($emailTemplate, $todayFullDate)
     {
         $holiday = Event::where('id', $emailTemplate->event_id)
                         ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$todayFullDate])
                         ->first();
 
         if ($holiday) {
-            $employees = EmployeeDetail::all(); // Send to all employees
-            $this->sendEmails($employees, $emailTemplate);
+            $this->processEmployees(EmployeeDetail::cursor(), $emailTemplate);
         }
     }
+
+    // private function sendEmails($employees, $emailTemplate) {
+    //     foreach ($employees as $employee) {
+    //         $emails = array_filter([$employee->email_official, $employee->email_personal]);
+
+    //         foreach ($emails as $email) {
+    //             if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    //                 Mail::to($email, "{$employee->first_name} {$employee->last_name}")
+    //                     ->send(new SendGreetingEmail(
+    //                         $emailTemplate->subject,
+    //                         "{$employee->title} {$employee->last_name}",
+    //                         $emailTemplate->email_body,
+    //                         $emailTemplate->signature
+    //                     ));
+    //             }
+    //         }
+    //     }
+    // }
+
+    // private function sendHolidayEmails($emailTemplate, $todayFullDate)
+    // {
+    //     $holiday = Event::where('id', $emailTemplate->event_id)
+    //                     ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$todayFullDate])
+    //                     ->first();
+
+    //     if ($holiday) {
+    //         $employees = EmployeeDetail::all(); // Send to all employees
+    //         $this->sendEmails($employees, $emailTemplate);
+    //     }
+    // }
 }

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -12,7 +13,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:send-scheduled-greeting-emails')->dailyAt('09:30');
+        $schedule->command('app:send-scheduled-greeting-emails')
+            ->dailyAt('09:30')
+            ->before(function () {
+                Log::info('Scheduled task is about to run.');
+            })
+            ->after(function () {
+                Log::info('Scheduled task finished execution.');
+            })
+            ->onSuccess(function () {
+                Log::info('Scheduled command executed successfully.');
+            })
+            ->onFailure(function () {
+                Log::error('Scheduled command execution failed.');
+            });
     }
 
     /**

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class SendGreetingEmail extends Mailable
+class SendGreetingEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -44,6 +44,7 @@ class SendGreetingEmail extends Mailable
         return new Content(
             view: 'admin.emails.email-template',
             with: [
+                'employeeName' => $this->employeeName,
                 'body' => $this->body,
                 'signature' => $this->signature,
             ],
