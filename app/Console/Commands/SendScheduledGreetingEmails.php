@@ -9,6 +9,7 @@ use App\Models\EmployeeDetail;
 use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendScheduledGreetingEmails extends Command
@@ -32,6 +33,8 @@ class SendScheduledGreetingEmails extends Command
      */
     public function handle()
     {
+        Log::info('Starting scheduled email job');
+        
         $todayMonthDay = Carbon::now()->format('m-d');
         $todayFullDate = Carbon::now()->format('Y-m-d');
 
@@ -44,51 +47,77 @@ class SendScheduledGreetingEmails extends Command
 
         foreach ($emailTemplates as $emailTemplate) {
             if ($emailTemplate->is_birthday) {
-                $employees = EmployeeDetail::whereRaw("DATE_FORMAT(dob, '%m-%d') = ?", [$todayMonthDay])->get();
-                $this->processEmployees($employees, $emailTemplate);
+                $query = EmployeeDetail::whereRaw("DATE_FORMAT(dob, '%m-%d') = ?", [$todayMonthDay]);
+                Log::info("Total employees for birthday: " . $query->count());
+                $this->processEmployees($emailTemplate, $query);
             }
             if ($emailTemplate->is_joining_aniversery) {
-                $employees = EmployeeDetail::whereRaw("DATE_FORMAT(doj, '%m-%d') = ?", [$todayMonthDay])->get();
-                $this->processEmployees($employees, $emailTemplate);
+                $query = EmployeeDetail::whereRaw("DATE_FORMAT(doj, '%m-%d') = ?", [$todayMonthDay]);
+                Log::info("Total employees for joining anniversary: " . $query->count());
+                $this->processEmployees($emailTemplate, $query);
             }
             if ($emailTemplate->is_retirement) {
-                $employees = EmployeeDetail::whereRaw("DATE_FORMAT(dor, '%Y-%m-%d') = ?", [$todayFullDate])->get();
-                $this->processEmployees($employees, $emailTemplate);
+                $query = EmployeeDetail::whereRaw("DATE_FORMAT(dor, '%Y-%m-%d') = ?", [$todayFullDate]);
+                Log::info("Total employees for retirement: " . $query->count());
+                $this->processEmployees($emailTemplate, $query);
             }
             if ($emailTemplate->is_holiday && $emailTemplate->event_id) {
                 $this->processHolidayEmails($emailTemplate, $todayFullDate);
-            }
+            }            
         }
+        Log::info("All greeting emails have been queued.");
         $this->info("Scheduled greeting emails have been queued successfully.");
     }
 
-    private function processEmployees($employees, $emailTemplate)
+    private function processEmployees($emailTemplate, $query)
     {
-        foreach ($employees as $employee) {
-            $emails = array_filter([$employee->email_official, $employee->email_personal]);
+        $query->chunk(1, function ($employees) use ($emailTemplate) {
+            foreach ($employees as $employee) {
+                $emails = array_filter([$employee->email_official, $employee->email_personal]);
 
-            foreach ($emails as $email) {
-                if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if (empty($emails)) {
+                    Log::warning("Skipping employee {$employee->id}: No valid email.");
+                    continue;
+                }
+
+                foreach ($emails as $email) {
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                        Log::warning("Skipping invalid email: {$email}");
+                        continue;
+                    }
+    
+                    Log::info("Queuing email for: {$email}");
+    
                     SendGreetingEmailJob::dispatch(
                         $email,
                         "{$employee->title} {$employee->last_name}",
                         $emailTemplate->subject,
                         $emailTemplate->email_body,
                         $emailTemplate->signature
-                    );
+                    )->onQueue('emails');
                 }
+                unset($employee);
+                gc_collect_cycles();
             }
-        }
+        });
+        Log::info("Chunk execution completed.");
     }
 
     private function processHolidayEmails($emailTemplate, $todayFullDate)
     {
         $holiday = Event::where('id', $emailTemplate->event_id)
-                        ->whereRaw("DATE_FORMAT(date, '%Y-%m-%d') = ?", [$todayFullDate])
+                        ->whereDate('date', $todayFullDate)
                         ->first();
 
         if ($holiday) {
-            $this->processEmployees(EmployeeDetail::cursor(), $emailTemplate);
+            Log::info("Processing holiday emails for event: {$holiday->name}");
+
+            $query = EmployeeDetail::query();
+            Log::info("Total employees for holiday: " . $query->count());
+
+            $this->processEmployees($emailTemplate, $query);
+        } else {
+            Log::warning("No holiday event found for today.");
         }
     }
 
