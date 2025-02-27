@@ -68,7 +68,7 @@
     </div>
 
     <div class="email-body">
-        <p>Dear <strong>{{ $employeeName }}</strong>,</p>
+        <p>Dear <strong>{{ $salutationName }}</strong>,</p>
         <p>{!! nl2br($body) !!}</p>
         
         <br>

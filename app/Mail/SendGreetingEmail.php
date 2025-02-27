@@ -13,15 +13,16 @@ class SendGreetingEmail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $subject, $employeeName, $body, $signature;
+    public $subject, $employeeName, $salutationName, $body, $signature;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($subject, $employeeName, $body, $signature)
+    public function __construct($subject, $employeeName, $salutationName, $body, $signature)
     {
         $this->subject = $subject;
         $this->employeeName = $employeeName;
+        $this->salutationName = $salutationName;
         $this->body = $body;
         $this->signature = $signature;
     }
@@ -45,6 +46,7 @@ class SendGreetingEmail extends Mailable implements ShouldQueue
             view: 'admin.emails.email-template',
             with: [
                 'employeeName' => $this->employeeName,
+                'salutationName' => $this->salutationName,
                 'body' => $this->body,
                 'signature' => $this->signature,
             ],

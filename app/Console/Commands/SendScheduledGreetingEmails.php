@@ -90,11 +90,12 @@ class SendScheduledGreetingEmails extends Command
     
                     SendGreetingEmailJob::dispatch(
                         $email,
+                        "{$employee->first_name} {$employee->last_name}",
                         "{$employee->title} {$employee->last_name}",
                         $emailTemplate->subject,
                         $emailTemplate->email_body,
                         $emailTemplate->signature
-                    )->onQueue('emails');
+                    );
                 }
                 unset($employee);
                 gc_collect_cycles();

@@ -16,15 +16,16 @@ class SendGreetingEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $email, $employeeName, $subject, $body, $signature;
+    public $email, $employeeName, $salutationName, $subject, $body, $signature;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($email, $employeeName, $subject, $body, $signature)
+    public function __construct($email, $employeeName, $salutationName, $subject, $body, $signature)
     {
         $this->email = $email;
         $this->employeeName = $employeeName;
+        $this->salutationName = $salutationName;
         $this->subject = $subject;
         $this->body = $body;
         $this->signature = $signature;
@@ -36,9 +37,10 @@ class SendGreetingEmailJob implements ShouldQueue
     public function handle(): void
     {
         try {
-            Mail::to($this->email)->send(new SendGreetingEmail(
+            Mail::to($this->email ,$this->employeeName)->send(new SendGreetingEmail(
                 $this->subject,
                 $this->employeeName,
+                $this->salutationName,
                 $this->body,
                 $this->signature
             ));

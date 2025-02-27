@@ -27,6 +27,12 @@ class Kernel extends ConsoleKernel
             ->onFailure(function () {
                 Log::error('Scheduled command execution failed.');
             });
+            
+        $schedule->command('queue:work --timeout=90 --tries=3')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+        $schedule->command('queue:restart')->daily();
     }
 
     /**
