@@ -30,6 +30,12 @@
                 </div>
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                <!-- Remaining Attempts Info -->
+                @if ($attemptsLeft > 0 && $attemptsLeft < 3)
+                    <div class="alert alert-warning mt-3">
+                        You have {{ $attemptsLeft }} login attempt(s) left. After 3 failed attempts, your account will be temporarily locked for 24 hours.
+                    </div>
+                @endif
 
                 <!-- Forgot Password -->
                 <div class="row">

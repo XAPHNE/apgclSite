@@ -42,7 +42,12 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited(); // Check if the user is already locked out
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey(), 86400); // Only count failed attempts (Expires in 24 hours)
+            $key = $this->throttleKey();
+            RateLimiter::hit($key, 86400); // Only count failed attempts (Expires in 24 hours)
+
+            // Calculate attempts left (max 3)
+            $attemptsLeft = max(3 - RateLimiter::attempts($key), 0);
+            session(['attempts_left' => $attemptsLeft]);
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
@@ -50,6 +55,7 @@ class LoginRequest extends FormRequest
         }
 
         RateLimiter::clear($this->throttleKey());
+        session()->forget('attempts_left');
     }
 
     /**
@@ -59,13 +65,20 @@ class LoginRequest extends FormRequest
      */
     public function ensureIsNotRateLimited(): void
     {
-        if (! RateLimiter::tooManyAttempts($this->throttleKey(), 3)) {
-            return;
+        $key = $this->throttleKey();
+
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            event(new Lockout($this));
+
+            // Get remaining time for lockout
+            $seconds = RateLimiter::availableIn($key);
+
+            // Store lockout time in session
+            session(['throttle_seconds' => $seconds]);
+
+            // Abort with 429 status code to prevent further login attempts
+            abort(429);
         }
-
-        event(new Lockout($this));
-
-        $seconds = RateLimiter::availableIn($this->throttleKey());
 
         // throw ValidationException::withMessages([
         //     'email' => trans('auth.throttle', [
@@ -73,8 +86,8 @@ class LoginRequest extends FormRequest
         //         'minutes' => ceil($seconds / 60),
         //     ]),
         // ]);
-        session(['throttle_seconds' => $seconds]);
-        abort(429);
+        // session(['throttle_seconds' => $seconds]);
+        // abort(429);
     }
 
     /**

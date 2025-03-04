@@ -17,10 +17,17 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.login');
+        $key = 'login:' . $request->ip() . '|' . strtolower($request->input('email'));
+        // Retrieve the lockout time from the session
+        $lockoutTime = session('throttle_seconds', 0);  // Default to 0 if no session data
+
+        $attemptsLeft = session('attempts_left', 3); // Default to 3
+
+        return view('auth.login', compact('attemptsLeft', 'lockoutTime'));
     }
+
 
     /**
      * Handle an incoming authentication request.
