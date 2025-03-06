@@ -43,13 +43,23 @@
                             <li class="nav-item">
                                 <a href="{{ route('tenders.index') }}" class="nav-link {{ !$isForReview && Route::is('tenders.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Published Tenders</p>
+                                    <p>
+                                        Published Tenders
+                                        @if($publishedCount > 0)
+                                            <span class="badge badge-pill badge-success float-right">{{ $publishedCount }}</span>
+                                        @endif
+                                    </p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('tenders.forReview') }}" class="nav-link {{ $isForReview && Route::is('tenders.*') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tenders For Review</p>
+                                    <p>
+                                        Tenders For Review
+                                        @if($forReviewCount > 0)
+                                            <span class="badge badge-pill badge-danger float-right"><small>{{ $forReviewCount }}</small></span>
+                                        @endif
+                                    </p>
                                 </a>
                             </li>
                         </ul>
