@@ -27,8 +27,22 @@ class TwoFactorController extends Controller
             ]);
         }
         $user->resetTwoFactorCode();
-        return redirect()->to(RouteServiceProvider::HOME);
+        return redirect()->to($this->getRedirectPath($user));
     }
+    /**
+     * Determine the correct redirect path based on the user role.
+     */
+    protected function getRedirectPath($user): string
+    {
+        if ($user->hasRole('Tender Uploader')) {
+            return route('tenders.index');
+        } elseif ($user->hasRole('Daily Generation Updater')) {
+            return route('daily-generation.index');
+        }
+
+        return RouteServiceProvider::HOME;
+    }
+    
     public function resend(): RedirectResponse
     {
         $user = auth()->user();
