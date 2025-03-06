@@ -94,22 +94,28 @@ class DashboardController extends Controller
 
         $tenders = $currentFY ? Tender::with('tenderFiles')->where('financial_year_id', $currentFY->id)->latest()->get() : collect();
 
-        $registeredUsersCount = Cache::remember('registeredUsersCount', now()->addMinutes(5), function () {
-            return User::count();
-        });
+        $tendersForReview = Tender::with('financialYear', 'tenderFiles')
+            ->where('for_review', true)
+            ->latest()
+            ->get();
+        $tendersForReviewCount = $tendersForReview->count();
 
-        $users = User::latest()->get();
+        // $registeredUsersCount = Cache::remember('registeredUsersCount', now()->addMinutes(5), function () {
+        //     return User::count();
+        // });
+
+        // $users = User::latest()->get();
 
         return view('dashboard', compact(
             'totalNAECount',
             'totalNAEisNewCount',
             'currentFY',
             'tenderCount',
-            'registeredUsersCount',
+            'tendersForReviewCount',
             'latestEntriesNewNAE',
             'latestEntriesNAE',
+            'tendersForReview',
             'tenders',
-            'users'
         ));
     }
 

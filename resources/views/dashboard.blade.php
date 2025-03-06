@@ -63,13 +63,13 @@
               <!-- small box -->
               <div class="small-box bg-warning">
                 <div class="inner">
-                  <h3>{{ $registeredUsersCount }}</h3>
-                  <p>Registered Users</p>
+                  <h3>{{ $tendersForReviewCount }}</h3>
+                  <p>Tenders for Review</p>
                 </div>
                 <div class="icon">
-                  <i class="ion ion-person-add"></i>
+                  <i class="ion ion-document-text"></i>
                 </div>
-                <a href="javascript:void(0);" class="small-box-footer" onclick="showSection('users')">
+                <a href="javascript:void(0);" class="small-box-footer" onclick="showSection('tenders-for-review')">
                     More info <i class="fas fa-arrow-circle-right"></i>
                 </a>
               </div>
@@ -195,11 +195,11 @@
             </div>
         </div>
 
-        <!-- Users -->
-        <div id="users" class="table-section" style="display: none;">
+        <!-- Tenders For Review -->
+        <div id="tenders-for-review" class="table-section" style="display: none;">
             <div class="card">
                 <div class="card-header bg-warning text-white">
-                    <h5 class="card-title">Registered Users</h5>
+                    <h5 class="card-title">Tenders For Review</h5>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -207,24 +207,32 @@
                             <thead>
                                 <tr class="table-primary">
                                     <th class="text-center">#</th>
-                                    <th class="text-center align-middle">Name</th>
-                                    <th class="text-center align-middle">Email</th>
-                                    <th class="text-center align-middle">Roles</th>
-                                    <th class="text-center align-middle">Department</th>
+                                    <th class="text-center">Financial Year</th>
+                                    <th class="text-center">Tender No.</th>
+                                    <th class="text-center">Description</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $user)
+                                @foreach ($tendersForReview as $tender)
                                     <tr>
                                         <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="align-middle text-start">{{ $user->name }}</td>
-                                        <td class="align-middle text-start">{{ $user->email }}</td>
-                                        <td class="align-middle text-start">
-                                            @foreach ($user->roles as $role)
-                                                <span class="badge bg-secondary">{{ $role->name }}</span>
-                                            @endforeach
+                                        <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
+                                        <td class="text-center align-middle">
+                                            <a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">
+                                                {{ $tender->tender_no }}
+                                            </a>
                                         </td>
-                                        <td class="text-center align-middle">{{ $user->department }}</td>
+                                        <td class="text-start align-middle">{{ $tender->description }}</td>
+                                        <td class="text-center align-middle">
+                                            <form action="{{ route('tenders.approve', $tender->id) }}" method="POST" class="d-inline">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-success text-nowrap">
+                                                    <i class="fas fa-check"></i> Approve & Publish
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
