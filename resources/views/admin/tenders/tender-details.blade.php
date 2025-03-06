@@ -55,7 +55,7 @@
                                         <span class="ms-2">{{ $tender->directory_name }}</span>
                                     </p>
                                     <p>
-                                        <strong class="d-inline">Tender Description:</strong>
+                                        <strong class="d-inline">Tender Details:</strong>
                                         <span class="ms-2">{{ $tender->description }}</span>
                                     </p>
                                     @can('Update Tender')
@@ -211,14 +211,14 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <label for="directoryName" class="form-label required">Tender Name:</label>
+                                        <label for="directoryName" class="form-label required">Folder Name:</label>
                                         <input id="directoryName" type="text" class="form-control required" name="directory_name" required disabled>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col">
                                         <div class="form-group">
-                                            <label for="description" class="form-label required">Description:</label>
+                                            <label for="description" class="form-label required">Tender Details:</label>
                                             <textarea class="form-control required" id="description" name="description" required></textarea>
                                         </div>
                                     </div>
