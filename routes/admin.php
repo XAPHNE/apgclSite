@@ -84,6 +84,7 @@ Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
                 Route::resource('apprenticeship', ApprenticeshipController::class);
                 Route::resource('recruitments', RecruitmentController::class);
             });
+            Route::patch('/tenders/{id}/approve', [TenderController::class, 'approve'])->name('tenders.approve');
             Route::resource('news-and-events', NewsAndEventController::class);
             Route::resource('contact-us', ContactController::class);
             Route::resource('calendars', CalendarController::class);
@@ -98,6 +99,7 @@ Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
         });
         Route::middleware('role:Super Admin|Tender Uploader')->group(function () {
             Route::prefix('tenders')->group(function () {
+                Route::get('for-review', [TenderController::class, 'tenderForReview'])->name('tenders.forReview');
                 Route::resource('financial-years', FinancialYearController::class);
             });
             Route::resource('tenders', TenderController::class);

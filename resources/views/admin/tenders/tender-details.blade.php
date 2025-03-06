@@ -58,19 +58,29 @@
                                         <strong class="d-inline">Tender Details:</strong>
                                         <span class="ms-2">{{ $tender->description }}</span>
                                     </p>
-                                    @can('Update Tender')
-                                        <div class="card-footer d-flex justify-content-end">
-                                            <button class="btn btn-warning" id="editButton"
-                                                    data-id="{{ $tender->id }}"
-                                                    data-financial_year_id="{{ $tender->financial_year_id }}"
-                                                    data-tender_no="{{ $tender->tender_no }}"
-                                                    data-description="{{ $tender->description }}"
-                                                    data-directory_name="{{ $tender->directory_name }}"
-                                                    data-is_archived="{{ $tender->is_archived }}"
-                                                    data-department="{{ $tender->department }}">
-                                                <i title="Update" class="fas fa-edit"></i> Edit
-                                            </button>
-                                        </div>
+                                    @can('Update Tender')  
+                                    <div class="card-footer d-flex justify-content-end gap-2">
+                                        <button class="btn btn-warning" id="editButton"
+                                                data-id="{{ $tender->id }}"
+                                                data-financial_year_id="{{ $tender->financial_year_id }}"
+                                                data-tender_no="{{ $tender->tender_no }}"
+                                                data-description="{{ $tender->description }}"
+                                                data-directory_name="{{ $tender->directory_name }}"
+                                                data-is_archived="{{ $tender->is_archived }}"
+                                                data-department="{{ $tender->department }}">
+                                            <i title="Update" class="fas fa-edit"></i> Edit
+                                        </button>
+
+                                        @hasrole('Super Admin')
+                                            @if ($tender->for_review)
+                                                <form action="{{ route('tenders.approve', $tender->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="btn btn-success">Approve & Publish</button>
+                                                </form>
+                                            @endif
+                                        @endhasrole
+                                    </div>
                                     @endcan
                                 </div>
                             </div>

@@ -12,12 +12,52 @@ use Illuminate\Support\Facades\File;
 
 class TenderController extends Controller
 {
+    public function tenderForReview()
+    {
+        $financialYears = FinancialYear::latest()->get();
+        $departments = User::$departments;
+
+        // Check if the authenticated user has the 'Super Admin' role
+        if (auth()->user()->hasRole('Super Admin')) {
+            // If the user is a Super Admin, fetch all tenders
+            $tenders = Tender::with('tenderFiles')
+                ->where('for_review', true)
+                ->latest()
+                ->get();
+        } else {
+            // Otherwise, filter tenders by the authenticated user's department
+            $tenders = Tender::with('tenderFiles')
+                ->where('department', auth()->user()->department)
+                ->where('for_review', true)
+                ->latest()
+                ->get();
+        }
+        return view('admin.tenders.for-review', compact('tenders', 'financialYears', 'departments'));
+    }
+
+    public function approve($id)
+    {
+        $tender = Tender::findOrFail($id);
+
+        if (!auth()->user()->hasRole('Super Admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $tender->update([
+            'for_review' => false,
+            'updated_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', 'Tender approved and published successfully.');
+    }
+
     public function websiteIndex(Request $request, $lang)
     {
         App::setLocale($lang);
         $financialYear = FinancialYear::latest()->first();
         $tenders = Tender::with('tenderFiles')
             ->where('financial_year_id', $financialYear->id)
+            ->where('for_review', false)
             ->latest()
             ->get();
         return view('website.tenders.current-financial-year', compact('tenders', 'financialYear'));
@@ -46,6 +86,7 @@ class TenderController extends Controller
         // Fetch archived tenders for the selected financial year
         $tenders = Tender::with('tenderFiles')
             ->where('is_archived', true)
+            ->where('for_review', false)
             ->where('financial_year_id', $selectedFinancialYearId)
             ->latest()
             ->get();
@@ -78,11 +119,14 @@ class TenderController extends Controller
         // Check if the authenticated user has the 'Super Admin' role
         if (auth()->user()->hasRole('Super Admin')) {
             // If the user is a Super Admin, fetch all tenders
-            $tenders = Tender::with('tenderFiles')->latest()->get();
+            $tenders = Tender::with('tenderFiles')
+                ->where('for_review', false)
+                ->latest()->get();
         } else {
             // Otherwise, filter tenders by the authenticated user's department
             $tenders = Tender::with('tenderFiles')
                 ->where('department', auth()->user()->department)
+                ->where('for_review', false)
                 ->latest()
                 ->get();
         }
@@ -120,6 +164,7 @@ class TenderController extends Controller
             'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => false,
+            'for_review' => auth()->user()->hasRole('Tender Uploader') ? true : false, // Set for_review to true if user is Tender Uploader
             'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),

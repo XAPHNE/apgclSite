@@ -30,12 +30,30 @@
                 </li>
                 @endhasrole
                 @hasrole('Super Admin|Tender Uploader')
-                <li class="nav-item">
-                    <a href="{{ route('tenders.index') }}" class="nav-link {{ Request::is('admin/tenders*') ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-fw fa-file-invoice text-green me-2"></i>
-                        <p>Tenders</p>
-                    </a>
-                </li>
+                    @php
+                        // Check if the current view has a tender variable
+                        $isForReview = isset($tender) && $tender->for_review;
+                    @endphp
+                    <li class="nav-item {{ Route::is('tenders.*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link {{ Route::is('tenders.*') ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-id-badge text-green me-2"></i>
+                            <p>Tenders<i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('tenders.index') }}" class="nav-link {{ !$isForReview && Route::is('tenders.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Published Tenders</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tenders.forReview') }}" class="nav-link {{ $isForReview && Route::is('tenders.*') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tenders For Review</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endhasrole
                 @hasrole('Super Admin')
                 <li class="nav-item">
