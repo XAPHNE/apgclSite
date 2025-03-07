@@ -207,9 +207,9 @@
                             <thead>
                                 <tr class="table-primary">
                                     <th class="text-center">#</th>
-                                    <th class="text-center">Financial Year</th>
                                     <th class="text-center">Tender No.</th>
                                     <th class="text-center">Description</th>
+                                    <th class="text-center nosort">Files</th>
                                     <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
@@ -217,13 +217,22 @@
                                 @foreach ($tendersForReview as $tender)
                                     <tr>
                                         <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
                                         <td class="text-center align-middle">
                                             <a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">
                                                 {{ $tender->tender_no }}
                                             </a>
                                         </td>
                                         <td class="text-start align-middle">{{ $tender->description }}</td>
+                                        <td class="text-start align-middle">
+                                            <div class="d-flex flex-wrap gap-2">
+                                                @foreach ($tender->tenderFiles as $tenderFile)
+                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none">
+                                                        <i class="fas fa-file-download" aria-hidden="true"></i>
+                                                        {{ $tenderFile->name }}
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        </td>
                                         <td class="text-center align-middle">
                                             <form action="{{ route('tenders.approve', $tender->id) }}" method="POST" class="d-inline">
                                                 @csrf
