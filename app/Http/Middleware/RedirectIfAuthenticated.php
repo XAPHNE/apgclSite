@@ -21,10 +21,31 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                $user = Auth::guard($guard)->user();
+
+                // Redirect user based on their role
+                return redirect($this->getRedirectPath($user));
             }
         }
 
         return $next($request);
+    }
+
+    /**
+     * Determine the redirect path based on user role.
+     */
+    protected function getRedirectPath($user): string
+    {
+        if ($user->hasRole('Tender Uploader')) {
+            return route('tenders.index');
+        } elseif ($user->hasRole('Daily Generation Updater')) {
+            return route('daily-generation.index');
+        } elseif ($user->hasRole('admin')) {
+            return '/admin-dashboard';
+        } elseif ($user->hasRole('manager')) {
+            return '/manager-dashboard';
+        }
+
+        return RouteServiceProvider::HOME; // Default redirection
     }
 }
