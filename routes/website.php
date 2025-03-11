@@ -32,14 +32,16 @@ use Illuminate\Support\Facades\Route;
 
 // Routes that require localization
 Route::middleware('locale')->group(function () {
-    Route::get('/{lang?}', [WebsiteHomeController::class, 'index'])->name('welcome');
+    Route::get('/{lang?}', [WebsiteHomeController::class, 'index'])
+        ->where('lang', 'en|as')
+        ->name('welcome');
 
     // Route::get('/{lang}/about-us/gallery', function ($lang) {
     //     App::setLocale($lang);
     //     return view('website.aboutUs.gallery');
     // });
 
-    Route::prefix('{lang}')->group(function () {
+    Route::prefix('{lang}')->where(['lang' => 'en|as'])->group(function () {
         Route::view('about-us', '');
         Route::prefix('about-us')->group(function () {
             Route::get('board-of-directors', [BoardOfDirectorsController::class, 'websiteIndex']);
