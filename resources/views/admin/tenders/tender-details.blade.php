@@ -51,7 +51,7 @@
                                         <span class="ms-2">{{ $tender->financialYear->year }}</span>
                                     </p>
                                     <p>
-                                        <strong class="d-inline">Tender Name:</strong>
+                                        <strong class="d-inline">Folder Name:</strong>
                                         <span class="ms-2">{{ $tender->directory_name }}</span>
                                     </p>
                                     <p>
