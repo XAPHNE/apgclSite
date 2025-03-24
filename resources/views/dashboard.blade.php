@@ -90,17 +90,17 @@
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
                                 <tr class="table-primary">
-                                    <th class="text-center">#</th>
+                                    <th class="text-center" style="width: 5%">#</th>
                                     <th class="text-center nosort">Description</th>
-                                    <th class="text-center nosort">Action</th>
+                                    <th class="text-center nosort" style="width: 5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($latestEntriesNewNAE as $item)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="text-center align-middle" style="width: 5%">{{ $loop->iteration }}</td>
                                         <td class="text-start align-middle">{{ $item->description }}</td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle" style="width: 5%">
                                             <a class="btn btn-info" href="{{ asset($item->downloadLink) }}" target="_blank">
                                                 <i title="View/Download" class="fas fa-eye"></i>
                                             </a>
@@ -125,17 +125,17 @@
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
                                 <tr class="table-primary">
-                                    <th class="text-center">#</th>
+                                    <th class="text-center" style="width: 5%">#</th>
                                     <th class="text-center nosort">Description</th>
-                                    <th class="text-center nosort">Action</th>
+                                    <th class="text-center nosort" style="width: 5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($latestEntriesNAE as $item)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
+                                        <td class="text-center align-middle" style="width: 5%">{{ $loop->iteration }}</td>
                                         <td class="text-start align-middle">{{ $item->description }}</td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle" style="width: 5%">
                                             <a class="btn btn-info" href="{{ asset($item->downloadLink) }}" target="_blank">
                                                 <i title="View/Download" class="fas fa-eye"></i>
                                             </a>
@@ -160,26 +160,26 @@
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
                                 <tr class="table-primary">
-                                    <th class="text-center">#</th>
-                                    <th class="text-center nosort">Tender No.</th>
-                                    <th class="text-center nosort">Description</th>
-                                    <th class="text-center nosort">Files</th>
+                                    <th class="text-center" style="width: 5%">#</th>
+                                    <th class="text-center nosort" style="width: 20%">Tender No.</th>
+                                    <th class="text-center nosort" style="width: 52%">Description</th>
+                                    <th class="text-center nosort" style="width: 23%">Files</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tenders as $tender)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-start align-middle">
+                                        <td class="text-center align-middle" style="width: 5%">{{ $loop->iteration }}</td>
+                                        <td class="text-start align-middle" style="width: 20%">
                                             <a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">
                                                 {{ $tender->tender_no }}
                                             </a>
                                         </td>
-                                        <td class="text-start align-middle">{{ $tender->description }}</td>
-                                        <td class="text-start align-middle">
-                                            <div class="d-flex flex-wrap gap-2">
+                                        <td class="text-start align-middle" style="width: 52%">{{ $tender->description }}</td>
+                                        <td class="text-start align-middle" style="width: 23%">
+                                            <div class="d-flex flex-column gap-2">
                                                 @foreach ($tender->tenderFiles as $tenderFile)
-                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none">
+                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none text-start">
                                                         <i class="fas fa-file-download" aria-hidden="true"></i>
                                                         {{ $tenderFile->name }}
                                                     </a>
@@ -206,39 +206,39 @@
                         <table class="table table-bordered table-striped dataTable" style="width:100%">
                             <thead>
                                 <tr class="table-primary">
-                                    <th class="text-center">#</th>
-                                    <th class="text-center">Tender No.</th>
-                                    <th class="text-center">Description</th>
-                                    <th class="text-center nosort">Files</th>
-                                    <th class="text-center">Actions</th>
+                                    <th class="text-center" style="width: 5%">#</th>
+                                    <th class="text-center nosort" style="width: 25%">Tender No.</th>
+                                    <th class="text-center nosort">Description</th>
+                                    <th class="text-center nosort" style="width: 23%">Files</th>
+                                    <th class="text-center nosort" style="width: 5%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($tendersForReview as $tender)
                                     <tr>
-                                        <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle" style="width: 5%">{{ $loop->iteration }}</td>
+                                        <td class="text-start align-middle" style="width: 25%">
                                             <a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">
                                                 {{ $tender->tender_no }}
                                             </a>
                                         </td>
                                         <td class="text-start align-middle">{{ $tender->description }}</td>
-                                        <td class="text-start align-middle">
-                                            <div class="d-flex flex-wrap gap-2">
+                                        <td class="text-start align-middle" style="width: 23%">
+                                            <div class="d-flex flex-column gap-2">
                                                 @foreach ($tender->tenderFiles as $tenderFile)
-                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none">
+                                                    <a href="{{ url($tenderFile->downloadLink) }}" target="_blank" class="btn btn-link p-0 text-nowrap text-decoration-none text-start">
                                                         <i class="fas fa-file-download" aria-hidden="true"></i>
                                                         {{ $tenderFile->name }}
                                                     </a>
                                                 @endforeach
                                             </div>
                                         </td>
-                                        <td class="text-center align-middle">
+                                        <td class="text-center align-middle" style="width: 5%">
                                             <form action="{{ route('tenders.approve', $tender->id) }}" method="POST" class="d-inline">
                                                 @csrf
                                                 @method('PATCH')
                                                 <button type="submit" class="btn btn-success text-nowrap">
-                                                    <i class="fas fa-check"></i> Approve & Publish
+                                                    <i class="fas fa-check" title="Approve & Publish"></i>
                                                 </button>
                                             </form>
                                         </td>
@@ -254,26 +254,15 @@
 @endsection
 
 @push('styles')
-    <style>
+    {{-- <style>
         .dataTable th {
             white-space: nowrap;
             text-align: center;
         }
-    </style>
+    </style> --}}
 @endpush
 
 @push('scripts')
-    <script>
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.table-section').forEach(section => {
-                section.style.display = 'none';
-            });
-
-            // Show the selected section
-            document.getElementById(sectionId).style.display = 'block';
-        }
-    </script>
     <script>
         function showSection(sectionId) {
             // Hide all sections
@@ -296,6 +285,7 @@
                         }
                     ],
                     scrollX: true,
+                    responsive: true,
                     autoWidth: false,
                 });
             }
