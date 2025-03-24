@@ -50,8 +50,8 @@
                                     <tr>
                                         <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                         <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
-                                        <td class="text-center align-middle"><a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none">{{ $tender->tender_no }}</a></td>
-                                        <td class="text-center align-middle">{{ $tender->description }}</td>
+                                        <td class="text-start align-middle wrap-text"><a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none wrap-text">{!! wordwrap(e($tender->tender_no), 30, '<wbr>', true) !!}</a></td>
+                                        <td class="text-start align-middle">{{ $tender->description }}</td>
                                         <td class="text-center align-middle">
                                             @if ($tender->is_archived)
                                                 <i class="fas fa-check-circle text-success"></i>
@@ -224,6 +224,13 @@
                     color: red;
                 }
             </style>
+            <style>
+                .wrap-text {
+                    white-space: normal !important;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                }
+            </style>
         @endcanany
     @endpush
 
@@ -236,8 +243,12 @@
                         targets: 'nosort',
                         orderable: false,
                         searchable: false,
-                    }
+                    },
+                    { width: '25%', targets: 2, className: 'wrap-text' },
+                    { width: '10%', targets: 5 },
                 ],
+                fixedColumns: true,
+                responsive: false,
                 scrollX: true,
             });
             @can('Add Tender')
