@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
+                <table id="table" class="table display compact nowrap table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center align-middle">#</th>
@@ -41,7 +41,7 @@
                         @foreach ($employeeDetails as $employeeDetail)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $employeeDetail->title . ' ' . $employeeDetail->first_name . ' ' . $employeeDetail->last_name }}</td>
+                                <td class="text-start align-middle">{{ $employeeDetail->title . ' ' . $employeeDetail->first_name . ' ' . $employeeDetail->last_name }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->dob ? $employeeDetail->dob->format('M d, Y') : 'N/A' }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->doj ? $employeeDetail->doj->format('M d, Y') : 'N/A' }}</td>
                                 <td class="text-center align-middle">{{ $employeeDetail->dor ? $employeeDetail->dor->format('M d, Y') : 'N/A' }}</td>
@@ -219,8 +219,8 @@
                         searchable: false,
                     }
                 ],
-                scrollX: true,
                 stateSave: true,
+                scrollX: true,
             });
             
             var input = document.querySelector("#phone");

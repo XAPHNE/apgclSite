@@ -23,13 +23,12 @@
                 </div>
             </div>
             <div class="card-body">
-                <table id="table" class="table display nowrap table-bordered table-hover" style="width: 100%">
+                <table id="table" class="table display compact nowrap table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
                             <th class="text-center align-middle nosort">Priority</th>
                             <th class="text-center align-middle">Name</th>
                             <th class="text-center align-middle">Designation</th>
-                            {{-- <th class="text-center align-middle nosort">View</th> --}}
                             <th class="text-center align-middle nosort">Phone</th>
                             <th class="text-center align-middle nosort">Email</th>
                             <th class="text-center align-middle nosort">Office Bearer</th>
@@ -43,10 +42,10 @@
                         @foreach ($contacts as $contact)
                             <tr>
                                 <td class="text-center align-middle">{{ $contact->priority }}</td>
-                                <td class="text-center align-middle">{{ $contact->name }}</td>
-                                <td class="text-center align-middle">{{ $contact->designation }}</td>
+                                <td class="text-start align-middle">{{ $contact->name }}</td>
+                                <td class="text-start align-middle">{{ $contact->designation }}</td>
                                 <td class="text-center align-middle">{{ $contact->phone ?? 'N/A' }}</td>
-                                <td class="text-center align-middle">{{ $contact->email ?? 'N/A' }}</td>
+                                <td class="text-start align-middle">{{ $contact->email ?? 'N/A' }}</td>
                                 <td class="text-center align-middle">
                                     @if ($contact->is_office_bearer)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -55,8 +54,8 @@
                                     @endif
                                 </td>
                                 <td class="text-center align-middle">{{ $contact->office_category ?? 'N/A' }}</td>
-                                <td class="text-center align-middle">{{ $contact->office_name ?? 'N/A' }}</td>
-                                <td class="text-center align-middle">{{ $contact->office_address ?? 'N/A' }}</td>
+                                <td class="text-start align-middle">{{ $contact->office_name ?? 'N/A' }}</td>
+                                <td class="text-start align-middle">{{ $contact->office_address ?? 'N/A' }}</td>
                                 <td class="text-center align-middle" style="white-space: nowrap;">
                                     <button class="btn btn-warning update-button"
                                         data-id="{{ $contact->id }}"
@@ -217,6 +216,13 @@
         color: red;
     }
 </style>
+<style>
+    .wrap-text {
+        white-space: normal !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -228,8 +234,11 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
+                },
+                { width: '163px', targets: 1 },
             ],
+            fixedColumns: true,
+            responsive: false,
             scrollX: true,
         });
         // Handle Add Button

@@ -199,8 +199,7 @@
                         orderable: false,
                         searchable: false,
                     }
-                ],
-                scrollX: true,
+                ]
             });
 
             $('.visibility-toggle').on('change', function () {

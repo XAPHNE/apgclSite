@@ -161,8 +161,7 @@
                             orderable: false,
                             searchable: false,
                         }
-                    ],
-                    scrollX: true,
+                    ]
                 });
             @endcan
             @can('Add Daily Generation')

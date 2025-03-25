@@ -208,9 +208,10 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
-            ],
-            scrollX: true,
+                },
+                { width: '25%', targets: 1 },
+                { width: '25%', targets: 2 },
+            ]
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

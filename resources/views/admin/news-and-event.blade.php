@@ -38,7 +38,7 @@
                         @foreach ($newsAndEvents as $newsAndEvent)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $newsAndEvent->description }}</td>
+                                <td class="text-start align-middle">{{ $newsAndEvent->description }}</td>
                                 <td class="text-center align-middle">
                                     @if ($newsAndEvent->news_n_events)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -179,9 +179,9 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
+                },
+                { width: '60%', targets: 1 },
             ],
-            scrollX: true,
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

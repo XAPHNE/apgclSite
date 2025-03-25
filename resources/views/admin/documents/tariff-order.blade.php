@@ -41,8 +41,8 @@
                         @foreach ($tariffOrders as $tariffOrder)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $tariffOrder->name }}</td>
-                                <td class="text-center align-middle">{{ $tariffOrder->description }}</td>
+                                <td class="text-start align-middle">{{ $tariffOrder->name }}</td>
+                                <td class="text-start align-middle">{{ $tariffOrder->description }}</td>
                                 <td class="text-center align-middle">
                                     @if ($tariffOrder->visibility)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -208,9 +208,10 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
+                },
+                { width: '25%', targets: 1 },
+                { width: '25%', targets: 2 },
             ],
-            scrollX: true,
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

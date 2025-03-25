@@ -49,7 +49,7 @@
                                     <tr>
                                         <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                         <td class="text-center align-middle">{{ $tender->financialYear->year }}</td>
-                                        <td class="text-start align-middle wrap-text"><a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none wrap-text">{!! wordwrap(e($tender->tender_no), 30, '<wbr>', true) !!}</a></td>
+                                        <td class="text-start align-middle wrap-text"><a href="{{ url('admin/tenders/' . $tender->id) }}" class="text-decoration-none wrap-text">{!! customWordWrap(e($tender->tender_no), 30, '<wbr>', true) !!}</a></td>
                                         <td class="text-start align-middle">{{ $tender->description }}</td>
                                         <td class="text-center align-middle">
                                             @if ($tender->is_archived)
@@ -248,7 +248,6 @@
                 ],
                 fixedColumns: true,
                 responsive: false,
-                scrollX: true,
             });
             @can('Add Tender')
                 // Handle Add Button

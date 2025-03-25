@@ -27,22 +27,22 @@
                 <table id="table" class="table display compact table-bordered table-hover" style="width: 100%">
                     <thead>
                         <tr class="table-primary">
-                            <th class="text-center">#</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Description</th>
+                            <th class="text-center align-middle">#</th>
+                            <th class="text-center align-middle">Name</th>
+                            <th class="text-center align-middle">Description</th>
                             {{-- <th class="text-center nosort">View</th> --}}
-                            <th class="text-center nosort">Visibility</th>
-                            <th class="text-center nosort">News & Events</th>
-                            <th class="text-center nosort">New Badge</th>
-                            <th class="text-center nosort">Actions</th>
+                            <th class="text-center align-middle nosort">Visibility</th>
+                            <th class="text-center align-middle nosort">News & Events</th>
+                            <th class="text-center align-middle nosort">New Badge</th>
+                            <th class="text-center align-middle nosort">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($standardForms as $standardForm)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $standardForm->name }}</td>
-                                <td class="text-center align-middle">{{ $standardForm->description }}</td>
+                                <td class="text-start align-middle">{{ $standardForm->name }}</td>
+                                <td class="text-start align-middle">{{ $standardForm->description }}</td>
                                 <td class="text-center align-middle">
                                     @if ($standardForm->visibility)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -208,9 +208,10 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
-            ],
-            scrollX: true,
+                },
+                { width: '27%', targets: 1 },
+                { width: '27%', targets: 2 },
+            ]
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

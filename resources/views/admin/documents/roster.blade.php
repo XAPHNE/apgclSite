@@ -42,8 +42,8 @@
                         @foreach ($rosters as $roster)
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
-                                <td class="text-center align-middle">{{ $roster->name }}</td>
-                                <td class="text-center align-middle">{{ $roster->description }}</td>
+                                <td class="text-start align-middle">{{ $roster->name }}</td>
+                                <td class="text-start align-middle wrap-text">{!! customWordWrap(e($roster->description), 30, '<wbr>', true) !!}</td>
                                 <td class="text-center align-middle">
                                     @if ($roster->is_header)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -218,6 +218,13 @@
         color: red;
     }
 </style>
+<style>
+    .wrap-text {
+        white-space: normal !important;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+</style>
 @endpush
 
 @push('scripts')
@@ -229,9 +236,10 @@
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
-            ],
-            scrollX: true,
+                },
+                { width: '15%', targets: 1 },
+                { width: '32%', targets: 2, className: 'wrap-text' },
+            ]
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

@@ -175,7 +175,6 @@
                         searchable: false,
                     }
                 ],
-                scrollX: true,
             });
             
             // Handle Add Button
