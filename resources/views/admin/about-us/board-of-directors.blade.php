@@ -44,9 +44,9 @@
                             <tr>
                                 <td class="text-center align-middle">{{ $loop->iteration }}</td>
                                 <td class="text-center align-middle"><img src="{{ asset($boardOfDirector->downloadLink) }}" class="rounded-circle" height="50px" width="50px" alt="{{ $boardOfDirector->name }}'s Avatar"></td>
-                                <td class="text-center align-middle">{{ $boardOfDirector->name }}</td>
-                                <td class="text-center align-middle">{{ $boardOfDirector->designation }}</td>
-                                <td class="text-center align-middle">{!! $boardOfDirector->organisation !!}</td>
+                                <td class="text-start align-middle">{{ $boardOfDirector->name }}</td>
+                                <td class="text-start align-middle">{{ $boardOfDirector->designation }}</td>
+                                <td class="text-start align-middle">{!! $boardOfDirector->organisation !!}</td>
                                 <td class="text-center align-middle">
                                     @if ($boardOfDirector->is_chairman)
                                         <i class="fas fa-check-circle text-success"></i>
@@ -230,15 +230,21 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        let isSmallScreen = window.innerWidth < 768;
         var table = new DataTable('#table', {
             columnDefs: [
                 {
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
+                },
+                { width: '15%', targets: 2 },
+                { width: '10%', targets: 3 },
+                { width: '5%', targets: 7 },
+                { width: '5%', targets: 8 },
             ],
-            scrollX: true,
+            scrollX: isSmallScreen,
+            responsive: !isSmallScreen,
         });
         // Handle Add Button
         $('#addButton').on('click', function () {

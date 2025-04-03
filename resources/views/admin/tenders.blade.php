@@ -40,7 +40,7 @@
                                     <th class="text-center align-middle">Tender Details</th>
                                     <th class="text-center align-middle nosort">Archived</th>
                                     @canany(['Update Tender', 'Delete Tender'])
-                                        <th class="text-center align-middle nosort">Actions</th>
+                                        <th class="text-center align-middle nosort" style="white-space: nowrap;">Actions</th>
                                     @endcanany
                                 </tr>
                             </thead>
@@ -236,6 +236,7 @@
     @push('scripts')
     <script>
         $(document).ready(function () {
+            let isSmallScreen = window.innerWidth < 768;
             var table = new DataTable('#table', {
                 columnDefs: [
                     {
@@ -247,7 +248,8 @@
                     { width: '10%', targets: 5 },
                 ],
                 fixedColumns: true,
-                responsive: false,
+                scrollX: isSmallScreen,
+                responsive: !isSmallScreen,
             });
             @can('Add Tender')
                 // Handle Add Button

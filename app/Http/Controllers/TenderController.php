@@ -164,7 +164,7 @@ class TenderController extends Controller
             'description' => strtoupper($request->description),
             'financial_year_id' => $request->financial_year_id,
             'is_archived' => false,
-            'for_review' => auth()->user()->hasRole('Tender Uploader') ? true : false, // Set for_review to true if user is Tender Uploader
+            'for_review' => auth()->user()->hasRole('Tender Uploader') && !auth()->user()->can('Skip Tender Review'), // Set for_review to true if user is Tender Uploader
             'directory_name' => ucwords(strtolower(preg_replace('/\s+/', ' ', trim($request->directory_name)))),
             'created_by' => auth()->id(),
             'updated_by' => auth()->id(),

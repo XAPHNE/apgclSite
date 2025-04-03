@@ -51,17 +51,19 @@
                                     </p>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a href="{{ route('tenders.forReview') }}" class="nav-link {{ $isForReview && Route::is('tenders.*') ? 'active' : '' }}">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Tenders For Review
-                                        @if($forReviewCount > 0)
-                                            <span class="badge badge-pill badge-danger float-right"><small>{{ $forReviewCount }}</small></span>
-                                        @endif
-                                    </p>
-                                </a>
-                            </li>
+                            @if (auth()->user()->hasRole('Super Admin') || (auth()->user()->hasRole('Tender Uploader') && !auth()->user()->can('Skip Tender Review')))    
+                                <li class="nav-item">
+                                    <a href="{{ route('tenders.forReview') }}" class="nav-link {{ $isForReview && Route::is('tenders.*') ? 'active' : '' }}">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>
+                                            Tenders For Review
+                                            @if($forReviewCount > 0)
+                                                <span class="badge badge-pill badge-danger float-right"><small>{{ $forReviewCount }}</small></span>
+                                            @endif
+                                        </p>
+                                    </a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 @endhasrole

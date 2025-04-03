@@ -193,15 +193,20 @@
 @push('scripts')
 <script>
     $(document).ready(function () {
+        let isSmallScreen = window.innerWidth < 768;
         var table = new DataTable('#table', {
             columnDefs: [
                 {
                     targets: 'nosort',
                     orderable: false,
                     searchable: false,
-                }
+                },
+                { width: '14%', targets: 2 },
+                { width: '14%', targets: 3 },
+                { width: '25%', targets: 4 },
             ],
-            scrollX: true,
+            scrollX: isSmallScreen,
+            responsive: !isSmallScreen,
         });
         // Handle Add Button
         $('#addButton').on('click', function () {
