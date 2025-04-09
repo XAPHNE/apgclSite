@@ -27,7 +27,11 @@
                         @foreach ($rosters as $roster)
                             @if ($roster->visibility && $roster->is_header)
                                 <tr>
-                                    <td class="text-start">{{ $roster->description }}</td>
+                                    <td class="text-start">{{ $roster->description }}
+                                    @if ($roster->new_badge)
+                                        <img src="{{ asset('website-assets/images/home/new-1.gif') }}">
+                                    @endif
+                                    </td>
                                     <td>
                                         <a href="{{ url($roster->downloadLink) }}" target="_blank">
                                             <i class="fas fa-file-download" aria-hidden="true"></i>
@@ -69,7 +73,11 @@
                                     @endif
                 
                                     {{-- Particulars --}}
-                                    <td class="text-start align-middle">{{ $roster->description }}</td>
+                                    <td class="text-start align-middle">{{ $roster->description }}
+                                    @if ($roster->new_badge)
+                                        <img src="{{ asset('website-assets/images/home/new-1.gif') }}">
+                                    @endif
+                                    </td>
                 
                                     {{-- Download Column --}}
                                     <td class="text-center align-middle">
