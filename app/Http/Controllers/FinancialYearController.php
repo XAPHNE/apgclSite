@@ -8,6 +8,23 @@ use Illuminate\Validation\Rule;
 
 class FinancialYearController extends Controller
 {
+    public function toggleArchive($id)
+    {
+        $financialYear = FinancialYear::with('tenders')->findOrFail($id);
+
+        $shouldUnarchive = $financialYear->tenders->every(fn($t) => $t->is_archived);
+
+        $financialYear->tenders->each(function ($tender) use ($shouldUnarchive) {
+            $tender->update(['is_archived' => !$shouldUnarchive]);
+        });
+
+        $message = $shouldUnarchive
+            ? 'All tenders under financial year ' . $financialYear->year . ' have been unarchived.'
+            : 'All tenders under financial year ' . $financialYear->year . ' have been archived.';
+
+        return redirect()->back()->with('success', $message);
+    }
+
     /**
      * Display a listing of the resource.
      */

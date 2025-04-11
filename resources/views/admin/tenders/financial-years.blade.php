@@ -44,6 +44,18 @@
                                         <td class="text-center align-middle">{{ $financialYear->year }}</td>
                                         @canany(['Update Financial Year', 'Delete Financial Year'])
                                             <td class="text-center align-middle" style="white-space: nowrap;">
+                                                @can('Archive Financial Year Tenders')
+                                                    @php
+                                                        $allArchived = $financialYear->tenders->every(fn($t) => $t->is_archived);
+                                                    @endphp
+                                                    <button class="btn toggle-archive-button {{ $allArchived ? 'btn-secondary' : 'btn-info' }}"
+                                                            data-id="{{ $financialYear->id }}"
+                                                            data-year="{{ $financialYear->year }}"
+                                                            data-status="{{ $allArchived ? 'unarchive' : 'archive' }}">
+                                                        <i class="fas {{ $allArchived ? 'fa-undo' : 'fa-archive' }}"
+                                                        title="{{ $allArchived ? 'Unarchive Tenders' : 'Archive Tenders' }}"></i>
+                                                    </button>
+                                                @endcan
                                                 @can('Update Financial Year')
                                                     <button class="btn btn-warning update-button"
                                                         data-id="{{ $financialYear->id }}"
@@ -208,6 +220,38 @@
                     var deleteUrl = '/admin/tenders/financial-years/' + id;
                     $('#deleteForm').attr('action', deleteUrl);
                     $('#deleteConfirmationModal').modal('show');
+                });
+            @endcan
+
+            @can('Archive Financial Year Tenders')
+                $(document).on('click', '.toggle-archive-button', function () {
+                    var id = $(this).data('id');
+                    var year = $(this).data('year');
+                    var status = $(this).data('status');
+
+                    var actionText = status === 'archive' ? 'archive' : 'unarchive';
+                    var confirmText = status === 'archive' ? 'Yes, Archive' : 'Yes, Unarchive';
+
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: `This will ${actionText} all tenders for the year: ` + year,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: confirmText,
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            let toggleForm = $('<form>', {
+                                'method': 'POST',
+                                'action': '/admin/tenders/financial-years/' + id + '/toggle-archive'
+                            });
+
+                            toggleForm.append('@csrf');
+                            toggleForm.append('<input type="hidden" name="_method" value="POST">');
+                            $('body').append(toggleForm);
+                            toggleForm.submit();
+                        }
+                    });
                 });
             @endcan
         });

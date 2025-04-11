@@ -101,6 +101,9 @@ Route::middleware(['auth', 'twofactor', 'password.change'])->group(function () {
             Route::prefix('tenders')->group(function () {
                 Route::get('for-review', [TenderController::class, 'tenderForReview'])->name('tenders.forReview');
                 Route::resource('financial-years', FinancialYearController::class);
+                Route::post('financial-years/{id}/toggle-archive', [FinancialYearController::class, 'toggleArchive'])->name('financial-years.toggle-archive')->middleware('can:Archive Financial Year Tenders');
+
+
             });
             Route::resource('tenders', TenderController::class);
             Route::resource('tenders.tender-files', TenderFileController::class)

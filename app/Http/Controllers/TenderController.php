@@ -54,6 +54,7 @@ class TenderController extends Controller
     public function websiteIndex(Request $request, $lang)
     {
         App::setLocale($lang);
+        $financialYear = FinancialYear::latest()->first();
         $tenders = Tender::with('tenderFiles')
             ->where('is_archived', false)
             ->where('for_review', false)
