@@ -17,7 +17,7 @@
         'tariff' => 'TARIFF',
         'tariff_order' => 'TARIFF ORDER',
         'tariff_petition' => 'TARIFF PETITION',
-        'right_to_information' => 'RIGHT TO INFORMATION (RTI)',
+        'right_to_information' => 'RTI (RIGHT TO INFORMATION)',
         'annual_statement' => 'ANNUAL STATEMENT',
         'annual_return' => 'ANNUAL RETURN',
         'reports' => 'REPORTS',
