@@ -2,7 +2,7 @@
 
 return[
     'registered_office' => 'Registered Office',
-    'office_address' => 'Assam Power Generation COrporation Ltd., Bijulee Bhawan, Paltan Bazar, Guwahati - 781001',
+    'office_address' => 'Assam Power Generation Corporation Ltd., Bijulee Bhawan, Paltan Bazar, Guwahati - 781001',
     'office_phone' => '0361-2739546',
     'office_email' => 'info@apgcl.org',
     'important_links' => 'Important Links',
