@@ -64,8 +64,8 @@
         $(document).ready(function() {
             $('#contactTable').DataTable({
                 lengthMenu: [
-                    [26, 50, -1],
-                    [26, 50, 'All']
+                    [-1],
+                    ['All']
                 ],
                 columnDefs: [
                     {
