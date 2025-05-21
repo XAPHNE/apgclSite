@@ -12,7 +12,7 @@ class RightToInformationController extends Controller
     public function websiteIndex(Request $request, $lang)
     {
         App::setLocale($lang);
-        $rtis = RightToInformation::latest()->get();
+        $rtis = RightToInformation::get();
         return view('website.documents.rti', compact('rtis'));
     }
     /**
