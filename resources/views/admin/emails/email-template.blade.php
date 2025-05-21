@@ -68,11 +68,12 @@
     </div>
 
     <div class="email-body">
-        <p>Dear <strong>{{ $salutationName }}</strong>,</p>
-        <p>{!! nl2br($body) !!}</p>
-        
+        <div class="greeting-card">
+            <p>Dear <strong>{{ $salutationName }}</strong>,</p>
+            {!! nl2br($body) !!}
+        </div>
         <br>
-        <p>{!! nl2br($signature) !!}</p>
+        {!! $signature !!}
     </div>
 
     <div class="email-footer">
